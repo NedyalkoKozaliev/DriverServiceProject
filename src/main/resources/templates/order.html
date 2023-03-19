@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}"></head>
+
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+<div class="container">
+  <h2 class="text-center text-white">A page for order</h2>
+</div>
+
+
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <div class="form-group">
+      <label for="usr">Address from</label>
+      <input type="text" class="form-control" id="usr">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Address to</label>
+      <input type="password" class="form-control" id="pwd">
+    </div>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+<div class="jumbotron">
+
+  <h1 style="color:black;">
+
+    <a  class="btn btn-outline-primary" th:text="|Distance: {} Cost:{}|"></a>
+
+
+
+  </h1>
+
+</div>
+
+
+
+<div>
+  <footer></footer>
+</div>
+</body>
+</html>
