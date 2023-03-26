@@ -26,10 +26,10 @@
 
 
         <li class="nav-item" sec:authorize="hasRole('Client')">
-          <a class="nav-link" th:href="@{users/clients/order}">Create order</a>
+          <a class="nav-link" th:href="@{/users/clients/orders}">Create order</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('Client')">
-          <a class="nav-link" th:href="@{users/clients/subscriptions}">Create Subscription</a>
+          <a class="nav-link" th:href="@{/users/clients/subscriptions}">Create Subscription</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
           <a class="nav-link" th:href="@{/pages/admins}">Admins</a>

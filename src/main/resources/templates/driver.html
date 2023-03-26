@@ -9,13 +9,58 @@
 <div th:replace="~{fragments/navbar :: navbar}">
   Navbar
 </div>
+<div>
 
 <div class="container">
   <h2 class="text-center text-white">A page for drivers</h2>
 </div>
+<div class="jumbotron">
 
+  <h1 style="color:black;">
+
+    <table>
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Isbn</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody id="books-container"></tbody>
+    </table>
+
+
+  </h1>
+
+</div>
+
+<div  class="container">
+  <div class="list-group">
+    <span id="orderTask" class="list-group-item">
+      text here
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2">Take task</button>
+    </span>
+  </div>
+
+</div>
+
+<div id="task" class="card-box">
+  <img src=${album.imageUrl}>
+  <div>
+    <div class="text-center">
+      <p class="from">Address from</p>
+      <p class="to">Address to</p>
+    </div>
+    <div class="btn-group">
+      <a href="/details" id="details">Done</a>
+    </div>
+  </div>
+  <script th:src="@{/Js/Driver.js}"></script>
+</div>
 <div>
   <footer></footer>
 </div>
+
 </body>
 </html>

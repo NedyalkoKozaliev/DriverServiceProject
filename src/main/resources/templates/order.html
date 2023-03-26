@@ -9,7 +9,7 @@
 <div th:replace="~{fragments/navbar :: navbar}">
   Navbar
 </div>
-
+<div>
 <div class="container">
   <h2 class="text-center text-white">A page for order</h2>
 </div>
@@ -19,23 +19,28 @@
 <div class="card" style="width: 18rem;">
   <img src="..." class="card-img-top" alt="...">
   <div class="card-body">
-    <div class="form-group">
-      <label for="usr">Address from</label>
-      <input type="text" class="form-control" id="usr">
-    </div>
-    <div class="form-group">
-      <label for="pwd">Address to</label>
-      <input type="password" class="form-control" id="pwd">
-    </div>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
+    <form id=orderForm method="POST"
+          th:action="@{/users/clients/orders}" >
+
+      <div  class="container">
+        <label for="uname"><strong>Address to:</strong></label>
+        <input type="text" placeholder="Enter address" name="uname" required>
+        <label for="psw"><strong>Address from:</strong></label>
+        <input type="text" placeholder="Enter address" name="uname" required>
+        <label for="psw"><strong>Passengers:</strong></label>
+        <input type="int" placeholder="Enter number" name="num" required>
+      </div>
+
+
+      <a href="#" type="submit" class="btn btn-primary">Order</a>
+    </form>
 </div>
 
 <div class="jumbotron">
 
   <h1 style="color:black;">
 
-    <a  class="btn btn-outline-primary" th:text="|Distance: {} Cost:{}|"></a>
+    <a  class="btn btn-outline-primary" th:text="|Distance: {} Cost:{} after {15min}|"></a>
 
 
 
@@ -43,10 +48,12 @@
 
 </div>
 
+  <scrip th:src="@{/Js/Orders.js}"></scrip>
 
-
+</div>
 <div>
   <footer></footer>
 </div>
+
 </body>
 </html>

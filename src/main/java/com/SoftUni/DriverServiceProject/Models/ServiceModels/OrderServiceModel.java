@@ -14,6 +14,8 @@ public class OrderServiceModel {
 
     private Integer numberOfPassengers;
 
+    private User client;
+
     public OrderServiceModel() {
     }
 
@@ -52,4 +54,14 @@ public class OrderServiceModel {
         this.numberOfPassengers = numberOfPassengers;
         return this;
     }
+
+    public User getClient() {
+        return client;
+    }
+
+    public OrderServiceModel setClient(User client) {
+        this.client = client;
+        return this;
+    }
 }
+

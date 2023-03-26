@@ -24,6 +24,9 @@ public class Driver extends BaseEntity {
 
     private Car car;
 
+
+    private Order currentTask;
+
     private List<DriverRole> roles ;
 
     private Set<Order> OrderTasks;
@@ -105,5 +108,14 @@ public class Driver extends BaseEntity {
 
     public void setCar(Car car) {
         this.car = car;
+    }
+
+    @OneToOne
+    public Order getCurrentTask() {
+        return currentTask;
+    }
+
+    public void setCurrentTask(Order currentTask) {
+        this.currentTask = currentTask;
     }
 }

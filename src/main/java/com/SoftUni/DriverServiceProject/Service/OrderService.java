@@ -1,10 +1,14 @@
 package com.SoftUni.DriverServiceProject.Service;
 
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
+
+import java.util.Optional;
 
 public interface OrderService {
 
-    void addOrder(OrderServiceModel orderServiceModel);
+    OrderViewModel createOrder(OrderServiceModel orderServiceModel);
+    Optional<OrderViewModel> getOrderById(Long id);
 
     Float takeDistance();
 

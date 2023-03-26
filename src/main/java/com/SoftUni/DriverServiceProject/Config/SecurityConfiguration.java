@@ -82,11 +82,11 @@ public class SecurityConfiguration {
                 //  requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
 
                 // only for admins
-                        requestMatchers("users/admin","users/admin/statistic","users/admin/statistic/manageDrivers").hasRole(UserRoleEnum.Admin.toString()).
+                        requestMatchers("/users/admins","/users/admins/statistic","/users/admins/statistic/manageDrivers").hasRole(UserRoleEnum.Admin.toString()).
 
-                requestMatchers("users/clients","users/clients/subscriptions","users/clients/order").hasRole(UserRoleEnum.Client.toString()).
+                requestMatchers("/users/clients","/users/clients/subscriptions","/users/clients/order").hasRole(UserRoleEnum.Client.toString()).
 
-                requestMatchers("users/drivers").hasRole(UserRoleEnum.Driver.toString()).
+                requestMatchers("/drivers").hasRole(UserRoleEnum.Driver.toString()).
 // to add visability about Logout (loged in users should not seening it and the register too)
 
         anyRequest().authenticated().

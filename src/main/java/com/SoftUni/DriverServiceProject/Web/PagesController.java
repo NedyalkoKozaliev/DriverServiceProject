@@ -30,16 +30,17 @@ public class PagesController {
     public String clients() {
         return "clients";
     }
-    @GetMapping("users/clients/order")
+    @GetMapping("/users/clients/orders")
     public String orders() {
         return "order";
     }
 
-    @GetMapping("users/clients/subscriptions")
+    @GetMapping("/users/clients/subscriptions")
     public String subscriptions() {
         return "subscription";
     }
-    @GetMapping("/users/drivers")
+
+    @GetMapping("/drivers")
     public String drivers() {
         return "drivers";
     }
