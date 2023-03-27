@@ -1,5 +1,6 @@
 package com.SoftUni.DriverServiceProject.Service;
 
+import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 
@@ -9,6 +10,8 @@ public interface OrderService {
 
     OrderViewModel createOrder(OrderServiceModel orderServiceModel);
     Optional<OrderViewModel> getOrderById(Long id);
+
+    Order getOrder(Long id);
 
     Float takeDistance();
 

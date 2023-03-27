@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-//@RequestMapping("/users/clients/orders")
+@RequestMapping("/orders")
 public class OrderController {
 ///users/clients/orders
     private final ModelMapper modelMapper;
@@ -33,13 +33,14 @@ public class OrderController {
     }
 
     //1.create order  ///users/clients/{id}/orders
-@PostMapping("/users/clients/orders") //need to change it probably has it
+@PostMapping //need to change it probably has it
 public ResponseEntity<OrderViewModel> OrderIn(
         @AuthenticationPrincipal UserDetails principal,
         // @PathVariable Long routeId,
         @RequestBody @Valid OrderBindingModel OrderBindingModel //getting the Json response from js file (handleCommentSubmit()) and map to bindingmodel
 ) { //By default, the type we annotate with the @RequestBody annotation must correspond
         // to the JSON sent from our client-side controller
+
     OrderServiceModel orderServiceModel =
             modelMapper.map(OrderBindingModel, OrderServiceModel.class);
     orderServiceModel.setClient((User) principal);
@@ -51,23 +52,23 @@ public ResponseEntity<OrderViewModel> OrderIn(
             orderService.createOrder(orderServiceModel);
 
     URI locationOfNewOrder =       //define where should it be as url with the id for each (uri gives that id option)
-            URI.create(String.format("/users/clients/orders/%s",OrderView.getId()));
+            URI.create(String.format("/orders/%s",OrderView.getId()));
 
     return ResponseEntity.
             created(locationOfNewOrder).
             body(OrderView);
 }
 ///order/{id}"
-@GetMapping("/users/clients/orders/{id}")
-public ResponseEntity<OrderViewModel> getOrder(
-        @PathVariable ("id") Long id,
-        Principal principal
-) {
-    Optional<OrderViewModel> thisOrder=orderService.getOrderById(id);
-
-    return thisOrder.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
-
-}
+//@GetMapping("/users/clients/orders/{id}")
+//public ResponseEntity<OrderViewModel> getOrder(
+//        @PathVariable ("id") Long id,
+//        Principal principal
+//) {
+//    Optional<OrderViewModel> thisOrder=orderService.getOrderById(id);
+//
+//    return thisOrder.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+//
+//}
 //    @PostMapping("users/clients/{id}/orders" ) //need to change it probably has it
 //    public ResponseEntity<OrderViewModel> myOrder(
 //            @AuthenticationPrincipal UserDetails principal,

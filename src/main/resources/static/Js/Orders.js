@@ -15,8 +15,8 @@ orderForm.addEventListener("submit",postFormDataAsJson)
 async function postFormDataAsJson({url, formData}) { ///==>taking data from form , putting url and formdata directly here
 
 const form = event.currentTarget;
-    const url="/users/clients/orders";
-  //const url = form.action;
+    //const url="/users/clients/orders";
+ const url = form.action;
   const formData = new FormData(form);
 
     const plainFormData = Object.fromEntries(formData.entries());
@@ -62,23 +62,23 @@ form.reset();// check if it is ok here!!!
   return response.json(); //==>returning response to controller ?
 }
 
-fetch("http://localhost:8080/users/clients/orders").
-  then(response => response.json()).
-  then(order => {
-
-    const CurrentOrder=document.getElementById(`task`)
-
-CurrentOrder.innerHTML=`
-    <div>
-      <div class="text-center">
-          <p class="from">|Adress From: ${order.addressFrom}|</p>
-          <p class="to">|Address To: ${order.addressTo}|</p>
-          <p> class="accepted">Order accepted<p>
-          <p> class="cost"><p>
-      </div>
-  </div>`
-
-  })
+//fetch("http://localhost:8080/users/clients/orders").
+//  then(response => response.json()).
+//  then(order => {
+//
+//    const CurrentOrder=document.getElementById(`task`)
+//
+//CurrentOrder.innerHTML=`
+//    <div>
+//      <div class="text-center">
+//          <p class="from">|Adress From: ${order.addressFrom}|</p>
+//          <p class="to">|Address To: ${order.addressTo}|</p>
+//          <p> class="accepted">Order accepted<p>
+//          <p> class="cost"><p>
+//      </div>
+//  </div>`
+//
+//  })
 //sending to url users/clients/order new json for order which should be as the binding model
 
 //====================================================================================

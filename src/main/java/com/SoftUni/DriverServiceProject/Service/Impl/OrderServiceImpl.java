@@ -38,6 +38,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getOrder(Long id) {
+        return orderRepository.findOrderById(id);
+    }
+
+    @Override
     public Float takeDistance() {
         return null;
     }

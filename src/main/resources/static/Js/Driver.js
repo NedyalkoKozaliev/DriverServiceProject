@@ -26,16 +26,16 @@ async function DisplayOrderTasks(){
     }
 ///////////////////////////////////////////////////////
 
-  fetch("http://localhost:8080/users/clients/order/{id}").
+  fetch("http://localhost:8080/order/{id}").
   then(response => response.json()).
   then(orderTask => {
 
 
-        for (let order of orderTask) {
-          OrderList.push(order)
-        }
-        displayOrders(OrderList)
-      })
+         OrderList.push(orderTask)
+
+                displayOrders(OrderList)
+              })
+
 
     }
 
@@ -46,13 +46,13 @@ async function DisplayOrderTasks(){
 
 //remove Child to take it out from list
 
-const orderForm = document.getElementById('orderForm')
-orderForm.addEventListener("submit",postFormDataAsJson)
+//const orderForm = document.getElementById('orderForm')
+//orderForm.addEventListener("submit",postFormDataAsJson)
 
 
 
       function AssignTask(event) {
-        //event prevent default;
+        event.preventDefault();
 
         //1.remove task from the list(remove child without deleting the order)
         //2.display it sepparatelly
@@ -65,16 +65,17 @@ orderForm.addEventListener("submit",postFormDataAsJson)
         //================== 1.
 
 
-        let task = document.getElementById(`"orderDetails-${o.Id}"`);
-if (task.parentNode) {
-  task.parentNode.removeChild(task);
-}
-fetch(`users/clients/order`).
-    then(_ => DisplayOrderTasks()).
-    catch(error => console.log('error', error))
+     let task = document.getElementById(`"orderDetails-${o.Id}"`);
+    if (task.parentNode) {
+      task.parentNode.removeChild(task);
+    }
+    fetch(`http://localhost:8080/orders`).
+        then(_ => DisplayOrderTasks()).
+        catch(error => console.log('error', error))
 
-    ShowApprovedOrder();
-    AssignOrderToDriver();
+        ShowApprovedOrder();
+        AssignOrderToDriver();
+
 
 //==========================2.
 
@@ -105,18 +106,18 @@ CurrentOrder.innerHTML=`
 
   async function AssignOrderToDriver({url, Data}) {
 
-  const url = "http://localhost:8080/drivers/{id}/currentOrder" //find a way to point the principal id or to remove the id from the url
-  const Data = fetch("http://localhost:8080/users/clients/order/{id}").then((response) => response.json());
+  const url = "http://localhost:8080/drivers/{id}" //find a way to point the principal id or to remove the id from the url
+   const Data = fetch("http://localhost:8080/orders/${o.id}").then((response) => response.json());
 
-  const fetchOptions = {
-    method: "POST",
-    headers: {
-     // [csrfHeaderName] : csrfHeaderValue,///====>change header with main
-      "Content-Type" : "application/json",
-      "Accept" :"application/json"
-    },
-    body: Data
-  }
+   const fetchOptions = {
+     method: "PUT",
+     headers: {
+      // [csrfHeaderName] : csrfHeaderValue,///====>change header with main
+       "Content-Type" : "application/json",
+       "Accept" :"application/json"
+     },
+     body: Data
+   }
 
   try{
     const response = await fetch(url, fetchOptions);
@@ -132,11 +133,11 @@ CurrentOrder.innerHTML=`
       }
 
       async function FinishedOrders({url,dat}){
-      const url = "http://localhost:8080/drivers/{id}/orders" //find a way to point the principal id or to remove the id from the url
+      const url = "http://localhost:8080/drivers/{id}/currentOrder" //find a way to point the principal id or to remove the id from the url
         const Data = fetch("http://localhost:8080/drivers/{id}/currentOrder").then((response) => response.json());
 
         const fetchOptions = {
-          method: "POST",
+          method: "PUT",
           headers: {
            // [csrfHeaderName] : csrfHeaderValue,///====>change header with main
             "Content-Type" : "application/json",
