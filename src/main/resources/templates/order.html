@@ -20,33 +20,40 @@
   <img src="..." class="card-img-top" alt="...">
   <div class="card-body">
     <form id=orderForm method="POST"
-          th:action="@{/orders}" >
-
-      <div  class="container">
-        <label for="uname"><strong>Address to:</strong></label>
-        <input type="text" placeholder="Enter address" name="uname" required>
-        <label for="psw"><strong>Address from:</strong></label>
-        <input type="text" placeholder="Enter address" name="uname" required>
-        <label for="psw"><strong>Passengers:</strong></label>
-        <input type="int" placeholder="Enter number" name="num" required>
+          th:action="@{/api/orders}"
+      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+      <div  class="form-group">
+        <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
+        <input id="addressFrom"
+               name="addressFrom"
+               type="text"
+               class="form-control"
+               placeholder="addressFrom"/>
+      </div>
+      <div  class="form-group">
+        <label for="addressTo" class="text-white font-weight-bold">Address To</label>
+        <input id="addressTo"
+               name="addressTo"
+               type="text"
+               class="form-control"
+               placeholder="addressTo"/>
+      </div>
+      <div  class="form-group">
+        <label for="numberOfPassengers" class="text-white font-weight-bold">Number Of Passengers</label>
+        <input id="numberOfPassengers"
+               name="numberOfPassengers"
+               type="text"
+               class="form-control"
+               placeholder="numberOfPassengers"/>
       </div>
 
 
-      <a href="#" type="submit" class="btn btn-primary">Order</a>
+
+      <a th:href="@{/clients}" type="submit" class="btn btn-primary">Order</a>
     </form>
 </div>
 
-<div class="jumbotron">
 
-  <h1 style="color:black;">
-
-    <a  class="btn btn-outline-primary" th:text="|Distance: {} Cost:{} after {15min}|"></a>
-
-
-
-  </h1>
-
-</div>
 
   <scrip src="./resources/static/Js/Orders.js"></scrip>
 

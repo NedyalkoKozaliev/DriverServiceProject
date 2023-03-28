@@ -76,15 +76,15 @@ public class SecurityConfiguration {
                 // allow access to all static files (images, CSS, js)
                         requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
                 // the URL-s below are available for all users - logged in and anonymous
-                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error","/pages/aboutus","/pages/contacts").permitAll().
+                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error","/aboutus","/contacts").permitAll().
 
                 // only for moderators
                 //  requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
 
                 // only for admins
-                        requestMatchers("/users/admins","/users/admins/statistic","/users/admins/statistic/manageDrivers").hasRole(UserRoleEnum.Admin.toString()).
+                        requestMatchers("/admins","/admins/manageDrivers").hasRole(UserRoleEnum.Admin.toString()).
 
-                requestMatchers("/users/clients","/users/clients/subscriptions","/users/clients/order").hasRole(UserRoleEnum.Client.toString()).
+                requestMatchers("/clients","/subscriptions","/order").hasRole(UserRoleEnum.Client.toString()).
 
                 requestMatchers("/drivers").hasRole(UserRoleEnum.Driver.toString()).
 // to add visability about Logout (loged in users should not seening it and the register too)

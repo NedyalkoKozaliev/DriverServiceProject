@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
 ///users/clients/orders
     private final ModelMapper modelMapper;
@@ -52,7 +52,7 @@ public ResponseEntity<OrderViewModel> OrderIn(
             orderService.createOrder(orderServiceModel);
 
     URI locationOfNewOrder =       //define where should it be as url with the id for each (uri gives that id option)
-            URI.create(String.format("/orders/%s",OrderView.getId()));
+            URI.create(String.format("/api/orders/%s",OrderView.getId()));
 
     return ResponseEntity.
             created(locationOfNewOrder).

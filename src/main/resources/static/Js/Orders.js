@@ -7,21 +7,17 @@
 const orderForm = document.getElementById('orderForm')
 orderForm.addEventListener("submit",postFormDataAsJson)
 
+//===================================================================================
 
-
-//=============================Posting data from html form to given url with the response.json==============
- // ========================cotroller reading it making something with and giving response with==============
-
-async function postFormDataAsJson({url, formData}) { ///==>taking data from form , putting url and formdata directly here
+async function postFormDataAsJson({url, formData}) {
 
 const form = event.currentTarget;
-    //const url="/users/clients/orders";
- const url = form.action;
+
+ const url = "http://localhost:8080/api/orders";
   const formData = new FormData(form);
 
     const plainFormData = Object.fromEntries(formData.entries());
   const formDataAsJSONString = JSON.stringify(plainFormData);
-  //https://www.section.io/engineering-education/how-to-format-form-data-as-json/
 
   const fetchOptions = {
     method: "POST",
@@ -59,7 +55,7 @@ const form = event.currentTarget;
 
 
 form.reset();// check if it is ok here!!!
-  return response.json(); //==>returning response to controller ?
+  return response.json();
 }
 
 //fetch("http://localhost:8080/users/clients/orders").

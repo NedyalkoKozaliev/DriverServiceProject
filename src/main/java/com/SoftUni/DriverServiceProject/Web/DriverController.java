@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/drivers")
+@RequestMapping("/api/drivers")
 public class DriverController {
 
 
@@ -36,7 +36,7 @@ public class DriverController {
         OrderViewModel OrderView =
                 orderService.createOrder(orderServiceModel);
         URI locationOfNewOrder =
-                URI.create(String.format("/drivers/%s/currentOrder",id));
+                URI.create(String.format("/api/drivers/%s/currentOrder",id));
 
         Optional<Driver> driver=driverRepository.findById(id);
 

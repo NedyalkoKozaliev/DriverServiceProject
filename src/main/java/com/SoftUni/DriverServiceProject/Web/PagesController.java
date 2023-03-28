@@ -11,38 +11,38 @@ public class PagesController {
         return "index";
     }
 
-    @GetMapping("/pages/aboutus")
+    @GetMapping("/aboutus")
     public String aboutUs() {
         return "aboutus";
     }
 
-    @GetMapping("/pages/contacts")
+    @GetMapping("/contacts")
     public String contacts() {
         return "contacts";
     }
 
-    @GetMapping("/users/admins")
+    @GetMapping("/admins")
     public String admins() {
         return "admins";
     }
 
-    @GetMapping("/users/clients")
+    @GetMapping("/clients")
     public String clients() {
         return "clients";
     }
-    @GetMapping("/users/clients/orders")
-    public String orders() {
-        return "order";
-    }
+//    @GetMapping("/orders")
+//    public String orders() {
+//        return "order";
+//    }
 
-    @GetMapping("/users/clients/subscriptions")
+    @GetMapping("/subscriptions")
     public String subscriptions() {
         return "subscription";
     }
 
     @GetMapping("/drivers")
     public String drivers() {
-        return "drivers";
+        return "driver";
     }
 }
 
