@@ -3,6 +3,7 @@ package com.SoftUni.DriverServiceProject.Service;
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Models.Entity.DriverRole;
 import com.SoftUni.DriverServiceProject.Models.Entity.UserRole;
+import com.SoftUni.DriverServiceProject.Models.LogedIn.LoggedInDriver;
 import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,29 +28,30 @@ public class ApplicationDriverDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return
-                driverRepository.
-                        findDriverByEmail(username).
-                        map(this::map).
-                        orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not found!"));
+        Driver driver=driverRepository.findDriverByEmail(username);
+        if(driver==null){
+            throw new UsernameNotFoundException("User with name " + username + " not found!");
+        }
+        return new LoggedInDriver(driver);
+
     }
 
-    private UserDetails map(Driver driver) {
-        return new User(
-                driver.getEmail(),
-                driver.getPassword(),
-                extractAuthorities(driver)
-        );
-    }
-    private List<GrantedAuthority> extractAuthorities(Driver driver) {
-        return driver.
-                getRoles().
-                stream().
-                map(this::mapRole).
-                toList();
-    }
-
-    private GrantedAuthority mapRole(DriverRole driverRole) {
-        return new SimpleGrantedAuthority("ROLE_" + driverRole.getRole().name());
-    }
+//    private UserDetails map(Driver driver) {
+//        return new User(
+//                driver.getEmail(),
+//                driver.getPassword(),
+//                extractAuthorities(driver)
+//        );
+//    }
+//    private List<GrantedAuthority> extractAuthorities(Driver driver) {
+//        return driver.
+//                getRoles().
+//                stream().
+//                map(this::mapRole).
+//                toList();
+//    }
+//
+//    private GrantedAuthority mapRole(DriverRole driverRole) {
+//        return new SimpleGrantedAuthority("ROLE_" + driverRole.getRole().name());
+//    }
 }

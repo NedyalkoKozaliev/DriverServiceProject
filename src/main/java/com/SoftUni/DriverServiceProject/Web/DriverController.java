@@ -1,57 +1,63 @@
 package com.SoftUni.DriverServiceProject.Web;
 
-import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
-import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
-import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
-import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
-import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
-import com.SoftUni.DriverServiceProject.Service.OrderService;
-import jakarta.validation.Valid;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.DriverViewModel;
+import com.SoftUni.DriverServiceProject.Service.DriverService;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.util.Optional;
-
-@CrossOrigin("*")
-@RestController
-@RequestMapping("/api/drivers")
+@Controller
+@RequestMapping("/drivers")
 public class DriverController {
 
 
+    private final ModelMapper modelMapper;
+    private final DriverService driverService;
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderViewModel> AssignOrder(
-            @AuthenticationPrincipal UserDetails principal,
-            @PathVariable Long id,
-            @RequestBody @Valid OrderBindingModel orderBindingModel,
-            DriverRepository driverRepository, ModelMapper modelMapper, OrderService orderService){
+    public DriverController(ModelMapper modelMapper, DriverService driverService) {
+        this.modelMapper = modelMapper;
+        this.driverService = driverService;
+    }
 
-        OrderServiceModel orderServiceModel=modelMapper.map(orderBindingModel, OrderServiceModel.class);
+//    @PutMapping("/api/drivers/{id}")
+//    public ResponseEntity<OrderViewModel> AssignOrder(
+//            @AuthenticationPrincipal UserDetails principal,
+//            @PathVariable Long id,
+//            @RequestBody @Valid OrderBindingModel orderBindingModel,
+//            DriverRepository driverRepository, ModelMapper modelMapper, OrderService orderService){
+//
+//        OrderServiceModel orderServiceModel=modelMapper.map(orderBindingModel, OrderServiceModel.class);
+//
+//        OrderViewModel OrderView =
+//                orderService.createOrder(orderServiceModel);
+//        URI locationOfNewOrder =
+//                URI.create(String.format("/api/drivers/%s/currentOrder",id));
+//
+//        Optional<Driver> driver=driverRepository.findById(id);
+//
+//        driver.ifPresent(driver1 ->{ driver1.setCurrentTask(orderService.getOrder(orderServiceModel.getId()));});
+//           return ResponseEntity
+//                   .created(locationOfNewOrder)
+//                   .body(OrderView);}
+//
+//    @PutMapping("/api/drivers/{id}/currentOrder")
+//    public ResponseEntity<OrderViewModel> FinishOrder(
+//            @AuthenticationPrincipal UserDetails principal,
+//            @PathVariable Long id,
+//            @RequestBody @Valid OrderBindingModel orderBindingModel){
+//        return null;
+//
+//    }
 
-        OrderViewModel OrderView =
-                orderService.createOrder(orderServiceModel);
-        URI locationOfNewOrder =
-                URI.create(String.format("/api/drivers/%s/currentOrder",id));
+    @GetMapping("/{id}")
+    public String driverDash(@PathVariable Long id, Model model){
 
-        Optional<Driver> driver=driverRepository.findById(id);
+        model
+                .addAttribute("driver", modelMapper
+                        .map(driverService.findDriverById(id), DriverViewModel.class));
 
-        driver.ifPresent(driver1 ->{ driver1.setCurrentTask(orderService.getOrder(orderServiceModel.getId()));});
-           return ResponseEntity
-                   .created(locationOfNewOrder)
-                   .body(OrderView);}
-
-    @PutMapping("/{id}/currentOrder")
-    public ResponseEntity<OrderViewModel> FinishOrder(
-            @AuthenticationPrincipal UserDetails principal,
-            @PathVariable Long id,
-            @RequestBody @Valid OrderBindingModel orderBindingModel){
-        return null;
-
+        return "driverDash";
     }
 
 }

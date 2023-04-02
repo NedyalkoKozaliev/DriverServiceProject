@@ -23,4 +23,6 @@ public interface OrderService {
     Float takeDuration();
 
 
+    Order findOrderById(Long orderId);
+
 }

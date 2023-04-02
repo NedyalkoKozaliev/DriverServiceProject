@@ -15,11 +15,11 @@ async function DisplayOrderTasks(){
 
 
     function singleOrder(o) {
-      let orderHtml = `<label id="orderDetails-${o.Id}">`
+      let orderHtml = `<label th:object=o  id="orderDetails-${o.Id}">`
       orderHtml +=`"From:"${o.addressFrom } "To:"${o.addressTo}"`
       orderHtml += `<button  class="btn btn-outline-secondary" type="button" id="task - ${o.id}">Take task</button>`
       orderHtml += `</label>`
-    const takeTaskButton=document.getElementById(`task - ${o.id}`)
+    const takeTaskButton=document.getElementById('task - ${o.id}')
     takeTaskButton.dataset.id=orderTask.id
     takeTaskButton.addEventListener('click', AssignTask())
 
@@ -27,7 +27,7 @@ async function DisplayOrderTasks(){
     }
 //======================================Fetching data ==========================================================
 
-  fetch("http://localhost:8080/api/orders/{id}").
+  fetch(`http://localhost:8080/api/orders`).
   then(response => response.json()).
   then(orderTask => {
 
@@ -50,11 +50,11 @@ async function DisplayOrderTasks(){
       function AssignTask(event) {
         event.preventDefault();
 
-     let task = document.getElementById(`"orderDetails-${o.Id}"`);
+     let task = document.getElementById('orderDetails-${o.Id}');
     if (task.parentNode) {
       task.parentNode.removeChild(task);
     }
-    fetch(`http://localhost:8080/api/orders`).
+    fetch(`http://localhost:8080/api/orders`). ///трябва да го променя , за да не се покаже поръчката
         then(_ => DisplayOrderTasks()).
         catch(error => console.log('error', error))
 
@@ -66,8 +66,8 @@ async function DisplayOrderTasks(){
 //==================================>Show Approved order <================================================
 
     async function ShowApprovedOrder({url,dat}){
-             const url = "http://localhost:8080/api/clients/{id}" //find a way to point the principal id or to remove the id from the url
-               const Data = fetch("http://localhost:8080/api/drivers/{id}/currentOrder").then((response) => response.json());
+             const url = `http://localhost:8080/api/clients/{id}(id=${o.getClient()})` //find a way to point the principal id or to remove the id from the url
+               const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).then((response) => response.json());
 
                 const fetchOptions = {
                          method: "POST",
@@ -92,13 +92,13 @@ async function DisplayOrderTasks(){
 
  async function AssignOrderToDriver({url, Data}) {
 
-  const url = "http://localhost:8080/api/drivers/{id}" //find a way to point the principal id or to remove the id from the url
-   const Data = fetch("http://localhost:8080/api/orders/${o.id}").then((response) => response.json());
+  const url = `http://localhost:8080/api/drivers/${driverId}` //find a way to point the principal id or to remove the id from the url
+   const Data = fetch(`http://localhost:8080/api/orders/${o.id}`).then((response) => response.json());
 
    const fetchOptions = {
      method: "PUT",
      headers: {
-      // [csrfHeaderName] : csrfHeaderValue,///====>change header with main
+       [csrfHeaderName] : csrfHeaderValue,///====>change header with main
        "Content-Type" : "application/json",
        "Accept" :"application/json"
      },
@@ -123,7 +123,7 @@ async function DisplayOrderTasks(){
 //=========================================> Order in Process <===================================================================
 
 async function OrderProcessing(){
-fetch("http://localhost:8080/api/drivers/{id}/currentOrder").
+fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).
   then(response => response.json()).
   then(order => {
 
@@ -146,13 +146,13 @@ CurrentOrder.innerHTML=`
 //===============================================>Order finishing<============================================================
 
       async function FinishedOrders({url,dat}){
-      const url = "http://localhost:8080/api/drivers/{id}/currentOrder" //find a way to point the principal id or to remove the id from the url
-        const Data = fetch("http://localhost:8080/api/drivers/{id}/orderTasks").then((response) => response.json());
+      const url = `http://localhost:8080/api/drivers/${driverId}/ordersList` //find a way to point the principal id or to remove the id from the url
+        const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentTask`).then((response) => response.json());
 
         const fetchOptions = {
           method: "PUT",
           headers: {
-           // [csrfHeaderName] : csrfHeaderValue,///====>change header with main
+            [csrfHeaderName] : csrfHeaderValue,///====>change header with main
             "Content-Type" : "application/json",
             "Accept" :"application/json"
           },

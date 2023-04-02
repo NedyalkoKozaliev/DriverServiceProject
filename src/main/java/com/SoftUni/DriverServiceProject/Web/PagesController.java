@@ -26,24 +26,21 @@ public class PagesController {
         return "admins";
     }
 
-    @GetMapping("/clients")
-    public String clients() {
-        return "clients";
-    }
+
+
 //    @GetMapping("/orders")
-//    public String orders() {
+//    public String createOrder() {
 //        return "order";
 //    }
 
-    @GetMapping("/subscriptions")
-    public String subscriptions() {
-        return "subscription";
-    }
 
-    @GetMapping("/drivers")
-    public String drivers() {
-        return "driver";
-    }
+
+
+//
+//    @GetMapping("/drivers")
+//    public String drivers() {
+//        return "driver";
+//    }
 }
 
 

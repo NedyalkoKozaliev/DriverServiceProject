@@ -4,7 +4,6 @@ import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
-import com.SoftUni.DriverServiceProject.Service.Impl.OrderServiceImpl;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -14,58 +13,50 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/orders")
-public class OrderController {
-///users/clients/orders
+public class OrderRestController {
+
     private final ModelMapper modelMapper;
     private final OrderService orderService;
 
 
 
-    public OrderController(ModelMapper modelMapper, OrderService orderService) {
+    public OrderRestController(ModelMapper modelMapper, OrderService orderService) {
         this.modelMapper = modelMapper;
         this.orderService = orderService;
     }
 
-    //1.create order  ///users/clients/{id}/orders
-@PostMapping //need to change it probably has it
-public ResponseEntity<OrderViewModel> OrderIn(
-        @AuthenticationPrincipal UserDetails principal,
-        // @PathVariable Long routeId,
-        @RequestBody @Valid OrderBindingModel OrderBindingModel //getting the Json response from js file (handleCommentSubmit()) and map to bindingmodel
-) { //By default, the type we annotate with the @RequestBody annotation must correspond
-        // to the JSON sent from our client-side controller
+    @PostMapping
+    public ResponseEntity<OrderViewModel> OrderIn(
+            @AuthenticationPrincipal UserDetails principal,
+            @RequestBody @Valid OrderBindingModel OrderBindingModel
+    ) {
 
-    OrderServiceModel orderServiceModel =
-            modelMapper.map(OrderBindingModel, OrderServiceModel.class);
-    orderServiceModel.setClient((User) principal);
-    //set other missings in the form things
-    // orderServiceModell.setCreator(principal.getUsername());
-    // orderServiceModel.setRouteId(routeId);
+        OrderServiceModel orderServiceModel =
+                modelMapper.map(OrderBindingModel, OrderServiceModel.class);
+        orderServiceModel.setClient((User) principal);
 
-    OrderViewModel OrderView =
-            orderService.createOrder(orderServiceModel);
+        OrderViewModel OrderView =
+                orderService.createOrder(orderServiceModel);
 
-    URI locationOfNewOrder =       //define where should it be as url with the id for each (uri gives that id option)
-            URI.create(String.format("/api/orders/%s",OrderView.getId()));
+        URI locationOfNewViewOrder =
+                URI.create(String.format("/api/orders/%s",OrderView.getId()));
 
-    return ResponseEntity.
-            created(locationOfNewOrder).
-            body(OrderView);
-}
-///order/{id}"
-//@GetMapping("/users/clients/orders/{id}")
+        return ResponseEntity.
+                created(locationOfNewViewOrder).
+                body(OrderView);
+    }
+
+//@GetMapping("api/orders/{id}")
 //public ResponseEntity<OrderViewModel> getOrder(
 //        @PathVariable ("id") Long id,
-//        Principal principal
+//        UserDetails principal
 //) {
 //    Optional<OrderViewModel> thisOrder=orderService.getOrderById(id);
-//
 //    return thisOrder.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
 //
 //}

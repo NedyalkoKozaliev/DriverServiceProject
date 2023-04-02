@@ -13,7 +13,8 @@ async function postFormDataAsJson({url, formData}) {
 
 const form = event.currentTarget;
 
- const url = "http://localhost:8080/api/orders";
+ const url = "http://localhost:8080/api/orders";// или form.action
+
   const formData = new FormData(form);
 
     const plainFormData = Object.fromEntries(formData.entries());
@@ -22,7 +23,7 @@ const form = event.currentTarget;
   const fetchOptions = {
     method: "POST",
     headers: {
-     // [csrfHeaderName] : csrfHeaderValue,///====>change header with main
+      [csrfHeaderName] : csrfHeaderValue,
       "Content-Type" : "application/json",
       "Accept" :"application/json"
     },
@@ -32,7 +33,7 @@ const form = event.currentTarget;
   const response = await fetch(url, fetchOptions);
   } catch (error) {
   if (!response.ok) {
-      const errorMessage = await response.text();
+      const errorMessage = await response.text("wrong response");
       throw new Error(errorMessage);
     }
 

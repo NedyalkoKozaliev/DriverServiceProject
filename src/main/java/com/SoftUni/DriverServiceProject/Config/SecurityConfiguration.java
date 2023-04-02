@@ -1,6 +1,7 @@
 package com.SoftUni.DriverServiceProject.Config;
 
 
+import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
 import com.SoftUni.DriverServiceProject.Repository.UserRepository;
@@ -31,6 +32,8 @@ public class SecurityConfiguration {
     private final UserRepository userRepository;
     //@Autowired
     private final DriverRepository driverRepository;
+
+
 
     public SecurityConfiguration(UserRepository userRepository, DriverRepository driverRepository) {
         this.userRepository = userRepository;
@@ -78,13 +81,13 @@ public class SecurityConfiguration {
                 // the URL-s below are available for all users - logged in and anonymous
                         requestMatchers("/", "/users/login", "/users/register", "/users/login-error","/aboutus","/contacts").permitAll().
 
-                // only for moderators
-                //  requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
+
 
                 // only for admins
                         requestMatchers("/admins","/admins/manageDrivers").hasRole(UserRoleEnum.Admin.toString()).
 
-                requestMatchers("/clients","/subscriptions","/order").hasRole(UserRoleEnum.Client.toString()).
+
+                requestMatchers("/clients","/clients/**","/clients/makeSubscription").hasRole(UserRoleEnum.Client.toString()).
 
                 requestMatchers("/drivers").hasRole(UserRoleEnum.Driver.toString()).
 // to add visability about Logout (loged in users should not seening it and the register too)

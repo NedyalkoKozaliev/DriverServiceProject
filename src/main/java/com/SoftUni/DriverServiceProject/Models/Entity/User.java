@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +24,7 @@ public class User extends BaseEntity{
 
 
     private List<UserRole> roles;
+    private Set<Order> orders;
 
     public User() {
     }
@@ -71,6 +73,15 @@ public class User extends BaseEntity{
 
     public User addRole(UserRole role) {
         this.roles.add(role);
+        return this;
+    }
+    @OneToMany
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public User setOrders(Set<Order> orders) {
+        this.orders = orders;
         return this;
     }
 }

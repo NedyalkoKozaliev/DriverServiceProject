@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}"></head>
+
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+    Navbar
+</div>
+<input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">
+    <div class="container">
+        <h2 class="text-center text-white">A page for Making of order</h2>
+    </div>
+
+    <section class="orderCreation">
+        <h1>Order</h1>
+
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <form id=orderForm method="POST"
+                      th:action="@{/api/orders}"
+                      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+<!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
+                    <div  class="form-group">
+                        <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
+                        <input id="addressFrom"
+                               name="addressFrom"
+                               type="text"
+                               class="form-control"
+                               placeholder="addressFrom"/>
+                    </div>
+                    <div  class="form-group">
+                        <label for="addressTo" class="text-white font-weight-bold">Address To</label>
+                        <input id="addressTo"
+                               name="addressTo"
+                               type="text"
+                               class="form-control"
+                               placeholder="addressTo"/>
+                    </div>
+                    <div  class="form-group">
+                        <label for="numberOfPassengers" class="text-white font-weight-bold">Number Of Passengers</label>
+                        <input id="numberOfPassengers"
+                               name="numberOfPassengers"
+                               type="text"
+                               class="form-control"
+                               placeholder="numberOfPassengers"/>
+                    </div>
+
+
+
+                    <a th:href="@{/clients/{id}(id = *{id})}" type="submit" class="btn btn-primary">Order</a>
+                </form>
+            </div>
+
+
+
+            <scrip src="./resources/static/Js/Orders.js"></scrip>
+
+        </div>
+    </section>
+    <div>
+        <footer></footer>
+    </div>
+
+</body>
+</html>
