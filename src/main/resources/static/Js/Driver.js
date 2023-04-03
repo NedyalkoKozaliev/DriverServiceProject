@@ -1,6 +1,10 @@
+const csrfHeaderName = document.head.querySelector('[name="_csrf_header"]').content;
+const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
+
+
 async function DisplayOrderTasks(){
 
-  const OrderDetails=document.getElementById(`orderTask`)
+  const OrderDetails=document.getElementById('orderTask')
     const OrderList = []
 ///////////////////////////////////////////////
 
@@ -15,7 +19,7 @@ async function DisplayOrderTasks(){
 
 
     function singleOrder(o) {
-      let orderHtml = `<label th:object=o  id="orderDetails-${o.Id}">`
+      let orderHtml = `<label th:object="${o}" id="orderDetails-${o.id}">`
       orderHtml +=`"From:"${o.addressFrom } "To:"${o.addressTo}"`
       orderHtml += `<button  class="btn btn-outline-secondary" type="button" id="task - ${o.id}">Take task</button>`
       orderHtml += `</label>`
@@ -54,69 +58,134 @@ async function DisplayOrderTasks(){
     if (task.parentNode) {
       task.parentNode.removeChild(task);
     }
-    fetch(`http://localhost:8080/api/orders`). ///трябва да го променя , за да не се покаже поръчката
-        then(_ => DisplayOrderTasks()).
-        catch(error => console.log('error', error))
+//    fetch(`http://localhost:8080/api/orders`). ///трябва да го променя , за да не се покаже поръчката
+//        then(_ => DisplayOrderTasks()).
+//        catch(error => console.log('error', error))
 
-        ShowApprovedOrder();
-        AssignOrderToDriver();
+         AssignOrderToDriver();
+         ShowApprovedOrder();
+
 
 }
 
 //==================================>Show Approved order <================================================
 
-    async function ShowApprovedOrder({url,dat}){
-             const url = `http://localhost:8080/api/clients/{id}(id=${o.getClient()})` //find a way to point the principal id or to remove the id from the url
-               const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).then((response) => response.json());
+//async function ShowApprovedOrder(){
+////const url = `http://localhost:8080/api/clients/{id}(id=${o.getClient()})` //find a way to point the principal id or to remove the id from the url
+//    const url = `http://localhost:8080/api/orders/{id}/done(id=${o.getClient()})`
+//    const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).then((response) => response.json());
+//
+//const responseData= await postDataAsJson({url, Data});
+//} //===>да пробвам от драйвър кърънт ордър , даи поръчката на клиента не е в някой от тях и ако е се показва
 
-                const fetchOptions = {
-                         method: "POST",
-                         headers: {
-                           //[csrfHeaderName] : csrfHeaderValue,///====>change header with main
-                           "Content-Type" : "application/json",
-                           "Accept" :"application/json"
-                         },
-                         body: Data
-                       }
+async function postDataAsJson({url, Data}) {
 
-                       try{
-                         const response = await fetch(url, fetchOptions);
-                         } catch (error) {
-                         if (!response.ok) {
-                             const errorMessage = await response.text();
-                             throw new Error(errorMessage);
-                           }
-                      }}
 
-//=======================================================> Assign Order To Driver <====================================
-
- async function AssignOrderToDriver({url, Data}) {
-
-  const url = `http://localhost:8080/api/drivers/${driverId}` //find a way to point the principal id or to remove the id from the url
-   const Data = fetch(`http://localhost:8080/api/orders/${o.id}`).then((response) => response.json());
 
    const fetchOptions = {
-     method: "PUT",
+     method: "POST",
      headers: {
-       [csrfHeaderName] : csrfHeaderValue,///====>change header with main
+       [csrfHeaderName] : csrfHeaderValue,
        "Content-Type" : "application/json",
        "Accept" :"application/json"
      },
      body: Data
    }
 
-  try{
-    const response = await fetch(url, fetchOptions);
-    } catch (error) {
-    if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
+   const response = await fetch(url, fetchOptions);
+
+   if (!response.ok) {
+       const errorMessage = await response.text("wrong response");
+       throw new Error(errorMessage);
+     }
+      return response.json();
       }
+
+//    async function ShowApprovedOrder({url,data}){
+//             const url = `http://localhost:8080/api/clients/{id}(id=${o.getClient()})` //find a way to point the principal id or to remove the id from the url
+//               const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).then((response) => response.json());
+//
+//                const fetchOptions = {
+//                         method: "POST",
+//                         headers: {
+//                           [csrfHeaderName] : csrfHeaderValue,///====>change header with main
+//                           "Content-Type" : "application/json",
+//                           "Accept" :"application/json"
+//                         },
+//                         body: Data
+//                       }
+//
+//                       try{
+//                         const response = await fetch(url, fetchOptions);
+//                         } catch (error) {
+//                         if (!response.ok) {
+//                             const errorMessage = await response.text();
+//                             throw new Error(errorMessage);
+//                           }
+//                      }}
+
+//=======================================================> Assign Order To Driver <====================================
+async function AssignOrderToDriver(){
+const url = `http://localhost:8080/api/drivers/${driverId}`
+   const Data = fetch(`http://localhost:8080/api/orders/${o.id}`).then((response) => response.json());
+
+   const responseData= await putDataAsJson({url, Data});
+
+}
+
+ async function putDataAsJson({url, Data}){
+
+ const fetchOptions = {
+      method: "PUT",
+      headers: {
+        [csrfHeaderName] : csrfHeaderValue,
+        "Content-Type" : "application/json",
+        "Accept" :"application/json"
+      },
+      body: Data
+    }
+
+     try{
+        const response = await fetch(url, fetchOptions);
+        } catch (error) {
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+          }
+     }
+
+     return response.json;
+
  }
 
- return response.json;
-
-      }
+//
+// async function AssignOrderToDriver({url, Data}) {
+//
+//  const url = `http://localhost:8080/api/drivers/${driverId}`
+//   const Data = fetch(`http://localhost:8080/api/orders/${o.id}`).then((response) => response.json());
+//
+//   const fetchOptions = {
+//     method: "PUT",
+//     headers: {
+//       [csrfHeaderName] : csrfHeaderValue,
+//       "Content-Type" : "application/json",
+//       "Accept" :"application/json"
+//     },
+//     body: Data
+//   }
+//
+//  try{
+//    const response = await fetch(url, fetchOptions);
+//    } catch (error) {
+//    if (!response.ok) {
+//        const errorMessage = await response.text();
+//        throw new Error(errorMessage);
+//      }
+// }
+//
+// return response.json;
+//
+//      }
 
 //#######################################################################
 
@@ -127,16 +196,16 @@ fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).
   then(response => response.json()).
   then(order => {
 
-    const CurrentOrder=document.getElementById(`task`)
+    const CurrentOrder=document.getElementById('task')
 
 CurrentOrder.innerHTML=`
     <div>
       <div class="text-center">
-          <p class="from">|Adress From: ${order.addressFrom}|</p>
-          <p class="to">|Address To: ${order.addressTo}|</p>
+          <p class="from">Address From: ${order.addressFrom}</p>
+          <p class="to">Address To: ${order.addressTo}</p>
       </div>
       <div class="btn-group">
-          <a href="..." id="done">Done</a>
+          <a  id="done">Done</a>
       </div>
   </div>`
 
@@ -145,28 +214,31 @@ CurrentOrder.innerHTML=`
 
 //===============================================>Order finishing<============================================================
 
-      async function FinishedOrders({url,dat}){
-      const url = `http://localhost:8080/api/drivers/${driverId}/ordersList` //find a way to point the principal id or to remove the id from the url
-        const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentTask`).then((response) => response.json());
+//      async function FinishedOrders(){
+//      const url = `http://localhost:8080/api/drivers/${driverId}/ordersList`
+//        const Data = fetch(`http://localhost:8080/api/drivers/${driverId}/currentTask`).then((response) => response.json());
+//
+//        const responseData= await putDataAsJson({url, Data});
+//        }
 
-        const fetchOptions = {
-          method: "PUT",
-          headers: {
-            [csrfHeaderName] : csrfHeaderValue,///====>change header with main
-            "Content-Type" : "application/json",
-            "Accept" :"application/json"
-          },
-          body: Data
-        }
-
-        try{
-          const response = await fetch(url, fetchOptions);
-          } catch (error) {
-          if (!response.ok) {
-              const errorMessage = await response.text();
-              throw new Error(errorMessage);
-            }
-       }}
+//        const fetchOptions = {
+//          method: "PUT",
+//          headers: {
+//            [csrfHeaderName] : csrfHeaderValue,
+//            "Content-Type" : "application/json",
+//            "Accept" :"application/json"
+//          },
+//          body: Data
+//        }
+//
+//        try{
+//          const response = await fetch(url, fetchOptions);
+//          } catch (error) {
+//          if (!response.ok) {
+//              const errorMessage = await response.text();
+//              throw new Error(errorMessage);
+//            }
+//       }}
 
 
 

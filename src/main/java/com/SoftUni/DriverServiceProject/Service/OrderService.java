@@ -4,6 +4,7 @@ import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
@@ -24,5 +25,7 @@ public interface OrderService {
 
 
     Order findOrderById(Long orderId);
+
+    List<OrderViewModel> getAllOrders();
 
 }

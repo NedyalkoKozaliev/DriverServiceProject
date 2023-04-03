@@ -8,7 +8,9 @@ import com.SoftUni.DriverServiceProject.Service.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -55,6 +57,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderById(Long orderId) {
         return orderRepository.findOrderById(orderId);
+    }
+
+    @Override
+    public List<OrderViewModel> getAllOrders() {
+      return orderRepository.findAll().
+                            stream().
+                            map(order -> modelMapper.map(order,OrderViewModel.class)).
+                            collect(Collectors.toList());
     }
 
 

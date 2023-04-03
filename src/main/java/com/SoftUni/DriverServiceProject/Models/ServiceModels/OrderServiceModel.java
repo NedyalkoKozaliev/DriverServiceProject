@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 
 public class OrderServiceModel {
 
-    private Long Id;
+//    private Long Id;
     private String addressFrom;
 
     private String addressTo;
@@ -19,14 +19,14 @@ public class OrderServiceModel {
     public OrderServiceModel() {
     }
 
-    public Long getId() {
-        return Id;
-    }
-
-    public OrderServiceModel setId(Long id) {
-        Id = id;
-        return this;
-    }
+//    public Long getId() {
+//        return Id;
+//    }
+//
+//    public OrderServiceModel setId(Long id) {
+//        Id = id;
+//        return this;
+//    }
 
     public String getAddressFrom() {
         return addressFrom;

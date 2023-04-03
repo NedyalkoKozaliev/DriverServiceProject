@@ -18,9 +18,9 @@
         <h1>Order</h1>
 
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+<!--            <img src="..." class="card-img-top" alt="...">-->
             <div class="card-body">
-                <form id=orderForm method="POST"
+                <form id=orderForm method="post"
                       th:action="@{/api/orders}"
                       class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
 <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
@@ -44,23 +44,32 @@
                         <label for="numberOfPassengers" class="text-white font-weight-bold">Number Of Passengers</label>
                         <input id="numberOfPassengers"
                                name="numberOfPassengers"
-                               type="text"
+                               type="number"
                                class="form-control"
                                placeholder="numberOfPassengers"/>
                     </div>
+                    <div class="form-group">
+                        <input type="hidden" id="clientId" name="clientId" th:object="${client}" th:value="${client.id}">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit"
+                               class="btn"
+                               id="postOrder"
+                               value="Post Order"/>
+                    </div>
+<!--                    th:href="@{/clients/{id}(id = *{id})}"-->
 
-
-
-                    <a th:href="@{/clients/{id}(id = *{id})}" type="submit" class="btn btn-primary">Order</a>
+<!--                    <a  type="submit" class="btn btn-primary">Order</a>-->
                 </form>
             </div>
 
 
 
-            <scrip src="./resources/static/Js/Orders.js"></scrip>
+
 
         </div>
     </section>
+<script th:src="@{/Js/Orders.js}"></script>
     <div>
         <footer></footer>
     </div>

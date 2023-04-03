@@ -1,18 +1,21 @@
 package com.SoftUni.DriverServiceProject.Web;
 
 import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
+import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin("*")
@@ -30,18 +33,21 @@ public class OrderRestController {
         this.orderService = orderService;
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<OrderViewModel> OrderIn(
             @AuthenticationPrincipal UserDetails principal,
-            @RequestBody @Valid OrderBindingModel OrderBindingModel
+             @Valid OrderBindingModel OrderBindingModel
     ) {
 
         OrderServiceModel orderServiceModel =
                 modelMapper.map(OrderBindingModel, OrderServiceModel.class);
-        orderServiceModel.setClient((User) principal);
+       // orderServiceModel.setClient((User) principal);
+
+
 
         OrderViewModel OrderView =
                 orderService.createOrder(orderServiceModel);
+
 
         URI locationOfNewViewOrder =
                 URI.create(String.format("/api/orders/%s",OrderView.getId()));
@@ -51,11 +57,22 @@ public class OrderRestController {
                 body(OrderView);
     }
 
-//@GetMapping("api/orders/{id}")
-//public ResponseEntity<OrderViewModel> getOrder(
-//        @PathVariable ("id") Long id,
-//        UserDetails principal
-//) {
+    @GetMapping()
+    public ResponseEntity<List<OrderViewModel>> getOrders() {
+        return ResponseEntity.ok(
+                orderService.getAllOrders());
+    }
+
+
+    @GetMapping("api/orders/{id}")
+    public ResponseEntity<OrderViewModel> getOrder(
+            @PathVariable Long id,
+            UserDetails principal
+    ) {
+
+       Optional<OrderViewModel> orderViewModel=orderService.getOrderById(id);
+        return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    }
 //    Optional<OrderViewModel> thisOrder=orderService.getOrderById(id);
 //    return thisOrder.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
 //

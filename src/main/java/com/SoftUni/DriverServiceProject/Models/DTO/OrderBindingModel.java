@@ -1,6 +1,7 @@
 package com.SoftUni.DriverServiceProject.Models.DTO;
 
 
+import com.SoftUni.DriverServiceProject.Models.Entity.User;
 
 public class OrderBindingModel {
 
@@ -9,7 +10,10 @@ public class OrderBindingModel {
     private String addressTo;
 
 
+
     private Integer numberOfPassengers;
+
+    private Long clientId;
 
     public OrderBindingModel() {
     }
@@ -38,6 +42,15 @@ public class OrderBindingModel {
 
     public OrderBindingModel setNumberOfPassengers(Integer numberOfPassengers) {
         this.numberOfPassengers = numberOfPassengers;
+        return this;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public OrderBindingModel setClientId(Long clientId) {
+        this.clientId = clientId;
         return this;
     }
 }

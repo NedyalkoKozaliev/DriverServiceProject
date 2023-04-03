@@ -1,11 +1,9 @@
 package com.SoftUni.DriverServiceProject.Web;
 
 
-import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
-import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
@@ -16,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -23,51 +22,61 @@ public class DriverRestController {
 
     private final ModelMapper modelMapper;
     private  final DriverService driverService;
+    private final OrderService orderService;
 
-    public DriverRestController(ModelMapper modelMapper, DriverService driverService) {
+    public DriverRestController(ModelMapper modelMapper, DriverService driverService, OrderService orderService) {
         this.modelMapper = modelMapper;
         this.driverService = driverService;
+        this.orderService = orderService;
     }
 
     @PutMapping("/api/drivers/{id}/currentOrder") //----!!!!!!!!!!!--------> id на края трябва да го сложа , ако не сработи
-    public ResponseEntity<OrderServiceModel> AssignOrder(
+    public ResponseEntity<OrderViewModel> AssignOrder(
             @AuthenticationPrincipal UserDetails principal,
             @PathVariable Long id,
-            @RequestBody @Valid OrderBindingModel orderBindingModel,
-              OrderService orderService){
+             @Valid OrderViewModel orderViewModel){
 
-        OrderServiceModel orderServiceModel=modelMapper.map(orderBindingModel, OrderServiceModel.class);
 
-        OrderViewModel OrderView =
-                orderService.createOrder(orderServiceModel); // --->ъпдейт драйвър трябва да бъде не променям поръчката/може да и сложа цената тук/
+        driverService.findDriverById(id).setCurrentTask(orderService.findOrderById(orderViewModel.getId()));
+
 
         URI locationOfNewOrder =
                 URI.create(String.format("/api/drivers/%s/currentOrder",id));
 
-        Driver driver=driverService.findDriverById(id); //--------------> ъпдейт драйвър в сървиса
-        driver.setCurrentTask(orderService.getOrder(orderServiceModel.getId()));
 
-        //-------> ъпдейт драйвър в сървиса
+
         return ResponseEntity
                 .created(locationOfNewOrder)
-                .body(orderServiceModel);}
+                .body(orderViewModel);}
 
-    @PutMapping("/api/drivers/{id}/ordersList")
-    public ResponseEntity<OrderServiceModel> FinishOrder(
-            @AuthenticationPrincipal UserDetails principal,
+
+
+    @GetMapping("/api/drivers/{id}/currentOrder")
+    public ResponseEntity<OrderViewModel> getCurrentTask(
             @PathVariable Long id,
-            @RequestBody @Valid OrderServiceModel orderServiceModel){
-
-        Long orderId=orderServiceModel.getId();
-
-        driverService.finishOrder(orderId); //---->move order to the list
-
-
-        return ResponseEntity.
-                noContent().
-                build();
-
+            UserDetails principal
+    ) {
+        Optional<OrderViewModel> orderViewModel=orderService.getOrderById(driverService.findDriverById(id).getCurrentTask().getId());
+        return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
+
+
+//    @PutMapping("/api/drivers/{id}/ordersList")
+//    public ResponseEntity<OrderServiceModel> FinishOrder(
+//            @AuthenticationPrincipal UserDetails principal,
+//            @PathVariable Long id,
+//            @RequestBody @Valid OrderServiceModel orderServiceModel){
+//
+//        Long orderId=orderServiceModel.;
+//
+//        driverService.finishOrder(orderId); //---->move order to the list
+//
+//
+//        return ResponseEntity.
+//                noContent().
+//                build();
+//
+//    }
 
 }
 

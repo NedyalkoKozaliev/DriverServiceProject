@@ -15,7 +15,7 @@ import java.net.http.HttpResponse;
 
 @Service
 public class DistanceAndDurationServiceImpl implements DistanceAndDurationService {
-    private static final String API_KEY = "AIzaSyCXhzTpaIhoLXPoAMevyyqEfi0dtI5yMHE";
+    private static final String API_KEY = "google matrix key";
     private Gson gson;
 
 

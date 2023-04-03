@@ -1,21 +1,30 @@
 
 
 
+const csrfHeaderName = document.head.querySelector('[name="_csrf_header"]').content;
+const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
 
 
+    const orderForm = document.getElementById('orderForm')
+    orderForm.addEventListener("submit",createOrder)
 
-const orderForm = document.getElementById('orderForm')
-orderForm.addEventListener("submit",postFormDataAsJson)
+    async function createOrder(event){
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const url = form.action;
+    const formData = new FormData(form);
+
+    const responseData= await postFormDataAsJson({url, formData});
+console.log('going to add order')
+    //form.reset();
+    }
+
+
 
 //===================================================================================
 
 async function postFormDataAsJson({url, formData}) {
-
-const form = event.currentTarget;
-
- const url = "http://localhost:8080/api/orders";// или form.action
-
-  const formData = new FormData(form);
 
     const plainFormData = Object.fromEntries(formData.entries());
   const formDataAsJSONString = JSON.stringify(plainFormData);
@@ -29,33 +38,33 @@ const form = event.currentTarget;
     },
     body: formDataAsJSONString
   }
-  try{
+
   const response = await fetch(url, fetchOptions);
-  } catch (error) {
+  //} catch (error) {
   if (!response.ok) {
       const errorMessage = await response.text("wrong response");
       throw new Error(errorMessage);
     }
 
-  let errorObj = JSON.parse(error.message);
+//  let errorObj = JSON.parse(error.message);
+//
+//                       if (errorObj.fieldWithErrors) {
+//                         errorObj.fieldWithErrors.forEach(
+//                             e => {
+//                               let elementWithError = document.getElementById(e);
+//                               if (elementWithError) {
+//                                 elementWithError.classList.add("is-invalid");
+//                               }
+//                             }
+//
+//                         )
+//                       }
+//
+//                     }
 
-                       if (errorObj.fieldWithErrors) {
-                         errorObj.fieldWithErrors.forEach(
-                             e => {
-                               let elementWithError = document.getElementById(e);
-                               if (elementWithError) {
-                                 elementWithError.classList.add("is-invalid");
-                               }
-                             }
-
-                         )
-                       }
-
-                     }
 
 
-
-form.reset();// check if it is ok here!!!
+//form.reset();// check if it is ok here!!!
   return response.json();
 }
 
