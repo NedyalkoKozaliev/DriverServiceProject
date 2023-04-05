@@ -15,12 +15,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/orders")
 public class OrderRestController {
 
     private final ModelMapper modelMapper;
@@ -33,7 +33,8 @@ public class OrderRestController {
         this.orderService = orderService;
     }
 
-    @PostMapping()
+    @RequestMapping(value="/api/orders",
+            produces="application/json",method = {RequestMethod.POST})
     public ResponseEntity<OrderViewModel> OrderIn(
             @AuthenticationPrincipal UserDetails principal,
              @Valid OrderBindingModel OrderBindingModel
@@ -57,8 +58,10 @@ public class OrderRestController {
                 body(OrderView);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<OrderViewModel>> getOrders() {
+    @RequestMapping(value="/api/orders",
+            produces="application/json",method = {RequestMethod.GET})
+    public ResponseEntity<List<OrderViewModel>> getOrders()
+    {
         return ResponseEntity.ok(
                 orderService.getAllOrders());
     }
@@ -67,32 +70,11 @@ public class OrderRestController {
     @GetMapping("api/orders/{id}")
     public ResponseEntity<OrderViewModel> getOrder(
             @PathVariable Long id,
-            UserDetails principal
+            @AuthenticationPrincipal UserDetails principal
     ) {
 
        Optional<OrderViewModel> orderViewModel=orderService.getOrderById(id);
         return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
-//    Optional<OrderViewModel> thisOrder=orderService.getOrderById(id);
-//    return thisOrder.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
-//
-//}
-//    @PostMapping("users/clients/{id}/orders" ) //need to change it probably has it
-//    public ResponseEntity<OrderViewModel> myOrder(
-//            @AuthenticationPrincipal UserDetails principal,
-//            // @PathVariable Long routeId,
-//            @RequestBody @Valid OrderBindingModel OrderBindingModel //getting the Json response from js file (handleCommentSubmit()) and map to bindingmodel
-//    ) {
-//        //receive post for the approved order return the order
-//        return  null;
-//    }
-
-//2.collect all orders of a client do something with it
-
-//3.collect all orders in general do something with it
-
-//4.delete order
-
-//5.refuse order
 
 }

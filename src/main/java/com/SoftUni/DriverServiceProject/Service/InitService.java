@@ -81,14 +81,7 @@ public class InitService {
         adminUser.setRoles(userRoleRepository.findAll());
 
 
-//    private void initAdmin(){
-//        var adminUser = new User().
-//                setEmail("admin@example.com").
-//                setFirstName("Admin").
-//                setLastName("Adminov").
-//                setPassword(passwordEncoder.encode("admin")).
-//                setRoles(userRoleRepository.findAll());
-//
+
      userRepository.save(adminUser);
     }
 

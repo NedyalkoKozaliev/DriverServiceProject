@@ -11,6 +11,7 @@
 </div>
 
 <input type="hidden" id="driverId" name="driverId" th:object="${driver}" th:value="${driver.id}">
+
 <div>
 
   <div class="container">
@@ -21,11 +22,9 @@
 </div>
 
 <div  class="container">
-  <div class="list-group">
-    <span id="orderTask" class="list-group-item">
-      text here
-      <button class="btn btn-outline-secondary" type="button" id="button-addon2">Take task</button>
-    </span>
+  <div id="orderTask"  class="row mt-3 mb-3 ">
+      the text
+
   </div>
 
 </div>
@@ -38,7 +37,7 @@
       <p class="to">Address to</p>
     </div>
     <div class="btn-group">
-      <a href="/details" id="details">Done</a>
+      <a  id="details">Done</a>
     </div>
   </div>
 

@@ -13,7 +13,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select o from Order o where o.id = ?1")
     Order findOrderById(Long id);
 
-    List<Order> findAll();
+//    List<Order> findAll();
 
 
 }

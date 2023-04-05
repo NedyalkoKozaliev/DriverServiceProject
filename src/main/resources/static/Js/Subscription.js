@@ -1,14 +1,12 @@
 
-
-
 const csrfHeaderName = document.head.querySelector('[name="_csrf_header"]').content;
 const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
 
 
-    const orderForm = document.getElementById('orderForm')
-    orderForm.addEventListener("submit",createOrder)
+    const subscriptionForm = document.getElementById('subscriptionForm')
+    orderForm.addEventListener("submit",createSubscription)
 
-    async function createOrder(event){
+    async function createSubscription(event){
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -16,13 +14,12 @@ const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
     const formData = new FormData(form);
 
     const responseData= await postFormDataAsJson({url, formData});
-console.log('going to add order')
+
     //form.reset();
     }
 
+ //=============================================================================
 
-
-//===================================================================================
 
 async function postFormDataAsJson({url, formData}) {
 
@@ -46,7 +43,10 @@ async function postFormDataAsJson({url, formData}) {
       throw new Error(errorMessage);
     }
 
-
 //form.reset();
   return response.json();
-}
+
+
+
+
+

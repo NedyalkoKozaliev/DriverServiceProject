@@ -30,7 +30,11 @@ public class DriverRestController {
         this.orderService = orderService;
     }
 
-    @PutMapping("/api/drivers/{id}/currentOrder") //----!!!!!!!!!!!--------> id на края трябва да го сложа , ако не сработи
+
+
+    @RequestMapping(value="/api/drivers/{id}/currentOrder",
+            produces="application/json",
+            method = {RequestMethod.PUT})
     public ResponseEntity<OrderViewModel> AssignOrder(
             @AuthenticationPrincipal UserDetails principal,
             @PathVariable Long id,
@@ -51,7 +55,9 @@ public class DriverRestController {
 
 
 
-    @GetMapping("/api/drivers/{id}/currentOrder")
+    @RequestMapping(value="/api/drivers/{id}/currentOrder",
+            produces="application/json",
+            method = {RequestMethod.GET})
     public ResponseEntity<OrderViewModel> getCurrentTask(
             @PathVariable Long id,
             UserDetails principal
@@ -60,23 +66,21 @@ public class DriverRestController {
         return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/api/drivers/{id}/ordersList")
+    public ResponseEntity<OrderViewModel> FinishOrder(
+            @AuthenticationPrincipal UserDetails principal,
+            @PathVariable Long id,
+            @Valid OrderViewModel orderViewModel){
 
-//    @PutMapping("/api/drivers/{id}/ordersList")
-//    public ResponseEntity<OrderServiceModel> FinishOrder(
-//            @AuthenticationPrincipal UserDetails principal,
-//            @PathVariable Long id,
-//            @RequestBody @Valid OrderServiceModel orderServiceModel){
-//
-//        Long orderId=orderServiceModel.;
-//
-//        driverService.finishOrder(orderId); //---->move order to the list
-//
-//
-//        return ResponseEntity.
-//                noContent().
-//                build();
-//
-//    }
+        driverService.finishOrder(id);
+
+
+
+        return ResponseEntity.
+                noContent().
+                build();
+
+    }
 
 }
 

@@ -5,6 +5,8 @@ import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
+import jakarta.transaction.Transactional;
+import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -59,13 +61,32 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrderById(orderId);
     }
 
+    @Transactional
     @Override
     public List<OrderViewModel> getAllOrders() {
-      return orderRepository.findAll().
-                            stream().
-                            map(order -> modelMapper.map(order,OrderViewModel.class)).
-                            collect(Collectors.toList());
+
+    List<OrderViewModel> orders=orderRepository.findAll().
+            stream().
+            map(this::mapAsOrder).
+            toList();
+            if (orders.isEmpty()){
+                throw new NullPointerException("No pending order");
+            }
+          return orders;
     }
 
 
+
+    private OrderViewModel mapAsOrder(Order order) {
+       OrderViewModel orderViewModel = new OrderViewModel();
+
+      orderViewModel.setId(order.getId());
+       orderViewModel.setAddressTo(order.getAddressTo());
+       orderViewModel.setAddressFrom(order.getAddressFrom());
+       orderViewModel.setNumberOfPassengers(order.getNumberOfPassengers());
+
+
+
+        return orderViewModel;
+    }
 }

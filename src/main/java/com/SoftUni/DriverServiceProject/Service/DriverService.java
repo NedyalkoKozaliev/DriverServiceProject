@@ -2,6 +2,7 @@ package com.SoftUni.DriverServiceProject.Service;
 
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DriverService {
@@ -10,6 +11,9 @@ public interface DriverService {
 
     Driver findDriverById(Long id);
 
-    void finishOrder(Long orderId);
+    void finishOrder(Long id);
+
+
+    List<Driver> getAllDrivers();
 
 }
