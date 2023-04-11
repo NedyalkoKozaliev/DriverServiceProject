@@ -21,10 +21,10 @@ public class Driver extends BaseEntity {
 
     @Column
     private String password;
-
+    @Column
     private Car car;
 
-
+    @Column
     private Order currentTask;
 
     private List<DriverRole> roles ;

@@ -1,8 +1,11 @@
 package com.SoftUni.DriverServiceProject.Web;
 
+import com.SoftUni.DriverServiceProject.Models.LogedIn.LoggedInDriver;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.DriverViewModel;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +54,8 @@ public class DriverController {
 //    }
 
     @GetMapping("/{id}")
-    public String driverDash(@PathVariable Long id, Model model){
+    public String driverDash(@PathVariable Long id, Model model,@AuthenticationPrincipal UserDetails principal  ){
+
 
         model
                 .addAttribute("driver", modelMapper

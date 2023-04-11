@@ -36,22 +36,21 @@ public class DriverRestController {
             produces="application/json",
             method = {RequestMethod.PUT})
     public ResponseEntity<OrderViewModel> AssignOrder(
-            @AuthenticationPrincipal UserDetails principal,
             @PathVariable Long id,
              @Valid OrderViewModel orderViewModel){
 
+           OrderViewModel currentOrder= driverService.assignOrder(id,orderViewModel.getId());
 
-        driverService.findDriverById(id).setCurrentTask(orderService.findOrderById(orderViewModel.getId()));
 
 
-        URI locationOfNewOrder =
+        URI locationOfCurrentOrder =
                 URI.create(String.format("/api/drivers/%s/currentOrder",id));
 
 
 
         return ResponseEntity
-                .created(locationOfNewOrder)
-                .body(orderViewModel);}
+                .created(locationOfCurrentOrder)
+                .body(currentOrder);}
 
 
 

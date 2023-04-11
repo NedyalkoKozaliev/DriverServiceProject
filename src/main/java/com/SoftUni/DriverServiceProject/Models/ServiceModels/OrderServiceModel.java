@@ -1,12 +1,10 @@
 package com.SoftUni.DriverServiceProject.Models.ServiceModels;
 
-import com.SoftUni.DriverServiceProject.Models.Entity.Discount;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
-import jakarta.persistence.Column;
 
 public class OrderServiceModel {
 
-//    private Long Id;
+//  private Long id;
     private String addressFrom;
 
     private String addressTo;
@@ -20,12 +18,11 @@ public class OrderServiceModel {
     }
 
 //    public Long getId() {
-//        return Id;
+//        return id;
 //    }
 //
-//    public OrderServiceModel setId(Long id) {
-//        Id = id;
-//        return this;
+//    public void setId(Long id) {
+//        this.id = id;
 //    }
 
     public String getAddressFrom() {

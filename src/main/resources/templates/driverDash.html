@@ -1,54 +1,57 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head::head}"></head>
+    <!DOCTYPE html>
+    <html lang="en"
+          xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/head::head}"></head>
 
 
-<body>
+    <body>
 
-<div th:replace="~{fragments/navbar :: navbar}">
-  Navbar
-</div>
-
-<input type="hidden" id="driverId" name="driverId" th:object="${driver}" th:value="${driver.id}">
-
-<div>
-
-  <div class="container">
-    <h2 class="text-center text-white">A page for driversDash</h2>
-  </div>
-
-
-</div>
-
-<div  class="container">
-  <div id="orderTask"  class="row mt-3 mb-3 ">
-      the text
-
-  </div>
-
-</div>
-
-<div id="task" class="card-box">
-<!--  <img src=${album.imageUrl}>-->
-  <div>
-    <div class="text-center">
-      <p class="from">Address from</p>
-      <p class="to">Address to</p>
+    <div th:replace="~{fragments/navbar :: navbar}">
+      Navbar
     </div>
-    <div class="btn-group">
-      <a  id="details">Done</a>
+    <!--<input type="hidden" id="driverId" name="driverId" th:object="${driver}" th:value="${driver.id}">-->
+    <input type="hidden" id="driverId" name="driverId"  th:value="${driver.id}">
+
+
+        <div>
+
+          <div class="container">
+            <h2 class="text-center text-white">A page for driversDash</h2>
+          </div>
+
+
+        </div>
+
+        <div id="tasks" class="container" th:object="${driver}">
+
+          <div id="orderTask"  class="row mt-3 mb-3 ">
+
+              the text
+
+          </div>
+
+        </div>
+
+        <div id="task" class="card-box">
+        <!--  <img src=${album.imageUrl}>-->
+          <div>
+            <div class="text-center">
+              <p class="from">Address from</p>
+              <p class="to">Address to</p>
+            </div>
+            <div class="btn-group">
+              <a  id="details">Done</a>
+            </div>
+          </div>
+
+        </div>
+
+
+
+    <script th:src="@{/Js/newDriver.js}"></script>
+    <div>
+      <footer></footer>
     </div>
-  </div>
 
-</div>
-
-
-
-<script th:src="@{/Js/Driver.js}"></script>
-<div>
-  <footer></footer>
-</div>
-
-</body>
-</html>
+    </body>
+    </html>

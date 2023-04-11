@@ -8,6 +8,7 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,7 +28,7 @@ public class OrderRestController {
     private final OrderService orderService;
 
 
-
+@Autowired
     public OrderRestController(ModelMapper modelMapper, OrderService orderService) {
         this.modelMapper = modelMapper;
         this.orderService = orderService;
@@ -67,7 +68,9 @@ public class OrderRestController {
     }
 
 
-    @GetMapping("api/orders/{id}")
+
+    @RequestMapping(value="/api/orders/{id}",
+            produces="application/json",method = {RequestMethod.GET})
     public ResponseEntity<OrderViewModel> getOrder(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails principal

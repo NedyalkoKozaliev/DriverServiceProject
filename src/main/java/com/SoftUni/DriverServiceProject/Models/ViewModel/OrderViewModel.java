@@ -2,7 +2,7 @@ package com.SoftUni.DriverServiceProject.Models.ViewModel;
 
 public class OrderViewModel {
 
-    private Long Id;
+    private Long id;
     private String addressFrom;
 
     private String addressTo;
@@ -14,11 +14,11 @@ public class OrderViewModel {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getAddressFrom() {

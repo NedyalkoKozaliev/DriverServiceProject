@@ -1,6 +1,7 @@
 package com.SoftUni.DriverServiceProject.Service;
 
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,5 @@ public interface DriverService {
 
     List<Driver> getAllDrivers();
 
+    OrderViewModel assignOrder(Long driverId, Long orderId);
 }

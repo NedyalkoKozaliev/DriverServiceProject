@@ -8,6 +8,7 @@ import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
-
+@Autowired
     public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
@@ -61,14 +62,13 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrderById(orderId);
     }
 
-    @Transactional
+
     @Override
     public List<OrderViewModel> getAllOrders() {
 
     List<OrderViewModel> orders=orderRepository.findAll().
             stream().
-            map(this::mapAsOrder).
-            toList();
+            map(order->modelMapper.map(order,OrderViewModel.class)).collect(Collectors.toList());
             if (orders.isEmpty()){
                 throw new NullPointerException("No pending order");
             }
