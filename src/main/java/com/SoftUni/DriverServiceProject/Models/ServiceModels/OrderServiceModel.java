@@ -12,7 +12,7 @@ public class OrderServiceModel {
 
     private Integer numberOfPassengers;
 
-    private User client;
+    private Long clientId;
 
     public OrderServiceModel() {
     }
@@ -52,13 +52,12 @@ public class OrderServiceModel {
         return this;
     }
 
-    public User getClient() {
-        return client;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public OrderServiceModel setClient(User client) {
-        this.client = client;
-        return this;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 }
 

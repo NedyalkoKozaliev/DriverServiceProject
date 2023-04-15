@@ -4,9 +4,8 @@ import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
+import com.SoftUni.DriverServiceProject.Service.ClientService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
-import jakarta.transaction.Transactional;
-import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,22 +18,29 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
+    private final ClientService clientService;
 @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
-    }
+    this.clientService = clientService;
+}
 
 
     @Override
     public OrderViewModel createOrder(OrderServiceModel orderServiceModel) {
 
         Order order=modelMapper.map(orderServiceModel,Order.class);
+                //mapAsOr(orderServiceModel);
+
+
+       // order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
 
 
         orderRepository.save(order);
 
-        return modelMapper.map(order,OrderViewModel.class);
+        //return mapAsOrder(order);
+               return modelMapper.map(order,OrderViewModel.class);
     }
 
     @Override
@@ -88,5 +94,17 @@ public class OrderServiceImpl implements OrderService {
 
 
         return orderViewModel;
+    }
+    private Order mapAsOr(OrderServiceModel orderServiceModel) {
+        Order order=new Order();
+
+       order.setAddressTo(orderServiceModel.getAddressTo());
+        order.setAddressFrom(orderServiceModel.getAddressFrom());
+        order.setNumberOfPassengers(orderServiceModel.getNumberOfPassengers());
+        order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
+
+
+
+        return order;
     }
 }

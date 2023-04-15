@@ -60,14 +60,22 @@ return orderHtml;
   async function AssignTask(orderId){
 
       const url = `http://localhost:8080/api/drivers/${driverId}/currentOrder`;
-      const Data = fetch(`http://localhost:8080/api/orders/${orderId}`).then((response) => response.json());
+      const Data =  await fetch(`http://localhost:8080/api/orders/${orderId}`);
+
+
 
         const responseData= await putDataAsJson({url, Data});
-        }
+
 
      async function putDataAsJson({url, Data}){
      const csrfHeaderName = document.head.querySelector('[name="_csrf_header"]').content;
      const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
+
+
+
+   const json = await Data.json();
+
+
       const fetchOptions = {
            method: "PUT",
            headers: {
@@ -75,40 +83,83 @@ return orderHtml;
              "Content-Type" : "application/json",
              "Accept" :"application/json"
            },
-           body: Data
+           body: JSON.stringify(json)
          }
 const response = await fetch(url, fetchOptions);
-          try{
-             const response = await fetch(url, fetchOptions);
-             } catch (error) {
-             if (!response.ok) {
-                 const errorMessage = await response.text();
-                 throw new Error(errorMessage);
-               }
-          }
 
           return response.json;
 
       }
+       fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).
+             then(
+      response => response.json().
+              then(order => {
+              const CurrentOrder=document.getElementById('task')
 
-       //============================================Order processing ======================
-      async function OrderProcessing(){
-      fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).
-        then(response => response.json()).
-        then(order => {
+                    CurrentOrder.innerHTML=
+                    ` <div id="task" class="mt-3 rounded badge-info p-3">
 
-          const CurrentOrder=document.getElementById('task')
+                      <span class="p-3" >${order.addressFrom}</span>
+                      <span class="p-3" >${order.addressTo}</span>
+                      <div class="btn-group">
 
-      CurrentOrder.innerHTML=
-      ` <div id="task" class="mt-3 rounded badge-info p-3">
-
-        <span class="p-3" >${order.addressFrom}</span>
-        <span class="p-3" >${order.addressTo}</span>
-        <div class="btn-group">
-
-                 <button class="finish_order" type="button" id="done" name="done">Done</button>
-      </div>
-      </div>`
+                               <button class="finish_order" type="button" id="done" name="done">Done</button>
+                    </div>
+                    </div>`
 
 
-        document.getElementById("done").addEventListener("submit",FinishedOrders()) })}
+                      document.getElementById("done").addEventListener('click',Finish) }))}
+
+
+
+ function Finish(event){
+     event.preventDefault();
+                 const CurrentOrder=document.getElementById('task')
+
+                                     CurrentOrder.innerHTML=
+                                     ` <div id="task" class="mt-3 rounded badge-info p-3">
+
+                                       <span class="p-3" >...</span>
+                                       <span class="p-3" >...</span>`
+
+                           FinishedOrders()
+                        }
+
+
+
+
+async function FinishedOrders(){
+     const url = `http://localhost:8080/api/drivers/${driverId}/ordersList`
+       const Data =await fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`);
+
+       const responseData= await putDataAsJson({url, Data});
+
+       async function putDataAsJson({url, Data}){
+           const csrfHeaderName = document.head.querySelector('[name="_csrf_header"]').content;
+           const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
+
+
+
+         const json = await Data.json();
+
+
+            const fetchOptions = {
+                 method: "PUT",
+                 headers: {
+                   [csrfHeaderName] : csrfHeaderValue,
+                   "Content-Type" : "application/json",
+                   "Accept" :"application/json"
+                 },
+                 body: JSON.stringify(json)
+               }
+      const response = await fetch(url, fetchOptions);
+
+                return response.json;
+
+            }
+
+
+
+
+
+       }

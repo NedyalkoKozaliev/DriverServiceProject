@@ -28,23 +28,23 @@ public class OrderRestController {
     private final OrderService orderService;
 
 
-@Autowired
+   // @Autowired
     public OrderRestController(ModelMapper modelMapper, OrderService orderService) {
         this.modelMapper = modelMapper;
         this.orderService = orderService;
     }
 
-    @RequestMapping(value="/api/orders",
-            produces="application/json",method = {RequestMethod.POST})
+    @RequestMapping(value = "/api/orders",
+            produces = "application/json", method = {RequestMethod.POST})
     public ResponseEntity<OrderViewModel> OrderIn(
-            @AuthenticationPrincipal UserDetails principal,
-             @Valid OrderBindingModel OrderBindingModel
+            @AuthenticationPrincipal UserDetails principal,@RequestBody
+            @Valid OrderBindingModel orderBindingModel
     ) {
 
         OrderServiceModel orderServiceModel =
-                modelMapper.map(OrderBindingModel, OrderServiceModel.class);
-       // orderServiceModel.setClient((User) principal);
-
+                //mapAsService(orderBindingModel);
+               modelMapper.map(orderBindingModel, OrderServiceModel.class);
+        //orderServiceModel.setClient((User) principal);
 
 
         OrderViewModel OrderView =
@@ -52,32 +52,44 @@ public class OrderRestController {
 
 
         URI locationOfNewViewOrder =
-                URI.create(String.format("/api/orders/%s",OrderView.getId()));
+                URI.create(String.format("/api/orders/%s", OrderView.getId()));
 
         return ResponseEntity.
                 created(locationOfNewViewOrder).
                 body(OrderView);
     }
 
-    @RequestMapping(value="/api/orders",
-            produces="application/json",method = {RequestMethod.GET})
-    public ResponseEntity<List<OrderViewModel>> getOrders()
-    {
+    @RequestMapping(value = "/api/orders",
+            produces = "application/json", method = {RequestMethod.GET})
+    public ResponseEntity<List<OrderViewModel>> getOrders() {
         return ResponseEntity.ok(
                 orderService.getAllOrders());
     }
 
 
-
-    @RequestMapping(value="/api/orders/{id}",
-            produces="application/json",method = {RequestMethod.GET})
+    @RequestMapping(value = "/api/orders/{id}",
+            produces = "application/json", method = {RequestMethod.GET})
     public ResponseEntity<OrderViewModel> getOrder(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails principal
     ) {
 
-       Optional<OrderViewModel> orderViewModel=orderService.getOrderById(id);
-        return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+        Optional<OrderViewModel> orderViewModel = orderService.getOrderById(id);
+        return orderViewModel.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
+//    private OrderServiceModel mapAsService(OrderBindingModel orderBindingModel) {
+//        OrderServiceModel orderServiceModel = new OrderServiceModel();
+//
+//
+//        orderServiceModel.setAddressTo(orderBindingModel.getAddressTo());
+//        orderServiceModel.setAddressFrom(orderBindingModel.getAddressFrom());
+//        orderServiceModel.setNumberOfPassengers(orderBindingModel.getNumberOfPassengers());
+//        orderServiceModel.setClientId(orderBindingModel.getClientId());
+//
+//
+//        return orderServiceModel;
+//
+//    }
 }

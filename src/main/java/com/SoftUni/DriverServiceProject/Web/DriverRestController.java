@@ -37,7 +37,8 @@ public class DriverRestController {
             method = {RequestMethod.PUT})
     public ResponseEntity<OrderViewModel> AssignOrder(
             @PathVariable Long id,
-             @Valid OrderViewModel orderViewModel){
+            @AuthenticationPrincipal UserDetails principal,
+            @RequestBody @Valid OrderViewModel orderViewModel){
 
            OrderViewModel currentOrder= driverService.assignOrder(id,orderViewModel.getId());
 
@@ -59,17 +60,19 @@ public class DriverRestController {
             method = {RequestMethod.GET})
     public ResponseEntity<OrderViewModel> getCurrentTask(
             @PathVariable Long id,
-            UserDetails principal
+            @AuthenticationPrincipal UserDetails principal
     ) {
         Optional<OrderViewModel> orderViewModel=orderService.getOrderById(driverService.findDriverById(id).getCurrentTask().getId());
         return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/api/drivers/{id}/ordersList")
+    @RequestMapping(value="/api/drivers/{id}/ordersList",
+    produces="application/json",
+    method = {RequestMethod.PUT})
     public ResponseEntity<OrderViewModel> FinishOrder(
             @AuthenticationPrincipal UserDetails principal,
             @PathVariable Long id,
-            @Valid OrderViewModel orderViewModel){
+            @RequestBody @Valid OrderViewModel orderViewModel){
 
         driverService.finishOrder(id);
 

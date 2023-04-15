@@ -7,6 +7,7 @@ import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
 import com.SoftUni.DriverServiceProject.Repository.UserRepository;
 import com.SoftUni.DriverServiceProject.Service.ApplicationDriverDetailsService;
 import com.SoftUni.DriverServiceProject.Service.ApplicationUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,7 @@ public class SecurityConfiguration {
     private final DriverRepository driverRepository;
 
 
-
+       // @Autowired
     public SecurityConfiguration(UserRepository userRepository, DriverRepository driverRepository) {
         this.userRepository = userRepository;
         this.driverRepository = driverRepository;

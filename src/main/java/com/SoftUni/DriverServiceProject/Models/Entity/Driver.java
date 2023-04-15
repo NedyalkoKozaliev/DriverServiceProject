@@ -24,7 +24,7 @@ public class Driver extends BaseEntity {
     @Column
     private Car car;
 
-    @Column
+
     private Order currentTask;
 
     private List<DriverRole> roles ;
@@ -68,7 +68,7 @@ public class Driver extends BaseEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     public Set<Order> getOrderTasks() {
         return OrderTasks;
     }

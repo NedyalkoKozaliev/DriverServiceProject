@@ -41,8 +41,10 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public void finishOrder(Long id) {
         Order order=driverRepository.findDriverById(id).getCurrentTask();
-        driverRepository.findDriverById(id).setCurrentTask(null);
-        driverRepository.findDriverById(id).getOrderTasks().add(order);
+        Driver driver= driverRepository.findDriverById(id);
+       driver.setCurrentTask(null);
+        driver.getOrderTasks().add(order);
+        driverRepository.save(driver);
     }
 
     @Override
@@ -56,6 +58,7 @@ public class DriverServiceImpl implements DriverService {
         Order order=orderService.findOrderById(orderId);
         Driver driver=findDriverById(driverId);
         driver.setCurrentTask(order);
+        driverRepository.save(driver);
         OrderViewModel orderViewModel=modelMapper.map(order,OrderViewModel.class);
 
         return orderViewModel;
