@@ -1,13 +1,8 @@
-package com.SoftUni.DriverServiceProject.Models.Entity;
+package com.SoftUni.DriverServiceProject.Models.DTO;
 
 import com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name="subscriptions")
-public class Subscription extends BaseEntity{
-
-
+public class SubscriptionTypeBindingModel {
     private String description;
 
 
@@ -16,10 +11,9 @@ public class Subscription extends BaseEntity{
 
     private SubscriptionEnumName name;
 
-    public Subscription() {
+    public SubscriptionTypeBindingModel() {
     }
 
-    @Column(columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }
@@ -28,7 +22,6 @@ public class Subscription extends BaseEntity{
         this.description = description;
     }
 
-    @Column
     public Float getPriceRate() {
         return priceRate;
     }
@@ -37,8 +30,6 @@ public class Subscription extends BaseEntity{
         this.priceRate = priceRate;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column
     public SubscriptionEnumName getName() {
         return name;
     }

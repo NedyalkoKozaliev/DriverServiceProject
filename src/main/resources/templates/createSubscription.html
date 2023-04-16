@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}"></head>
+
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+<div class="container">
+  <h2 class="text-center text-white"> =Create new Subscription=</h2>
+</div>
+
+<!-- <input type="hidden" id="adminId" name="adminId" th:object="${admin}" th:value="*{admin.id}"> -->
+
+<div  class="container">
+  <form id=addForm method="post"
+      th:action="@{/api/subscriptions}"
+      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+    <div  class="form-group">
+        <label for="description" class="text-white font-weight-bold">Description</label>
+        <input id="description"
+               name="description"
+               type="text"
+               class="form-control"
+               placeholder="description"/>
+    </div>
+    <div  class="form-group">
+        <label for="priceRate" class="text-white font-weight-bold">Price Rate</label>
+        <input id="priceRate"
+               name="priceRate"
+               type="text"
+               class="form-control"
+               placeholder="priceRate"/>
+    </div>
+   
+    <div class="form-group row">
+      <label for="subscription" class="col-sm-2 col-form-label">Subscription Type</label>
+      <div class="col-sm-10">
+        <!-- th:field="*{category}" -->
+          <select  id="name" name="name" class="custom-select"
+                  aria-describedby="subscriptionTypeAdd">
+              <option value="" selected>Subscription</option>
+              <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Sysbscription Type</option>
+             </select>
+<!--          <small id="subscriptionTypeAdd" class="invalid-feedback bg-danger text-light rounded">-->
+<!--              You must select the subscription type.-->
+<!--          </small>-->
+      </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit"
+               class="btn"
+               id="createSubscriptionType"
+               value="Create Subscription Type"/>
+    </div>
+
+</form>
+  
+          </div>
+
+
+          <script th:src="@{/Js/AddNewItem.js}"></script>
+
+<div>
+  <footer></footer>
+</div>
+</body>
+</html>

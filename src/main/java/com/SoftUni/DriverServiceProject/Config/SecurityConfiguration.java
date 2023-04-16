@@ -85,12 +85,12 @@ public class SecurityConfiguration {
 
 
                 // only for admins
-                        requestMatchers("/admins","/admins/manageDrivers").hasRole(UserRoleEnum.Admin.toString()).
+                        requestMatchers("/admins/**").hasRole(UserRoleEnum.Admin.toString()).
 
 
-                requestMatchers("/clients","/clients/**","/clients/makeSubscription").hasRole(UserRoleEnum.Client.toString()).
+                requestMatchers("/clients/**").hasRole(UserRoleEnum.Client.toString()).
 
-                requestMatchers("/drivers").hasRole(UserRoleEnum.Driver.toString()).
+                requestMatchers("/drivers/**").hasRole(UserRoleEnum.Driver.toString()).
 // to add visability about Logout (loged in users should not seening it and the register too)
 
         anyRequest().authenticated().

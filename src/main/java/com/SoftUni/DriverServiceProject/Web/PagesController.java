@@ -21,10 +21,10 @@ public class PagesController {
         return "contacts";
     }
 
-    @GetMapping("/admins")
-    public String admins() {
-        return "admins";
-    }
+//    @GetMapping("/admins")
+//    public String admins() {
+//        return "admins";
+//    }
 
 
 

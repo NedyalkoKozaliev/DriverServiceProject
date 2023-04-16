@@ -34,35 +34,35 @@ public class AdminController {
                 .addAttribute("admin", modelMapper
                         .map(adminService.findAdminById(id), AdminViewModel.class));
 
-        return "admiDash";
+        return "adminDash";
     }
-    @GetMapping("/{id}/createDriver") //----------------> отделно с линк в даша
-
-    public String addDriver(@PathVariable Long id, Model model) {
-
-        model
-                .addAttribute("admin", modelMapper
-                        .map(adminService.findAdminById(id), AdminViewModel.class));
-
-        return "createDriver";
-    }
-
-
-    @GetMapping("/{id}/assignDriverToSubscription") //----------------> в дашборда +++
-
-    public String assignDriverToSub(@PathVariable Long id, Model model) {
-
-        model
-                .addAttribute("admin", modelMapper
-                        .map(adminService.findAdminById(id), AdminViewModel.class));
-
-        List<Driver> drivers=driverService.getAllDrivers();
-
-        model.addAttribute("drivers",drivers);
-
-        return "assignDriverToSubscription";
-    }
-
+//    @GetMapping("/{id}/createDriver") //----------------> отделно с линк в даша
+//
+//    public String addDriver(@PathVariable Long id, Model model) {
+//
+//        model
+//                .addAttribute("admin", modelMapper
+//                        .map(adminService.findAdminById(id), AdminViewModel.class));
+//
+//        return "createDriver";
+//    }
+//
+//
+//    @GetMapping("/{id}/assignDriverToSubscription") //----------------> в дашборда +++
+//
+//    public String assignDriverToSub(@PathVariable Long id, Model model) {
+//
+//        model
+//                .addAttribute("admin", modelMapper
+//                        .map(adminService.findAdminById(id), AdminViewModel.class));
+//
+//        List<Driver> drivers=driverService.getAllDrivers();
+//
+//        model.addAttribute("drivers",drivers);
+//
+//        return "assignDriverToSubscription";
+//    }
+//
     @GetMapping("/{id}/createSubscription") /// ------------------------>отделно с линк в даша
 
     public String newSubscription(@PathVariable Long id, Model model) {
@@ -71,30 +71,30 @@ public class AdminController {
                 .addAttribute("admin", modelMapper
                         .map(adminService.findAdminById(id), AdminViewModel.class));
 
-        return "newSubscription";
+        return "createSubscription";
     }
-
-    @GetMapping("/{id}/createCar")  /// ------------------------>отделно с линк в даша
-
-    public String createCar(@PathVariable Long id, Model model) {
-
-        model
-                .addAttribute("admin", modelMapper
-                        .map(adminService.findAdminById(id), AdminViewModel.class));
-
-        return "createCar";
-    }
-
-    @GetMapping("/{id}/createGarage")  /// ------------------------>отделно с линк в даша
-
-    public String createGarage(@PathVariable Long id, Model model) {
-
-        model
-                .addAttribute("admin", modelMapper
-                        .map(adminService.findAdminById(id), AdminViewModel.class));
-
-        return "createGarage";
-    }
+//
+//    @GetMapping("/{id}/createCar")  /// ------------------------>отделно с линк в даша
+//
+//    public String createCar(@PathVariable Long id, Model model) {
+//
+//        model
+//                .addAttribute("admin", modelMapper
+//                        .map(adminService.findAdminById(id), AdminViewModel.class));
+//
+//        return "createCar";
+//    }
+//
+//    @GetMapping("/{id}/createGarage")  /// ------------------------>отделно с линк в даша
+//
+//    public String createGarage(@PathVariable Long id, Model model) {
+//
+//        model
+//                .addAttribute("admin", modelMapper
+//                        .map(adminService.findAdminById(id), AdminViewModel.class));
+//
+//        return "createGarage";
+//    }
 
 
 

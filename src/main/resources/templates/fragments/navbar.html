@@ -40,7 +40,7 @@
           <a class="nav-link" th:href="@{/clients/{id}(id=${#authentication.principal.id})}">Client Dashboard</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('Admin')">
-          <a class="nav-link" th:href="@{/admins}">Admin Page</a>
+          <a class="nav-link" th:href="@{/admins/{id}/adminDash(id=${#authentication.principal.id})}">Admin Dashboard</a>
         </li>
 
         <li class="nav-item" sec:authorize="hasRole('Driver')">

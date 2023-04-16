@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+
+
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+
+
+
+
+<div class="jumbotron text-center">
+  <div class="container text-light text-center">
+    <h1 class="display-5"><strong class="bg-blur rounded">Admin Dashboard</strong></h1>
+    <h1 class="display-5"><strong class="bg-blur rounded"></strong></h1>
+  </div>
+
+<!--  <div id="subscription_task"   id="subscriptionDetails-${s.id}" class="mt-3 rounded badge-info p-3">-->
+<!--    <span class="p-3" >Type : ${s.subscription.name}</span>-->
+<!--    <span class="p-3" >From : ${s.addressFrom}</span>-->
+<!--    <span class="p-3" >To : ${s.addressTo}</span>-->
+
+<!--    <h1></h1>-->
+
+<!--    <form id="assignForm" method="post"-->
+
+<!--          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">-->
+<!--      <div class="form-group row">-->
+<!--        <label for="subscription" class="col-sm-2 col-form-label">Assign Subscription</label>-->
+<!--        <div class="col-sm-10">-->
+
+<!--          <select  errorclass="is-invalid" id="subscription" name="subscription" class="custom-select"-->
+<!--                   aria-describedby="assign">-->
+<!--            <option value="" selected>Driver</option>-->
+<!--            <option th:each="driver : ${drivers}" th:value="${driver.email}" th:text="${driver.email}">driver</option>-->
+<!--          </select>-->
+<!--          <small id="subscriptionTypeAdd" class="invalid-feedback bg-danger text-light rounded">-->
+<!--            You must select the subscription.-->
+<!--          </small>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <input type="submit"-->
+<!--               class="btn"-->
+<!--               id="assign - ${driver.id}"-->
+<!--               value="Assign"/>-->
+<!--      </div>-->
+<!--    </form>-->
+  </div>
+
+
+  <div class="row">
+
+    <!-- #################################################  New Subscription Type  ################################################## -->
+
+    <div  class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card" style="width: auto">
+        <img src="..." class="card-img-top" alt="...">
+
+        <div class="card-body">
+          <h5 class="card-title">Create new Subscription Option</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a th:href="@{/admins/{id}/createSubscription(id=${#authentication.principal.id})}" class="btn btn-primary">Create</a>
+
+        </div>
+      </div>
+    </div>
+    <!-- #################################################################################################################### -->
+
+    <div  class="col-sm-6 mb-3 mb-sm-0">
+
+      <!-- #########################################################  Create New Car  ########################################################### -->
+
+      <div class="card" style="width: auto">
+        <img src="..." class="card-img-top" alt="...">
+
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ##############################################  Create new Garage ############################################################################## -->
+
+  <div class="row">
+    <div  class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card" style="width: auto">
+        <img src="..." class="card-img-top" alt="...">
+
+        <div class="card-body">
+
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ##########################################################  Info about income ######################################################### -->
+    <div  class="col-sm-6 mb-3 mb-sm-0">
+
+      <div class="card" style="width: auto">
+        <img src="..." class="card-img-top" alt="...">
+
+        <div class="card-body">
+
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+  <footer></footer>
+</div>
+
+</body>
+</html>

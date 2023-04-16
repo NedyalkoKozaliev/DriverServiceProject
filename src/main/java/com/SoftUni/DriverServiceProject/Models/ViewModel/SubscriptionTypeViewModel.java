@@ -1,13 +1,13 @@
-package com.SoftUni.DriverServiceProject.Models.Entity;
+package com.SoftUni.DriverServiceProject.Models.ViewModel;
 
 import com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
-@Entity
-@Table(name="subscriptions")
-public class Subscription extends BaseEntity{
+public class SubscriptionTypeViewModel {
 
-
+    private Long id;
     private String description;
 
 
@@ -16,10 +16,17 @@ public class Subscription extends BaseEntity{
 
     private SubscriptionEnumName name;
 
-    public Subscription() {
+    public SubscriptionTypeViewModel() {
     }
 
-    @Column(columnDefinition = "TEXT")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -28,7 +35,6 @@ public class Subscription extends BaseEntity{
         this.description = description;
     }
 
-    @Column
     public Float getPriceRate() {
         return priceRate;
     }
@@ -37,8 +43,6 @@ public class Subscription extends BaseEntity{
         this.priceRate = priceRate;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column
     public SubscriptionEnumName getName() {
         return name;
     }
