@@ -3,12 +3,15 @@ package com.SoftUni.DriverServiceProject.Web;
 import com.SoftUni.DriverServiceProject.Models.DTO.SubscriptionTypeBindingModel;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.SubscriptionTypeServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionTypeViewModel;
+import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErorrs;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionTypeService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -45,6 +48,14 @@ public class SubscriptionRestController {
                 created(locationOfNewSubscription).
                 body(subscriptionTypeViewModel);
 
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<AppErorrs> onValidationFailure(MethodArgumentNotValidException exc) {
+        AppErorrs appErorrs = new AppErorrs(HttpStatus.BAD_REQUEST);
+        exc.getFieldErrors().forEach(fe ->
+                appErorrs.addFieldWithError(fe.getField()));
+
+        return ResponseEntity.badRequest().body(appErorrs);
     }
 
 }

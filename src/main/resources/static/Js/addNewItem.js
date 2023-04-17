@@ -14,10 +14,25 @@ const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
     const form = event.currentTarget;
     const url = form.action;
     const formData = new FormData(form);
-
+try{
     const responseData= await postFormDataAsJson({url, formData});
 console.log('going to add item')
-    //form.reset();
+    form.reset();
+    }catch{
+    let errorObj = JSON.parse(error.message);
+
+                if (errorObj.fieldWithErrors) {
+                  errorObj.fieldWithErrors.forEach(
+                      e => {
+                        let elementWithError = document.getElementById(e);
+                        if (elementWithError) {
+                          elementWithError.classList.add("is-invalid");
+                        }
+                      }
+
+                  )
+                }
+    }
     }
 
 
@@ -47,6 +62,6 @@ async function postFormDataAsJson({url, formData}) {
     }
 
 
-//form.reset();
+
   return response.json();
 }

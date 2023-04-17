@@ -2,15 +2,22 @@ package com.SoftUni.DriverServiceProject.Models.DTO;
 
 
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class OrderBindingModel {
 
+    @NotNull
+    @Size(min=2)
     private String addressFrom;
 
+    @NotNull
+    @Size(min=2)
     private String addressTo;
 
 
-
+    @Positive
     private Integer numberOfPassengers;
 
     private Long clientId;

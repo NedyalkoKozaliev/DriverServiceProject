@@ -3,12 +3,18 @@ package com.SoftUni.DriverServiceProject.Models.DTO;
 import com.SoftUni.DriverServiceProject.Models.Entity.Subscription;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class SubscriptionOrderBindingModel {
+    @NotNull
+    @Size(min=2)
     private String addressFrom;
-
+    @NotNull
+    @Size(min=2)
     private String addressTo;
-
+    @NotBlank
     private SubscriptionEnumName subscription;
 
     private Long clientId;

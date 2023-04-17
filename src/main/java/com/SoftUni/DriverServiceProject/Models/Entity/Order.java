@@ -1,17 +1,18 @@
 package com.SoftUni.DriverServiceProject.Models.Entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="orders")
 public class Order extends BaseEntity{
 
-    @Column
+    @Column(nullable = false)
     private String addressFrom;
-    @Column
+    @Column(nullable = false)
     private String addressTo;
 
-    @Column
+    @Column(nullable = false)
     private Integer numberOfPassengers;
 
     private Discount discount;

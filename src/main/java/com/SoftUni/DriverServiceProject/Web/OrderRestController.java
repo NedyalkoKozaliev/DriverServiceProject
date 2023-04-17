@@ -5,14 +5,17 @@ import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
+import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErorrs;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -74,22 +77,20 @@ public class OrderRestController {
             @AuthenticationPrincipal UserDetails principal
     ) {
 
-        Optional<OrderViewModel> orderViewModel = orderService.getOrderById(id);
-        return orderViewModel.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        OrderViewModel orderViewModel = orderService.getOrderById(id);
+        return ResponseEntity.ok(orderViewModel);
+       // return orderViewModel.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
-//    private OrderServiceModel mapAsService(OrderBindingModel orderBindingModel) {
-//        OrderServiceModel orderServiceModel = new OrderServiceModel();
-//
-//
-//        orderServiceModel.setAddressTo(orderBindingModel.getAddressTo());
-//        orderServiceModel.setAddressFrom(orderBindingModel.getAddressFrom());
-//        orderServiceModel.setNumberOfPassengers(orderBindingModel.getNumberOfPassengers());
-//        orderServiceModel.setClientId(orderBindingModel.getClientId());
-//
-//
-//        return orderServiceModel;
-//
-//    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<AppErorrs> onValidationFailure(MethodArgumentNotValidException exc) {
+        AppErorrs appErorrs = new AppErorrs(HttpStatus.BAD_REQUEST);
+        exc.getFieldErrors().forEach(fe ->
+                appErorrs.addFieldWithError(fe.getField()));
+
+        return ResponseEntity.badRequest().body(appErorrs);
+    }
 }

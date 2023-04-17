@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface OrderService {
 
     OrderViewModel createOrder(OrderServiceModel orderServiceModel);
-    Optional<OrderViewModel> getOrderById(Long id);
+    OrderViewModel getOrderById(Long id);
 
     Order getOrder(Long id);
 

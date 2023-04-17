@@ -28,7 +28,7 @@ public class Subscription extends BaseEntity{
         this.description = description;
     }
 
-    @Column
+    @Column(nullable = false)
     public Float getPriceRate() {
         return priceRate;
     }

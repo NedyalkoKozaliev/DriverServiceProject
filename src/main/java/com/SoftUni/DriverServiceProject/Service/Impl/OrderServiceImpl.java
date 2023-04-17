@@ -6,6 +6,7 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
+import com.SoftUni.DriverServiceProject.Service.exeptionHandling.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderViewModel> getOrderById(Long id) {
-        return orderRepository.findById(id).map(order -> modelMapper.map(order,OrderViewModel.class));
+    public OrderViewModel getOrderById(Long id){
+        return orderRepository.findById(id).map(order -> modelMapper.map(order,OrderViewModel.class)).
+                orElseThrow(()->new ObjectNotFoundException("Order with id " + id + " was not found!"))
+                ;
     }
 
     @Override

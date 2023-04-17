@@ -32,6 +32,9 @@
                  type="text"
                  class="form-control"
                  placeholder="addressFrom"/>
+          <small id="addressFromError" class="invalid-feedback">
+            Address should be at least 2 characters.
+          </small>
         </div>
         <div  class="form-group">
           <label for="addressTo" class="text-white font-weight-bold">Address To</label>
@@ -40,6 +43,9 @@
                  type="text"
                  class="form-control"
                  placeholder="addressTo"/>
+          <small id="addressToError" class="invalid-feedback">
+            Address should be at least 2 characters.
+          </small>
         </div>
 
         <div class="form-group row">
@@ -51,9 +57,9 @@
               <option value="" selected>Subscription</option>
               <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Subscription Type</option>
             </select>
-<!--            <small id="subscriptionTypeAdd" class="invalid-feedback bg-danger text-light rounded">-->
-<!--              You must select the subscription.-->
-<!--            </small>-->
+            <small id="subscriptionError" class="invalid-feedback">
+             Subscription could not be blank.
+            </small>
           </div>
         </div>
         <div class="form-group">

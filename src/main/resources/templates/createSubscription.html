@@ -28,6 +28,9 @@
                type="text"
                class="form-control"
                placeholder="description"/>
+        <small id="descriptionError" class="invalid-feedback">
+            Description should be at least 5 characters.
+        </small>
     </div>
     <div  class="form-group">
         <label for="priceRate" class="text-white font-weight-bold">Price Rate</label>
@@ -36,6 +39,9 @@
                type="text"
                class="form-control"
                placeholder="priceRate"/>
+        <small id="priceRateError" class="invalid-feedback">
+            Price rate should be positive number.
+        </small>
     </div>
    
     <div class="form-group row">
@@ -47,9 +53,9 @@
               <option value="" selected>Subscription</option>
               <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Sysbscription Type</option>
              </select>
-<!--          <small id="subscriptionTypeAdd" class="invalid-feedback bg-danger text-light rounded">-->
-<!--              You must select the subscription type.-->
-<!--          </small>-->
+          <small id="subscriptiontypeError" class="invalid-feedback">
+              Subscription type could not be blank.
+          </small>
       </div>
     </div>
 

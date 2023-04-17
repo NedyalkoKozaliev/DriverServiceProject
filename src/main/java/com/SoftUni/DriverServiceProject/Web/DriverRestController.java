@@ -64,8 +64,9 @@ public class DriverRestController {
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails principal
     ) {
-        Optional<OrderViewModel> orderViewModel=orderService.getOrderById(driverService.findDriverById(id).getCurrentTask().getId());
-        return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+        OrderViewModel orderViewModel=orderService.getOrderById(driverService.findDriverById(id).getCurrentTask().getId());
+        return ResponseEntity.ok(orderViewModel);
+        //return orderViewModel.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @RequestMapping(value="/api/drivers/{id}/ordersList",

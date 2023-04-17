@@ -9,9 +9,9 @@ import jakarta.persistence.Table;
 @Table(name="subscriptionOrders")
 public class SubscriptionOrder extends BaseEntity{
 
-    @Column
+    @Column(nullable = false)
     private String addressFrom;
-    @Column
+    @Column(nullable = false)
     private String addressTo;
 
     private Subscription subscription;
