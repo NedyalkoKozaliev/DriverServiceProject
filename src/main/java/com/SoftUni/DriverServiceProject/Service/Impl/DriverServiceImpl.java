@@ -49,6 +49,7 @@ public class DriverServiceImpl implements DriverService {
         Order order=driverRepository.findDriverById(id).getCurrentTask();
         Driver driver= driverRepository.findDriverById(id);
        driver.setCurrentTask(null);
+       driver.setAvailable(true);
         driver.getOrderTasks().add(order);
         driverRepository.save(driver);
     }
@@ -64,6 +65,7 @@ public class DriverServiceImpl implements DriverService {
         Order order=orderService.findOrderById(orderId);
         Driver driver=findDriverById(driverId);
         driver.setCurrentTask(order);
+        driver.setAvailable(false);
         driverRepository.save(driver);
         OrderViewModel orderViewModel=modelMapper.map(order,OrderViewModel.class);
 

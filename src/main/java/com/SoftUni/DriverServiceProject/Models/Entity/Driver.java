@@ -2,6 +2,7 @@ package com.SoftUni.DriverServiceProject.Models.Entity;
 
 import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import jakarta.persistence.*;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,9 @@ public class Driver extends BaseEntity {
     private Set<Order> OrderTasks;
 
     private Set<SubscriptionOrder> SubscriptionTasks;
+
+    @Column
+    private boolean isAvailable;
 
 
     public Driver() {
@@ -117,5 +121,13 @@ public class Driver extends BaseEntity {
 
     public void setCurrentTask(Order currentTask) {
         this.currentTask = currentTask;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }
