@@ -14,6 +14,70 @@
   <h2 class="text-center text-white"> = Subscription= A page for drivers</h2>
 </div>
 
+
+<section class="orderCreation">
+  <h1>Order</h1>
+
+  <div class="card" style="width: 18rem;">
+    <!--            <img src="..." class="card-img-top" alt="...">-->
+    <div class="card-body">
+      <form id=subscriptionForm method="post"
+            th:action="@{/api/subscriptionOrders}"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
+        <div  class="form-group">
+          <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
+          <input id="addressFrom"
+                 name="addressFrom"
+                 type="text"
+                 class="form-control"
+                 placeholder="addressFrom"/>
+        </div>
+        <div  class="form-group">
+          <label for="addressTo" class="text-white font-weight-bold">Address To</label>
+          <input id="addressTo"
+                 name="addressTo"
+                 type="text"
+                 class="form-control"
+                 placeholder="addressTo"/>
+        </div>
+
+        <div class="form-group row">
+          <label for="subscription" class="col-sm-2 col-form-label">Subscription</label>
+          <div class="col-sm-10">
+            <!-- th:field="*{category}" -->
+            <select   id="subscription" name="subscription" class="custom-select"
+                     aria-describedby="subscriptionAdd">
+              <option value="" selected>Subscription</option>
+              <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Subscription Type</option>
+            </select>
+<!--            <small id="subscriptionTypeAdd" class="invalid-feedback bg-danger text-light rounded">-->
+<!--              You must select the subscription.-->
+<!--            </small>-->
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="hidden" id="clientId" name="clientId" th:object="${client}" th:value="${client.id}">
+        </div>
+
+        <div class="form-group">
+          <input type="submit"
+                 class="btn"
+                 id="createSubscription"
+                 value="Create Subscription"/>
+        </div>
+
+      </form>
+    </div>
+
+
+
+
+
+  </div>
+</section>
+<script th:src="@{/Js/Subscription.js}"></script>
+
 <div>
   <footer></footer>
 </div>

@@ -37,8 +37,8 @@ public class OrderRestController {
     @RequestMapping(value = "/api/orders",
             produces = "application/json", method = {RequestMethod.POST})
     public ResponseEntity<OrderViewModel> OrderIn(
-            @AuthenticationPrincipal UserDetails principal,@RequestBody
-            @Valid OrderBindingModel orderBindingModel
+            @AuthenticationPrincipal UserDetails principal,
+            @RequestBody @Valid OrderBindingModel orderBindingModel
     ) {
 
         OrderServiceModel orderServiceModel =

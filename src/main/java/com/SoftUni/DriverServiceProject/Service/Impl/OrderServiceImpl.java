@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
                 //mapAsOr(orderServiceModel);
 
 
-       // order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
+        order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
 
 
         orderRepository.save(order);

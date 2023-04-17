@@ -1,6 +1,7 @@
 package com.SoftUni.DriverServiceProject.Service.Impl;
 
 import com.SoftUni.DriverServiceProject.Models.Entity.Subscription;
+import com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.SubscriptionTypeServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionTypeViewModel;
 import com.SoftUni.DriverServiceProject.Repository.SubscriptionRepository;
@@ -27,5 +28,11 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         subscriptionRepository.save(subscription);
         return modelMapper.map(subscription,SubscriptionTypeViewModel.class);
 
+    }
+
+    @Override
+    public Subscription getSubscriptionByName(SubscriptionEnumName subscription) {
+        Subscription subscription1=subscriptionRepository.findSubscriptionByName(subscription);
+        return subscription1;
     }
 }
