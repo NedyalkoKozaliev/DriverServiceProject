@@ -18,6 +18,9 @@ public class SubscriptionOrder extends BaseEntity{
 
     private User client;
 
+    @Column
+    private boolean isAssigned;
+
     public SubscriptionOrder() {
     }
 
@@ -53,5 +56,13 @@ public class SubscriptionOrder extends BaseEntity{
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public boolean isAssigned() {
+        return isAssigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        isAssigned = assigned;
     }
 }

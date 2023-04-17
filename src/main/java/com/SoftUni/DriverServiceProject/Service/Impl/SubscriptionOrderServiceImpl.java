@@ -11,6 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class SubscriptionOrderServiceImpl implements SubscriptionOrderService {
     private final ModelMapper modelMapper;
@@ -36,5 +39,17 @@ public class SubscriptionOrderServiceImpl implements SubscriptionOrderService {
 
 
         return modelMapper.map(subscriptionOrder, SubscriptionOrderViewModel.class);
+    }
+
+    @Override
+    public List<SubscriptionOrder> findNotAssigned() {
+
+        return subscriptionOrderRepository.findAll().stream().filter(subscriptionOrder -> !subscriptionOrder.isAssigned()).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public SubscriptionOrder findSubscriptionOrderById(Long subscriptionId) {
+        return subscriptionOrderRepository.findSubscriptionOrderById(subscriptionId);
     }
 }

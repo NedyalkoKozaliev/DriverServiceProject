@@ -1,9 +1,11 @@
 package com.SoftUni.DriverServiceProject.Web;
 
 
+import com.SoftUni.DriverServiceProject.Models.DTO.AssignSubscriptionBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionOrderViewModel;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
@@ -75,6 +77,24 @@ public class DriverRestController {
             @RequestBody @Valid OrderViewModel orderViewModel){
 
         driverService.finishOrder(id);
+
+
+
+        return ResponseEntity.
+                noContent().
+                build();
+
+    }
+
+    @RequestMapping(value="/api/drivers/{id}/SubscriptionTasks",
+            produces="application/json",
+            method = {RequestMethod.PUT})
+    public ResponseEntity<SubscriptionOrderViewModel> assignTask(
+            @AuthenticationPrincipal UserDetails principal,
+            @PathVariable Long id,
+            @RequestBody @Valid AssignSubscriptionBindingModel assignSubscriptionBindingModel){
+
+        driverService.assignSubscription(id,assignSubscriptionBindingModel.getSubscriptionId());
 
 
 

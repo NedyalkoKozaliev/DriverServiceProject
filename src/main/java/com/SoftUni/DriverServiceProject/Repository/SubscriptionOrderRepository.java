@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubscriptionOrderRepository extends JpaRepository<SubscriptionOrder, Long> {
+
+    SubscriptionOrder findSubscriptionOrderById(Long subscriptionId);
+
 }

@@ -18,4 +18,10 @@ public interface DriverService {
     List<Driver> getAllDrivers();
 
     OrderViewModel assignOrder(Long driverId, Long orderId);
+
+
+    List<Driver> findAll();
+
+    void assignSubscription(Long id, Long subscriptionId);
+
 }

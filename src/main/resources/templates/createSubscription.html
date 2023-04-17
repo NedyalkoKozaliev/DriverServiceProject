@@ -39,10 +39,10 @@
     </div>
    
     <div class="form-group row">
-      <label for="subscription" class="col-sm-2 col-form-label">Subscription Type</label>
+      <label for="subscriptiontype" class="col-sm-2 col-form-label">Subscription Type</label>
       <div class="col-sm-10">
         <!-- th:field="*{category}" -->
-          <select  id="name" name="name" class="custom-select"
+          <select  id="subscriptiontype" name="name" class="custom-select"
                   aria-describedby="subscriptionTypeAdd">
               <option value="" selected>Subscription</option>
               <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Sysbscription Type</option>

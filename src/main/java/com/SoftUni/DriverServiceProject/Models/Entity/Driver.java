@@ -77,7 +77,7 @@ public class Driver extends BaseEntity {
         OrderTasks = orderTasks;
     }
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     public Set<SubscriptionOrder> getSubscriptionTasks() {
         return SubscriptionTasks;
     }
