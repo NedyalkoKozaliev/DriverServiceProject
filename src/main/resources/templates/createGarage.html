@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}"></head>
+
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+<div class="container">
+  <h2 class="text-center text-white"> = Create garage = A page for drivers</h2>
+</div>
+
+<div class="card" style="width: auto">
+  <!--            <img src="..." class="card-img-top" alt="...">-->
+              <div class="card-body">
+                  <form id=addForm method="post"
+                        th:action="@{/api/garages}"
+                        class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+  <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
+                      <div  class="form-group">
+                          <label for="address" class="text-white font-weight-bold">Address</label>
+                          <input id="address"
+                                 name="address"
+                                 type="text"
+                                 class="form-control"
+                                 placeholder="address"/>
+                      </div>
+                    
+
+                      <div class="form-group">
+                          <input type="submit"
+                                 class="btn"
+                                 id="postOrder"
+                                 value="Post Order"/>
+                      </div>
+ 
+                  </form>
+              </div>
+  
+  
+  
+  
+  
+          </div>
+      
+
+
+
+          <script th:src="@{/Js/AddNewitem.js}"></script>
+
+<div>
+  <footer></footer>
+</div>
+</body>
+</html>

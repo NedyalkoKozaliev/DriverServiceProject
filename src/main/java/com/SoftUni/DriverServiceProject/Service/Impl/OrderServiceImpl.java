@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
        BigDecimal perkm= BigDecimal.valueOf(2.00);
         BigDecimal price=BigDecimal.valueOf(distanceAndDurationDto.getRows().getElemnts().getDistance().getValue()).multiply(perkm);
         order.setPrice(price);
+        order.setApproved(false);
 
 
 
@@ -90,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderViewModel> getAllOrders() {
 
     List<OrderViewModel> orders=orderRepository.findAll().
-            stream().
+            stream().filter(order -> !order.isApproved()).
             map(order->modelMapper.map(order,OrderViewModel.class)).collect(Collectors.toList());
             if (orders.isEmpty()){
                 throw new NullPointerException("No pending order");

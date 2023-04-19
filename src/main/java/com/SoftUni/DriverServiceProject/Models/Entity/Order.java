@@ -21,6 +21,7 @@ public class Order extends BaseEntity{
     private BigDecimal price;
 
     private User client;
+    private boolean approved;
 
     public Order() {
     }
@@ -75,5 +76,13 @@ public class Order extends BaseEntity{
     public Order setPrice(BigDecimal price) {
         this.price = price;
         return this;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

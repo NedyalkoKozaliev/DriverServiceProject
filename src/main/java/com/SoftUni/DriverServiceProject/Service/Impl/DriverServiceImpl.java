@@ -5,6 +5,7 @@ import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.SubscriptionOrder;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
+import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionOrderService;
@@ -23,14 +24,17 @@ public class DriverServiceImpl implements DriverService {
     private final ModelMapper modelMapper;
 
     private final SubscriptionOrderService subscriptionOrderService;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public DriverServiceImpl(DriverRepository driverRepository, OrderService orderService, ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService) {
+    public DriverServiceImpl(DriverRepository driverRepository, OrderService orderService, ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService,
+                             OrderRepository orderRepository) {
         this.driverRepository = driverRepository;
         this.orderService = orderService;
         this.modelMapper = modelMapper;
 
         this.subscriptionOrderService = subscriptionOrderService;
+        this.orderRepository = orderRepository;
     }
 
 
@@ -63,6 +67,8 @@ public class DriverServiceImpl implements DriverService {
     public OrderViewModel assignOrder(Long driverId, Long orderId) {
 
         Order order=orderService.findOrderById(orderId);
+        order.setApproved(true);
+        orderRepository.save(order);
         Driver driver=findDriverById(driverId);
         driver.setCurrentTask(order);
         driver.setAvailable(false);

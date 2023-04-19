@@ -21,26 +21,12 @@ public class PagesController {
         return "contacts";
     }
 
-//    @GetMapping("/admins")
-//    public String admins() {
-//        return "admins";
-//    }
+    @GetMapping("/youAreBusy")
+    public String busy() {
+        return "youAreBusy";
+    }
 
 
-
-//    @GetMapping("/orders")
-//    public String createOrder() {
-//        return "order";
-//    }
-
-
-
-
-//
-//    @GetMapping("/drivers")
-//    public String drivers() {
-//        return "driver";
-//    }
 }
 
 
