@@ -45,8 +45,8 @@ public class SubscriptionOrderRestController {
         URI locationOfNewSubscriptionOrder =
               URI.create(String.format("/api/subscriptionOrders/%s", subscriptionOrderViewModel.getId()));
         return ResponseEntity.
-                created(locationOfNewSubscriptionOrder).
-                body(subscriptionOrderViewModel);
+                noContent().
+                build();
 
 
     }

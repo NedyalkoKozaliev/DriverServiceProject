@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderViewModel createOrder(OrderServiceModel orderServiceModel) throws IOException, InterruptedException {
+    public OrderViewModel createOrder(OrderServiceModel orderServiceModel)  {
 
         Order order=modelMapper.map(orderServiceModel,Order.class);
                 //mapAsOr(orderServiceModel);
@@ -44,11 +44,11 @@ public class OrderServiceImpl implements OrderService {
         order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
 
 
-            DistanceAndDurationDto distanceAndDurationDto=
-                    distanceAndDurationService.Route(orderServiceModel.getAddressFrom(),orderServiceModel.getAddressTo());
-       BigDecimal perkm= BigDecimal.valueOf(2.00);
-        BigDecimal price=BigDecimal.valueOf(distanceAndDurationDto.getRows().getElemnts().getDistance().getValue()).multiply(perkm);
-        order.setPrice(price);
+//            DistanceAndDurationDto distanceAndDurationDto=
+//                    distanceAndDurationService.Route(orderServiceModel.getAddressFrom(),orderServiceModel.getAddressTo());
+//       BigDecimal perkm= BigDecimal.valueOf(2.00);
+//        BigDecimal price=BigDecimal.valueOf(distanceAndDurationDto.getRows().getElemnts().getDistance().getValue()).multiply(perkm);
+//        order.setPrice(price);
         order.setApproved(false);
 
 

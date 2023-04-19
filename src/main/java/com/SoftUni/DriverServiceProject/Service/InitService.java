@@ -1,20 +1,16 @@
 package com.SoftUni.DriverServiceProject.Service;
 
-import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
-import com.SoftUni.DriverServiceProject.Models.Entity.DriverRole;
-import com.SoftUni.DriverServiceProject.Models.Entity.User;
-import com.SoftUni.DriverServiceProject.Models.Entity.UserRole;
+import com.SoftUni.DriverServiceProject.Models.Entity.*;
 import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
-import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
-import com.SoftUni.DriverServiceProject.Repository.DriverRoleRepository;
-import com.SoftUni.DriverServiceProject.Repository.UserRepository;
-import com.SoftUni.DriverServiceProject.Repository.UserRoleRepository;
+import com.SoftUni.DriverServiceProject.Repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum.PassengerCar;
 
 @Service
 public class InitService {
@@ -25,16 +21,20 @@ public class InitService {
     private final DriverRepository driverRepository;
 
     private final DriverRoleRepository driverRoleRepository;
+    private final CarRepository carRepository;
+
     @Autowired
     public InitService(UserRoleRepository userRoleRepository,
                        UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
-                       DriverRepository driverRepository, DriverRoleRepository driverRoleRepository) {
+                       DriverRepository driverRepository, DriverRoleRepository driverRoleRepository,
+                       CarRepository carRepository) {
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.driverRepository = driverRepository;
         this.driverRoleRepository = driverRoleRepository;
+        this.carRepository = carRepository;
     }
 
     @PostConstruct
@@ -100,6 +100,8 @@ public class InitService {
         userRepository.save(clientUser);
     }
 
+
+
     private void initDriver(){
 
         var driverRole = driverRoleRepository.
@@ -111,6 +113,7 @@ public class InitService {
                 driver.setLastName("Stamatov");
                 driver.setPassword(passwordEncoder.encode("stamat"));
                 driver.setRoles(List.of(driverRole));
+
 
         driverRepository.save(driver);
     }

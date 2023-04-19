@@ -43,7 +43,7 @@ public class OrderRestController {
     public ResponseEntity<OrderViewModel> OrderIn(
             @AuthenticationPrincipal UserDetails principal,
             @RequestBody @Valid OrderBindingModel orderBindingModel
-    ) throws IOException, InterruptedException {
+    ) {
 
         OrderServiceModel orderServiceModel =
                 //mapAsService(orderBindingModel);

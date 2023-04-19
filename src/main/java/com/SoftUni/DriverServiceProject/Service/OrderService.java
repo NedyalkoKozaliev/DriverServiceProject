@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface OrderService {
 
-    OrderViewModel createOrder(OrderServiceModel orderServiceModel) throws IOException, InterruptedException;
+    OrderViewModel createOrder(OrderServiceModel orderServiceModel) ;
     OrderViewModel getOrderById(Long id);
 
     Order getOrder(Long id);
