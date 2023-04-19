@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
@@ -42,7 +43,7 @@ public class OrderRestController {
     public ResponseEntity<OrderViewModel> OrderIn(
             @AuthenticationPrincipal UserDetails principal,
             @RequestBody @Valid OrderBindingModel orderBindingModel
-    ) {
+    ) throws IOException, InterruptedException {
 
         OrderServiceModel orderServiceModel =
                 //mapAsService(orderBindingModel);

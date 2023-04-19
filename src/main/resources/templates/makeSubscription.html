@@ -16,14 +16,16 @@
 
 
 <section class="orderCreation">
-  <h1>Order</h1>
-
-  <div class="card" style="width: 18rem;">
+  <div class="container text-light text-center">
+    <h1 class="display-5"><strong class="bg-blur rounded text-primary">Make Subscription</strong></h1>
+    <h1 class="display-5"><strong class="bg-blur rounded"></strong></h1>
+  </div>
+  <div class="card" >
     <!--            <img src="..." class="card-img-top" alt="...">-->
     <div class="card-body">
       <form id=subscriptionForm method="post"
             th:action="@{/api/subscriptionOrders}"
-            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+            class="main-form mx-auto justify-content-center">
         <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
         <div  class="form-group">
           <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
@@ -53,12 +55,12 @@
           <div class="col-sm-10">
             <!-- th:field="*{category}" -->
             <select   id="subscription" name="subscription" class="custom-select"
-                     aria-describedby="subscriptionAdd">
+                      aria-describedby="subscriptionAdd">
               <option value="" selected>Subscription</option>
               <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Subscription Type</option>
             </select>
             <small id="subscriptionError" class="invalid-feedback">
-             Subscription could not be blank.
+              Subscription could not be blank.
             </small>
           </div>
         </div>

@@ -46,18 +46,18 @@ public class AdminController {
 
         return "adminDash";
     }
-//    @GetMapping("/{id}/createDriver") //----------------> отделно с линк в даша
-//
-//    public String addDriver(@PathVariable Long id, Model model) {
-//
-//        model
-//                .addAttribute("admin", modelMapper
-//                        .map(adminService.findAdminById(id), AdminViewModel.class));
-//
-//        return "createDriver";
-//    }
-//
-//
+    @GetMapping("/{id}/createDriver")
+
+    public String addDriver(@PathVariable Long id, Model model) {
+
+        model
+                .addAttribute("admin", modelMapper
+                        .map(adminService.findAdminById(id), AdminViewModel.class));
+
+        return "createDriver";
+    }
+
+
 //    @GetMapping("/{id}/assignDriverToSubscription") //----------------> в дашборда +++
 //
 //    public String assignDriverToSub(@PathVariable Long id, Model model) {
@@ -83,28 +83,28 @@ public class AdminController {
 
         return "createSubscription";
     }
-//
-//    @GetMapping("/{id}/createCar")  /// ------------------------>отделно с линк в даша
-//
-//    public String createCar(@PathVariable Long id, Model model) {
-//
-//        model
-//                .addAttribute("admin", modelMapper
-//                        .map(adminService.findAdminById(id), AdminViewModel.class));
-//
-//        return "createCar";
-//    }
-//
-//    @GetMapping("/{id}/createGarage")  /// ------------------------>отделно с линк в даша
-//
-//    public String createGarage(@PathVariable Long id, Model model) {
-//
-//        model
-//                .addAttribute("admin", modelMapper
-//                        .map(adminService.findAdminById(id), AdminViewModel.class));
-//
-//        return "createGarage";
-//    }
+
+    @GetMapping("/{id}/createCar")
+
+    public String createCar(@PathVariable Long id, Model model) {
+
+        model
+                .addAttribute("admin", modelMapper
+                        .map(adminService.findAdminById(id), AdminViewModel.class));
+
+        return "createCar";
+    }
+
+    @GetMapping("/{id}/createGarage")
+
+    public String createGarage(@PathVariable Long id, Model model) {
+
+        model
+                .addAttribute("admin", modelMapper
+                        .map(adminService.findAdminById(id), AdminViewModel.class));
+
+        return "createGarage";
+    }
 
 
 

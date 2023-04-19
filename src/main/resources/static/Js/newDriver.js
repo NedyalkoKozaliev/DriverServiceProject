@@ -24,6 +24,7 @@ const driverId
 
                     orderHtml+=  `<span class="p-3" >From  ${o.addressFrom}</span>`
                      orderHtml+= `<span class="p-3" >To  ${o.addressTo}</span>`
+                     orderHtml+= `<span class="p-3" >${o.price} BGN</span>`
 
                          orderHtml+= `<button type="submit" class="button" id="${o.id}" data-id=${o.id}>Take task</button>`
          orderHtml+=`</div>`
@@ -97,7 +98,7 @@ const response = await fetch(url, fetchOptions);
               const CurrentOrder=document.getElementById('task')
 
                     CurrentOrder.innerHTML=
-                    ` <div id="task" class="mt-3 rounded badge-info p-3">
+                    ` <div >
 
                       <span class="p-3" >${order.addressFrom}</span>
                       <span class="p-3" >${order.addressTo}</span>
@@ -117,10 +118,11 @@ const response = await fetch(url, fetchOptions);
                  const CurrentOrder=document.getElementById('task')
 
                                      CurrentOrder.innerHTML=
-                                     ` <div id="task" class="mt-3 rounded badge-info p-3">
+                                     ` <div>
 
                                        <span class="p-3" >...</span>
-                                       <span class="p-3" >...</span>`
+                                       <span class="p-3" >...</span>
+                                       </div>`
 
                            FinishedOrders()
                         }

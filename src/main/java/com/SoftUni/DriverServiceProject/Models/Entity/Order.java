@@ -3,6 +3,8 @@ package com.SoftUni.DriverServiceProject.Models.Entity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name="orders")
 public class Order extends BaseEntity{
@@ -15,7 +17,8 @@ public class Order extends BaseEntity{
     @Column(nullable = false)
     private Integer numberOfPassengers;
 
-    private Discount discount;
+//    private Discount discount;
+    private BigDecimal price;
 
     private User client;
 
@@ -46,14 +49,14 @@ public class Order extends BaseEntity{
         this.numberOfPassengers = numberOfPassengers;
     }
 
-    @ManyToOne
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
-    }
+//    @ManyToOne
+//    public Discount getDiscount() {
+//        return discount;
+//    }
+//
+//    public void setDiscount(Discount discount) {
+//        this.discount = discount;
+//    }
 
     @ManyToOne
     public User getClient() {
@@ -62,5 +65,15 @@ public class Order extends BaseEntity{
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    @Column(columnDefinition="Decimal(10,2) default '0.00'")
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public Order setPrice(BigDecimal price) {
+        this.price = price;
+        return this;
     }
 }

@@ -1,57 +1,67 @@
-    <!DOCTYPE html>
-    <html lang="en"
-          xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{fragments/head::head}"></head>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}"></head>
 
 
-    <body>
+<body>
 
-    <div th:replace="~{fragments/navbar :: navbar}">
-      Navbar
+<div th:replace="~{fragments/navbar :: navbar}">
+
+</div>
+<!--<input type="hidden" id="driverId" name="driverId" th:object="${driver}" th:value="${driver.id}">-->
+<input type="hidden" id="driverId" name="driverId"  th:value="${driver.id}">
+
+
+<div>
+
+    <div class="container">
+        <h1 class="display-5 text-center"><strong class="bg-blur rounded">Driver Dashboard</strong></h1>
+        <h1 class="display-5"><strong class="bg-blur rounded"></strong></h1>
     </div>
-    <!--<input type="hidden" id="driverId" name="driverId" th:object="${driver}" th:value="${driver.id}">-->
-    <input type="hidden" id="driverId" name="driverId"  th:value="${driver.id}">
 
 
+</div>
+
+<div id="tasks" class="container-fluid" th:object="${driver}">
+
+    <div id="orderTask"  class=" mt-3 rounded badge-info p-3">
         <div>
+            <span class="p-3" >From  ....</span>
+            <span class="p-3" >To  ....</span>
+            <span class="p-3" > ....</span>
+            <button type="submit" class="button" id="${o.id}" data-id=${o.id}>Take task</button>
 
-          <div class="container">
-            <h2 class="text-center text-white">A page for driversDash</h2>
-          </div>
 
 
         </div>
 
-        <div id="tasks" class="container" th:object="${driver}">
 
-          <div id="orderTask"  class="row mt-3 mb-3 ">
-
-              the text
-
-          </div>
-
-        </div>
-
-        <div id="task" class="card-box" th:object="${driver}">
-        <!--  <img src=${album.imageUrl}>-->
-          <div>
-            <div class="text-center">
-              <p class="from">Address from</p>
-              <p class="to">Address to</p>
-            </div>
-            <div class="btn-group">
-              <a  id="details">Done</a>
-            </div>
-          </div>
-
-        </div>
-
-
-
-    <script th:src="@{/Js/newDriver.js}"></script>
-    <div>
-      <footer></footer>
     </div>
+</div>
 
-    </body>
-    </html>
+
+
+    <div id="task" class="container-fluid" th:object="${driver}">
+        <!--  <img src=${album.imageUrl}>-->
+        <div>
+            <div id="taskss" class="mt-3 rounded badge-info p-3">
+
+                <span class="p-3" >....</span>
+                <span class="p-3" >....</span>
+                <div class="btn-group">
+
+                    <button class="finish_order" type="button" id="done" name="done">Done</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script th:src="@{/Js/newDriver.js}"></script>
+        <div>
+            <footer></footer>
+        </div>
+
+</body>
+
+</html>

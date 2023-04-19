@@ -7,14 +7,14 @@
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}">
-    Navbar
+
 </div>
 <input type="hidden" id="id" name="id" th:object="${user}" th:value="${user.id}">
 <div class="container">
-    <h2 class="text-center text-white">Change UserName</h2>
+    <h2 class="text-center text">Change UserName</h2>
 </div>
 
-<div class="card" style="width: 18rem;">
+<div class="card text-center" >
 
     <div class="card-body">
         <form id=emailForm method="put"

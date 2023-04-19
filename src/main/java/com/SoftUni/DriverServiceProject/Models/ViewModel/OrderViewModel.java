@@ -1,5 +1,7 @@
 package com.SoftUni.DriverServiceProject.Models.ViewModel;
 
+import java.math.BigDecimal;
+
 public class OrderViewModel {
 
     private Long id;
@@ -9,6 +11,8 @@ public class OrderViewModel {
 
 
     private Integer numberOfPassengers;
+
+    private BigDecimal price;
 
     public OrderViewModel() {
     }
@@ -43,5 +47,14 @@ public class OrderViewModel {
 
     public void setNumberOfPassengers(Integer numberOfPassengers) {
         this.numberOfPassengers = numberOfPassengers;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public OrderViewModel setPrice(BigDecimal price) {
+        this.price = price;
+        return this;
     }
 }

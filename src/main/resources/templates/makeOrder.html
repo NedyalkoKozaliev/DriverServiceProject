@@ -10,78 +10,77 @@
     Navbar
 </div>
 <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">
-    <div class="container">
-        <h2 class="text-center text-white">A page for Making of order</h2>
+
+<section class="orderCreation-fluid">
+    <div class="container text-light text-center">
+        <h1 class="display-5"><strong class="bg-blur rounded text-primary">Post Order</strong></h1>
+        <h1 class="display-5"><strong class="bg-blur rounded"></strong></h1>
     </div>
+    <div class="card-fluid" >
+        <!--            <img src="..." class="card-img-top" alt="...">-->
+        <div class="card-body">
+            <form id=orderForm method="post"
+                  th:action="@{/api/orders}"
+                  class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+                <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
+                <div  class="form-group">
+                    <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
+                    <input id="addressFrom"
+                           name="addressFrom"
+                           type="text"
+                           class="form-control"
+                           placeholder="addressFrom"/>
+                    <small id="addressFromError" class="invalid-feedback">
+                        Address should be at least 2 characters.
+                    </small>
+                </div>
+                <div  class="form-group">
+                    <label for="addressTo" class="text-white font-weight-bold">Address To</label>
+                    <input id="addressTo"
+                           name="addressTo"
+                           type="text"
+                           class="form-control"
+                           placeholder="addressTo"/>
+                    <small id="addressToError" class="invalid-feedback">
+                        Address should be at least 2 characters.
+                    </small>
+                </div>
+                <div  class="form-group">
+                    <label for="numberOfPassengers" class="text-white font-weight-bold">Number Of Passengers</label>
+                    <input id="numberOfPassengers"
+                           name="numberOfPassengers"
+                           type="number"
+                           class="form-control"
+                           placeholder="numberOfPassengers"/>
+                    <small id="numberOfPassengersError" class="invalid-feedback">
+                        Number of passengers should be positive number.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" id="clientId" name="clientId" th:object="${client}" th:value="${client.id}">
+                </div>
+                <div class="form-group">
+                    <input type="submit"
+                           class="btn"
+                           id="postOrder"
+                           value="Post Order"/>
+                </div>
+                <!--                    th:href="@{/clients/{id}(id = *{id})}"-->
 
-    <section class="orderCreation">
-        <h1>Order</h1>
-
-        <div class="card" style="width: 18rem;">
-<!--            <img src="..." class="card-img-top" alt="...">-->
-            <div class="card-body">
-                <form id=orderForm method="post"
-                      th:action="@{/api/orders}"
-                      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
-<!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
-                    <div  class="form-group">
-                        <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
-                        <input id="addressFrom"
-                               name="addressFrom"
-                               type="text"
-                               class="form-control"
-                               placeholder="addressFrom"/>
-                        <small id="addressFromError" class="invalid-feedback">
-                            Address should be at least 2 characters.
-                        </small>
-                    </div>
-                    <div  class="form-group">
-                        <label for="addressTo" class="text-white font-weight-bold">Address To</label>
-                        <input id="addressTo"
-                               name="addressTo"
-                               type="text"
-                               class="form-control"
-                               placeholder="addressTo"/>
-                        <small id="addressToError" class="invalid-feedback">
-                            Address should be at least 2 characters.
-                        </small>
-                    </div>
-                    <div  class="form-group">
-                        <label for="numberOfPassengers" class="text-white font-weight-bold">Number Of Passengers</label>
-                        <input id="numberOfPassengers"
-                               name="numberOfPassengers"
-                               type="number"
-                               class="form-control"
-                               placeholder="numberOfPassengers"/>
-                        <small id="numberOfPassengersError" class="invalid-feedback">
-                            Number of passengers should be positive number.
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <input type="hidden" id="clientId" name="clientId" th:object="${client}" th:value="${client.id}">
-                    </div>
-                    <div class="form-group">
-                        <input type="submit"
-                               class="btn"
-                               id="postOrder"
-                               value="Post Order"/>
-                    </div>
-<!--                    th:href="@{/clients/{id}(id = *{id})}"-->
-
-<!--                    <a  type="submit" class="btn btn-primary">Order</a>-->
-                </form>
-            </div>
-
-
-
-
-
+                <!--                    <a  type="submit" class="btn btn-primary">Order</a>-->
+            </form>
         </div>
-    </section>
-<script th:src="@{/Js/Orders.js}"></script>
-    <div>
-        <footer></footer>
+
+
+
+
+
     </div>
+</section>
+<script th:src="@{/Js/Orders.js}"></script>
+<div>
+    <footer></footer>
+</div>
 
 </body>
 </html>

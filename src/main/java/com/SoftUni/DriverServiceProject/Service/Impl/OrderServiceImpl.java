@@ -1,18 +1,21 @@
 package com.SoftUni.DriverServiceProject.Service.Impl;
 
+import com.SoftUni.DriverServiceProject.Models.DTO.DistanceAndDurationDto;
 import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
+import com.SoftUni.DriverServiceProject.Service.DistanceAndDurationService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import com.SoftUni.DriverServiceProject.Service.exeptionHandling.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,22 +23,33 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
     private final ClientService clientService;
+
+    private final DistanceAndDurationService distanceAndDurationService;
 @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService, DistanceAndDurationService distanceAndDurationService) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
     this.clientService = clientService;
+    this.distanceAndDurationService = distanceAndDurationService;
 }
 
 
     @Override
-    public OrderViewModel createOrder(OrderServiceModel orderServiceModel) {
+    public OrderViewModel createOrder(OrderServiceModel orderServiceModel) throws IOException, InterruptedException {
 
         Order order=modelMapper.map(orderServiceModel,Order.class);
                 //mapAsOr(orderServiceModel);
 
 
         order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
+
+
+            DistanceAndDurationDto distanceAndDurationDto=
+                    distanceAndDurationService.Route(orderServiceModel.getAddressFrom(),orderServiceModel.getAddressTo());
+       BigDecimal perkm= BigDecimal.valueOf(2.00);
+        BigDecimal price=BigDecimal.valueOf(distanceAndDurationDto.getRows().getElemnts().getDistance().getValue()).multiply(perkm);
+        order.setPrice(price);
+
 
 
         orderRepository.save(order);
