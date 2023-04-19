@@ -46,6 +46,9 @@
         <li class="nav-item" sec:authorize="hasRole('Driver')">
           <a class="nav-link" th:href="@{/drivers/{id}(id=${#authentication.principal.id})}">Driver Dashboard</a>
         </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('Client','Admin')">
+          <a class="nav-link" th:href="@{/users/{id}(id=${#authentication.principal.id})}">Change UserName</a>
+        </li>
 
 
         <!-- Logout start -->

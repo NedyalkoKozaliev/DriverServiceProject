@@ -14,7 +14,7 @@ public class LoginController {
         return "auth-login";
     }
 
-    // POST (username: admin@example.com, password: bad) -> 301 (Location: /users/login)
+
 
     @PostMapping("/users/login-error")
     public String onFailedLogin(

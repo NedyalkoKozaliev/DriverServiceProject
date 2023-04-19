@@ -85,5 +85,10 @@ public class DriverServiceImpl implements DriverService {
         driverRepository.save(driver);
     }
 
+    @Override
+    public Driver findByEmail(String email) {
+        return driverRepository.findDriverByEmail(email);
+    }
+
 
 }

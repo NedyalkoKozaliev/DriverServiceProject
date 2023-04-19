@@ -79,7 +79,7 @@ return orderHtml;
       const fetchOptions = {
            method: "PUT",
            headers: {
-             [csrfHeaderName] : csrfHeaderValue,
+[csrfHeaderName] : csrfHeaderValue,
              "Content-Type" : "application/json",
              "Accept" :"application/json"
            },
@@ -146,7 +146,7 @@ async function FinishedOrders(){
             const fetchOptions = {
                  method: "PUT",
                  headers: {
-                   [csrfHeaderName] : csrfHeaderValue,
+[csrfHeaderName] : csrfHeaderValue,
                    "Content-Type" : "application/json",
                    "Accept" :"application/json"
                  },

@@ -24,4 +24,6 @@ public interface DriverService {
 
     void assignSubscription(Long id, Long subscriptionId);
 
+    Driver findByEmail(String email);
+
 }

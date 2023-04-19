@@ -8,11 +8,18 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 public class TakeOrderInterceptor implements HandlerInterceptor {
 
+    private  final DriverService driverService;
+
+    public TakeOrderInterceptor(DriverService driverService) {
+        this.driverService = driverService;
+    }
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        Driver driver = (Driver) request.getUserPrincipal();
+        Driver driver=driverService.findByEmail(request.getUserPrincipal().getName());
+        //Driver driver = (Driver) request.getUserPrincipal();
 
         System.out.println("in the interceptor");
         if (!driver.isAvailable()) {
