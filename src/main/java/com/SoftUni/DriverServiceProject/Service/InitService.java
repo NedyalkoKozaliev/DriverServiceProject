@@ -88,7 +88,7 @@ public class InitService {
     private void initClient(){
 
         var clientRole = userRoleRepository.
-                findUserRoleByRole(UserRoleEnum.Client).orElseThrow();
+                findUserRoleByRole(UserRoleEnum.Client);
 
         var clientUser = new User();
                 clientUser.setEmail("ivan@example.com");
