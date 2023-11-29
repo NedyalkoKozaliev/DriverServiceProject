@@ -11,8 +11,7 @@ import java.util.function.Consumer;
 public interface UserService {
     void changeUserName(ChangeUserNameModel changeUserName);
 
-    void registerUser(UserServiceModel userServiceModel);
-                      //Consumer<Authentication> successfulLoginProcessor);
+    void registerUser(UserServiceModel userServiceModel,Consumer<Authentication> successfulLoginProcessor);
 
     User findUserById(Long id);
 }

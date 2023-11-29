@@ -45,10 +45,11 @@ public class SecurityConfiguration {
         this.driverRepository = driverRepository;
     }
 
-
+    @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
       return new ApplicationUserDetailsService(userRepository);}
 
+    @Bean
     public UserDetailsService driverDetailsService(DriverRepository driverRepository){
        return new ApplicationDriverDetailsService(driverRepository);
     }
@@ -76,41 +77,26 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager aut) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager aut,SecurityContextRepository securityContextRepository) throws Exception {
 
         http.
-                // defines which pages will be authorized
-                        authorizeHttpRequests().
-                // allow access to all static files (images, CSS, js)
-                        requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
-                // the URL-s below are available for all users - logged in and anonymous
-                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error","/aboutus","/contacts").permitAll().
-
-
-
-                // only for admins
-                        requestMatchers("/admins/**").hasRole(UserRoleEnum.Admin.toString()).
-
-
+                authorizeHttpRequests().
+                requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
+                requestMatchers("/", "/users/login", "/users/register", "/users/login-error","/aboutus","/contacts").permitAll().
+                requestMatchers("/admins/**").hasRole(UserRoleEnum.Admin.toString()).
                 requestMatchers("/clients/**").hasRole(UserRoleEnum.Client.toString()).
-
                 requestMatchers("/drivers/**").hasRole(UserRoleEnum.Driver.toString()).
-// to add visability about Logout (loged in users should not seening it and the register too)
-
-        anyRequest().authenticated().
+                anyRequest().authenticated().
                 and().
-                // configure login with HTML form
-                        formLogin().
+                formLogin().
                 loginPage("/users/login").
-                // the names of the user name, password input fields in the custom login form
-                        usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
+                usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
                 passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY).
-                // where do we go after login
-                        defaultSuccessUrl("/").//use true argument if you always want to go there, otherwise go to previous page
+                defaultSuccessUrl("/").
                 failureForwardUrl("/users/login-error").
-                and().logout().//configure logout
+                and().logout().
                 logoutUrl("/users/logout").
-                logoutSuccessUrl("/").//go to homepage after logout
+                logoutSuccessUrl("/").
                 invalidateHttpSession(true)
                 .and().
                 securityContext().
@@ -123,6 +109,15 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    @Bean
+//    public ApplicationUserDetailsService applicationUserDetailsService(UserRepository userRepository){
+//        return new ApplicationUserDetailsService(userRepository);
+//    }
+//    @Bean
+//    public ApplicationDriverDetailsService applicationDriverDetailsService(DriverRepository driverRepository){
+//        return new ApplicationDriverDetailsService(driverRepository);
+//    }
 
     @Bean
     public SecurityContextRepository securityContextRepository() {

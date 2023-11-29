@@ -27,13 +27,14 @@ public class RegistrationController {
 
     private final UserService userService;
      private final ModelMapper modelMapper;
-    //private final SecurityContextRepository securityContextRepository;
+    private final SecurityContextRepository securityContextRepository;
 
 @Autowired
-    public RegistrationController(UserService userService, ModelMapper modelMapper) {
+    public RegistrationController(UserService userService, ModelMapper modelMapper, SecurityContextRepository securityContextRepository) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-    }
+    this.securityContextRepository = securityContextRepository;
+}
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -46,7 +47,9 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerNewUser(@Valid UserRegistrationDTO userRegistrationDTO,
-                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                                  BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
         if (bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("userRegistrationDTO",userRegistrationDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO",bindingResult);
@@ -55,9 +58,15 @@ public class RegistrationController {
         }
 
         userService.registerUser(modelMapper.
-                map(userRegistrationDTO, UserServiceModel.class));
+                map(userRegistrationDTO, UserServiceModel.class), successfulAuth->{
+            SecurityContextHolderStrategy strategy= SecurityContextHolder.getContextHolderStrategy();
+            SecurityContext context=strategy.createEmptyContext();
+            context.setAuthentication(successfulAuth);
+            strategy.setContext(context);
+            securityContextRepository.saveContext(context,request,response);
+        });
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @ModelAttribute

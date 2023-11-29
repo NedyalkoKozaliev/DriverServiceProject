@@ -53,31 +53,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserServiceModel userServiceModel)
-                             //Consumer<Authentication> successfulLoginProcessor)
+    public void registerUser(UserServiceModel userServiceModel,Consumer<Authentication> successfulLoginProcessor)
     {
-//      User user = new User();
-//                user.setFirstName(registrationDTO.getFirstName());
-//                user.setLastName(registrationDTO.getLastName());
-//                user.setEmail(registrationDTO.getEmail());
+
         User user = modelMapper.map(userServiceModel, User.class);
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
         user.setRoles(List.of(userRoleRepository.findUserRoleByRole(UserRoleEnum.Client)));
-        //user.getRoles().add(userRoleRepository.findUserRoleByRole(UserRoleEnum.Client));
+
 
         userRepository.save(user);
-    }
 
-//        UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(registrationDTO.getEmail());
-//
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(
-//                userDetails,
-//                userDetails.getPassword(),
-//                userDetails.getAuthorities()
-//        );
-//
-//        successfulLoginProcessor.accept(authentication);
-    //}
+
+       UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(userServiceModel.getEmail());
+       Authentication authentication = new UsernamePasswordAuthenticationToken(
+               userDetails,
+               userDetails.getPassword(),
+              userDetails.getAuthorities()
+       );
+      successfulLoginProcessor.accept(authentication);
+    }
 
     @Override
     public User findUserById(Long id) {
