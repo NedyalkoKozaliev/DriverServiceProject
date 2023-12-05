@@ -1,6 +1,6 @@
 package com.SoftUni.DriverServiceProject.Service.Impl;
 
-import com.SoftUni.DriverServiceProject.Models.DTO.DistanceAndDurationDto;
+import com.SoftUni.DriverServiceProject.Models.DTO.DistanceDurationResponse;
 import com.SoftUni.DriverServiceProject.Service.DistanceAndDurationService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DistanceAndDurationServiceImpl implements DistanceAndDurationServic
     }
 
     @Override
-    public DistanceAndDurationDto Route(String AddressFrom, String AddressTo) throws IOException, InterruptedException {
+    public DistanceDurationResponse Route(String AddressFrom, String AddressTo) throws IOException, InterruptedException {
         var url="https://maps.googleapis.com/maps/api/distancematrix/json?origins="+AddressFrom+"&destinations="+AddressTo+"&mode=car&language=fr-FR&key="+API_KEY;
         var request= HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         var client= HttpClient.newBuilder().build();
@@ -34,8 +34,8 @@ public class DistanceAndDurationServiceImpl implements DistanceAndDurationServic
 
 
         // parse JSON (response) and take distanse and time
-        DistanceAndDurationDto distanceAndDurationDto=gson
-                        .fromJson(response.toString(), DistanceAndDurationDto.class);
+        DistanceDurationResponse distanceAndDurationDto=gson
+                        .fromJson(response.toString(), DistanceDurationResponse.class);
 
 
 
