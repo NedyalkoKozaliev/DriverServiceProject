@@ -32,30 +32,11 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        com.SoftUni.DriverServiceProject.Models.Entity.User user=userRepository.findUserByEmail(username);
-                      if(user==null) {
-                          throw new UsernameNotFoundException("User with name " + username + " not found!");
-                      }
+        com.SoftUni.DriverServiceProject.Models.Entity.User user=userRepository.findUserByEmail(username).orElseThrow(null);
+//                      if(user==null) {
+//                          throw new UsernameNotFoundException("User with name " + username + " not found!");
+//                      }
                       return new CurrentUser(user);
     }
-//
-//    private UserDetails map(com.SoftUni.DriverServiceProject.Models.Entity.User user) {
-//        return new User(
-//                user.getEmail(),
-//                user.getPassword(),
-//                extractAuthorities(user)
-//        );
-//    }
-//
-//    private List<GrantedAuthority> extractAuthorities(com.SoftUni.DriverServiceProject.Models.Entity.User user) {
-//        return user.
-//                getRoles().
-//                stream().
-//                map(this::mapRole).
-//                toList();
-//    }
-//
-//    private GrantedAuthority mapRole(UserRole userRole) {
-//        return new SimpleGrantedAuthority("ROLE_" + userRole.getRole().name());
-//    }
+
 }

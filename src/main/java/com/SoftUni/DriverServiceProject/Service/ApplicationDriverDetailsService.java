@@ -28,30 +28,13 @@ public class ApplicationDriverDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Driver driver=driverRepository.findDriverByEmail(username);
-        if(driver==null){
-            throw new UsernameNotFoundException("User with name " + username + " not found!");
-        }
+        Driver driver=driverRepository.findDriverByEmail(username).orElseThrow(null);
+//        if(driver==null){
+//            throw new UsernameNotFoundException("User with name " + username + " not found!");
+//        }
         return new LoggedInDriver(driver);
 
     }
 
-//    private UserDetails map(Driver driver) {
-//        return new User(
-//                driver.getEmail(),
-//                driver.getPassword(),
-//                extractAuthorities(driver)
-//        );
-//    }
-//    private List<GrantedAuthority> extractAuthorities(Driver driver) {
-//        return driver.
-//                getRoles().
-//                stream().
-//                map(this::mapRole).
-//                toList();
-//    }
-//
-//    private GrantedAuthority mapRole(DriverRole driverRole) {
-//        return new SimpleGrantedAuthority("ROLE_" + driverRole.getRole().name());
-//    }
+
 }

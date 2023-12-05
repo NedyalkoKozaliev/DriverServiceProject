@@ -93,7 +93,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver findByEmail(String email) {
-        return driverRepository.findDriverByEmail(email);
+        return driverRepository.findDriverByEmail(email).orElseThrow(null);
     }
 
 

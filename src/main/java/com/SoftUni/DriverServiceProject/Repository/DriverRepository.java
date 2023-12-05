@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, Long> {
-  Driver findDriverByEmail(String email);
+  Optional<Driver> findDriverByEmail(String email);
 
    Driver findDriverById(Long id);
 

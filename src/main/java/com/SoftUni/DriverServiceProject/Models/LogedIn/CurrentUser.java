@@ -69,6 +69,7 @@ public class CurrentUser implements UserDetails {
         return true;
     }
 
+
     public Long getId(){
        return this.user.getId();
     }
