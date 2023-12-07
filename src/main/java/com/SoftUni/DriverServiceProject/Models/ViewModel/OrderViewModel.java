@@ -14,6 +14,8 @@ public class OrderViewModel {
 
     private BigDecimal price;
 
+    private Float distance;
+
     public OrderViewModel() {
     }
 
@@ -56,5 +58,13 @@ public class OrderViewModel {
     public OrderViewModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
+    }
+
+    public Float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Float distance) {
+        this.distance = distance;
     }
 }

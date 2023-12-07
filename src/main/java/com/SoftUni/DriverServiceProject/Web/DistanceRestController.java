@@ -1,6 +1,8 @@
 package com.SoftUni.DriverServiceProject.Web;
 
 import com.SoftUni.DriverServiceProject.Models.DTO.DistanceDurationResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -15,19 +17,23 @@ public class DistanceRestController {
 
     @RequestMapping(value = "/api/getDistanceAndDuration",produces = "application/json",
     method = {RequestMethod.GET})
-    public DistanceDurationResponse getDistanceAndDuration(@RequestParam String addressFrom,
+    public ResponseEntity<DistanceDurationResponse> getDistanceAndDuration(@RequestParam String addressFrom,
                                                            @RequestParam String addressTo){
-//        UriComponents uri = UriComponentsBuilder.newInstance()
-//                .scheme("https")
-//                .host("maps.googleapis.com")
-//                .path("/maps/api/distancematrix")
-//                .queryParam("key", API_KEY)
-//                .queryParam("origins", AddressFrom)
-//                .queryParam("destinations", AddressTo)
-//                .build();
-        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+"Plovdiv"+"&destinations="+"Sofia"+"&mode=car&language=fr-FR&key="+API_KEY, DistanceDurationResponse.class);
 
-        //ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity(uri.toString(), DistanceDurationResponse.class);
-            return  response.getBody();
+
+        UriComponents uri = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("maps.googleapis.com")
+                .path("/maps/api/distancematrix")
+                .queryParam("origins", addressFrom)
+                .queryParam("destinations", addressTo)
+                .queryParam("key", API_KEY)
+                .build();
+     //   ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+"Plovdiv"+"&destinations="+"Sofia"+"&mode=car&language=fr-FR&key="+API_KEY, DistanceDurationResponse.class);
+
+        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity(uri.toString(), DistanceDurationResponse.class);
+            return  response;
     }
 }
+// return new ResponseEntity<String>("{\"test\": \"Hello with ResponseEntity\"}", httpHeaders, HttpStatus.OK);
+//        }

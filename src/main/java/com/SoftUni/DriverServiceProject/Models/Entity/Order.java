@@ -23,6 +23,9 @@ public class Order extends BaseEntity{
     private User client;
     private boolean approved;
 
+    @Column(nullable = false)
+    private Float distance;
+
     public Order() {
     }
 
@@ -84,5 +87,13 @@ public class Order extends BaseEntity{
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public Float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Float distance) {
+        this.distance = distance;
     }
 }

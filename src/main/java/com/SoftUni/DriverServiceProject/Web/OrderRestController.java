@@ -9,6 +9,7 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErorrs;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
+import jdk.jfr.ContentType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,25 +63,16 @@ public class OrderRestController {
 //                .queryParam("origins", addressFrom)
 //                .queryParam("destinations", addressTo)
 //                .build();
-        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=fr-FR&key="+API_KEY, DistanceDurationResponse.class);
+        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=en&key="+API_KEY, DistanceDurationResponse.class);
 
-//ar url="https://maps.googleapis.com/maps/api/distancematrix/json?origins="+AddressFrom+"&destinations="+AddressTo+"&mode=car&language=fr-FR&key="+API_KEY;
-//
-//        ResponseEntity<DistanceDurationResponse> distance= new RestTemplate().
-//                getForEntity("http://localhost:8080/api/getDistance",DistanceDurationResponse.class, addressFrom,addressTo);
-//
 
         Float distance= Arrays.stream(Arrays.stream(response.getBody().getRows()).findFirst().get().getElements()).findFirst().get().getDistance().getValue();
 
-//        float distanceM=Arrays.stream(Arrays.stream(response.getBody().getRows()).findFirst().get().getElements()).toList()
-//                .get(0).getDistance().getValue();
-//        //float time=.....;
-
 
         OrderServiceModel orderServiceModel =
-                //mapAsService(orderBindingModel);
                modelMapper.map(orderBindingModel, OrderServiceModel.class);
-        //orderServiceModel.setClient((User) principal);
+
+        orderServiceModel.setDistance(distance/1000);
 
 
         OrderViewModel OrderView =

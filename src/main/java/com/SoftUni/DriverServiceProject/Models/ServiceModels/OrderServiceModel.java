@@ -14,6 +14,8 @@ public class OrderServiceModel {
 
     private Long clientId;
 
+    private Float distance;
+
     public OrderServiceModel() {
     }
 
@@ -58,6 +60,14 @@ public class OrderServiceModel {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    public Float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Float distance) {
+        this.distance = distance;
     }
 }
 

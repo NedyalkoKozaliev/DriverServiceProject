@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
 //        BigDecimal price=BigDecimal.valueOf(distanceAndDurationDto.getRows().getElemnts().getDistance().getValue()).multiply(perkm);
 //        order.setPrice(price);
         order.setApproved(false);
+
+        order.setPrice((BigDecimal.valueOf(2.0)).multiply(BigDecimal.valueOf(orderServiceModel.getDistance())));
 
 
 
