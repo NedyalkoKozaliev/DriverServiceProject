@@ -1,5 +1,6 @@
 package com.SoftUni.DriverServiceProject.Web;
 
+import com.SoftUni.DriverServiceProject.Models.DTO.DistanceDurationResponse;
 import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
@@ -17,10 +18,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +35,7 @@ public class OrderRestController {
 
     private final ModelMapper modelMapper;
     private final OrderService orderService;
+    private static final Object API_KEY="";
 
 
    // @Autowired
@@ -44,6 +50,32 @@ public class OrderRestController {
             @AuthenticationPrincipal UserDetails principal,
             @RequestBody @Valid OrderBindingModel orderBindingModel
     ) {
+
+        String addressFrom=orderBindingModel.getAddressFrom();
+        String addressTo=orderBindingModel.getAddressTo();
+
+//        UriComponents uri = UriComponentsBuilder.newInstance()
+//                .scheme("https")
+//                .host("maps.googleapis.com")
+//                .path("/maps/api/distancematrix")
+//                .queryParam("key", API_KEY)
+//                .queryParam("origins", addressFrom)
+//                .queryParam("destinations", addressTo)
+//                .build();
+        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=fr-FR&key="+API_KEY, DistanceDurationResponse.class);
+
+//ar url="https://maps.googleapis.com/maps/api/distancematrix/json?origins="+AddressFrom+"&destinations="+AddressTo+"&mode=car&language=fr-FR&key="+API_KEY;
+//
+//        ResponseEntity<DistanceDurationResponse> distance= new RestTemplate().
+//                getForEntity("http://localhost:8080/api/getDistance",DistanceDurationResponse.class, addressFrom,addressTo);
+//
+
+        Float distance= Arrays.stream(Arrays.stream(response.getBody().getRows()).findFirst().get().getElements()).findFirst().get().getDistance().getValue();
+
+//        float distanceM=Arrays.stream(Arrays.stream(response.getBody().getRows()).findFirst().get().getElements()).toList()
+//                .get(0).getDistance().getValue();
+//        //float time=.....;
+
 
         OrderServiceModel orderServiceModel =
                 //mapAsService(orderBindingModel);

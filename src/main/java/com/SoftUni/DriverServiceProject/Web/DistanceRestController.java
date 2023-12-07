@@ -15,17 +15,19 @@ public class DistanceRestController {
 
     @RequestMapping(value = "/api/getDistanceAndDuration",produces = "application/json",
     method = {RequestMethod.GET})
-    public ResponseEntity<DistanceDurationResponse>getDistanceAndDuration(@RequestParam String AddressFrom,
-                                                                          @RequestParam String AddressTo){
-        UriComponents uri = UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host("maps.googleapis.com")
-                .path("/maps/api/distancematrix")
-                .queryParam("key", API_KEY)
-                .queryParam("origins", AddressFrom)
-                .queryParam("destinations", AddressTo)
-                .build();
-        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity(uri.toString(), DistanceDurationResponse.class);
-            return  response;
+    public DistanceDurationResponse getDistanceAndDuration(@RequestParam String addressFrom,
+                                                           @RequestParam String addressTo){
+//        UriComponents uri = UriComponentsBuilder.newInstance()
+//                .scheme("https")
+//                .host("maps.googleapis.com")
+//                .path("/maps/api/distancematrix")
+//                .queryParam("key", API_KEY)
+//                .queryParam("origins", AddressFrom)
+//                .queryParam("destinations", AddressTo)
+//                .build();
+        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+"Plovdiv"+"&destinations="+"Sofia"+"&mode=car&language=fr-FR&key="+API_KEY, DistanceDurationResponse.class);
+
+        //ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity(uri.toString(), DistanceDurationResponse.class);
+            return  response.getBody();
     }
 }
