@@ -1,8 +1,13 @@
+HTML {
+    height: 100%;
+}
+
 body {
-  background-image: url(./images/body.jpg);
+        min-height: 100%;
+        background-image: url(/images/body.jpg);
         background-position: center center;
         background-repeat: no-repeat;
-        background-attachment: fixed;
+
         background-size: cover;
 }
 

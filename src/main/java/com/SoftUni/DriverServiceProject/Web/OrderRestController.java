@@ -63,9 +63,9 @@ public class OrderRestController {
 //                .queryParam("origins", addressFrom)
 //                .queryParam("destinations", addressTo)
 //                .build();
-        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=en&key="+API_KEY, DistanceDurationResponse.class);
+       ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=en&key="+API_KEY, DistanceDurationResponse.class);
 
-
+//DistanceDurationResponse response1=new RestTemplate().getForObject("http://localhost:8080/api/DistanceAndDuration",DistanceDurationResponse.class,addressFrom,addressTo);
         Float distance= Arrays.stream(Arrays.stream(response.getBody().getRows()).findFirst().get().getElements()).findFirst().get().getDistance().getValue();
 
 
