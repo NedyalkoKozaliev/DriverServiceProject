@@ -20,4 +20,9 @@ public class ClientServiceImpl implements ClientService {
        return userRepository.findUserById(id);
 
     }
+
+    @Override
+    public User findClientByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(null);
+    }
 }

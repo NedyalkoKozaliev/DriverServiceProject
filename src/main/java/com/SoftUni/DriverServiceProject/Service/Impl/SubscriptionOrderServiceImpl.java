@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +34,10 @@ public class SubscriptionOrderServiceImpl implements SubscriptionOrderService {
     public SubscriptionOrderViewModel createSubscriptionOrder(SubscriptionOrderServiceModel subscriptionOrderServiceModel) {
 
         SubscriptionOrder subscriptionOrder=modelMapper.map(subscriptionOrderServiceModel,SubscriptionOrder.class);
-        subscriptionOrder.setClient(clientService.findClientById(subscriptionOrderServiceModel.getClientId()));
+        subscriptionOrder.setAssigned(false);
         subscriptionOrder.setSubscription(subscriptionTypeService.getSubscriptionByName(subscriptionOrderServiceModel.getSubscription()));
+        subscriptionOrder.setPrice(BigDecimal.valueOf(subscriptionOrderServiceModel.getDistance()).multiply(BigDecimal.valueOf(subscriptionOrder.getSubscription().getPriceRate())));
+
         subscriptionOrderRepository.save(subscriptionOrder);
 
 

@@ -7,87 +7,103 @@
 <body>
 
 <div th:replace="fragments/navbar :: navbar">
-  Navbar
+    Navbar
 </div>
 
 <div class="container">
-  <h2 class="text-center text-white">Add New Car</h2>
+    <h2 class="text-center text-white">Add New Car</h2>
 </div>
 
 <form id=addForm method="post"
-        th:action="@{/api/cars}"
-        class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
-  
-      <div  class="form-group">
-          <label for="brand" class="text-white font-weight-bold">Brand</label>
-          <input id="brand"
-                 name="brand"
-                 type="text"
-                 class="form-control"
-                 placeholder="brand"/>
-      </div>
-      <div  class="form-group">
-          <label for="model" class="text-white font-weight-bold">Model</label>
-          <input id="model"
-                 name="model"
-                 type="text"
-                 class="form-control"
-                 placeholder="model"/>
-      </div>
-     
-      <div class="form-group row">
+      th:action="@{/api/admins/{id}/createCar(id=*{id})}"
+      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center"  th:object="${carAddBindingModel}">
+
+    <div  class="form-group">
+        <label for="registration" class="text-white font-weight-bold">Brand</label>
+        <input id="registration"
+               name="registration"
+               type="text"
+               class="registration"
+               placeholder="registration"/>
+        <small th:errors="*{registration}" id="registrationError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
+            characters</small>
+        <!-- to check different options for the error if this not works-->
+    </div>
+
+    <div  class="form-group">
+        <label for="brand" class="text-white font-weight-bold">Brand</label>
+        <input id="brand"
+               name="brand"
+               type="text"
+               class="form-control"
+               placeholder="brand"/>
+        <small th:errors="*{brand}" id="brandError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
+            characters</small>
+        <!-- to check different options for the error if this not works-->
+    </div>
+
+    <div  class="form-group">
+        <label for="model" class="text-white font-weight-bold">Model</label>
+        <input id="model"
+               name="model"
+               type="text"
+               class="form-control"
+               placeholder="model"/>
+        <small th:errors="*{model}" id="modelError" class="invalid-feedback form-text bg-danger rounded">error</small>
+    </div>
+
+    <div class="form-group row">
         <label for="type" class="col-sm-2 col-form-label">Type</label>
         <div class="col-sm-10">
-          <!-- th:field="*{category}" -->
-            <select  errorclass="is-invalid" id="subscription" name="subscription" class="custom-select"
-                    aria-describedby="type">
+            <!-- th:field="*{category}" -->
+            <select  id="type" name="type" class="custom-select"
+                     aria-describedby="type">
                 <option value="" selected>Type</option>
                 <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum.java).values()}" value="">Type</option>
-               </select>
-            <small id="carTypeAdd" class="invalid-feedback bg-danger text-light rounded">
-                You must select the subscription type.
-            </small>
+            </select>
+            <small th:errors="*{type}" id="typeError" class="invalid-feedback form-text bg-danger rounded">error</small>
         </div>
-      </div>
+    </div>
 
-      <div  class="form-group">
+    <div  class="form-group">
         <label for="kms" class="text-white font-weight-bold">Mileage</label>
         <input id="kms"
                name="kms"
                type="text"
                class="form-control"
                placeholder="kms"/>
+        <small th:errors="*{kms}" id="kmsError" class="invalid-feedback form-text bg-danger rounded">error</small>
     </div>
-   
+
     <div class="form-group row">
-      <label for="garage" class="col-sm-2 col-form-label">Garage</label>
-      <div class="col-sm-10">
-        <!-- th:field="*{category}" -->
-          <select  errorclass="is-invalid" id="carGarage" name="carGarage" class="custom-select"
-                  aria-describedby="garageAdd">
-              <option value="" selected>Garage</option>
-              <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Entity.Garage.java).values()}" value="">Garage</option>
-             </select>
-          <small id="carGarageAdd" class="invalid-feedback bg-danger text-light rounded">
-              You must select the subscription type.
-          </small>
-      </div>
+        <label for="garage" class="col-sm-2 col-form-label">Garage</label>
+        <div class="col-sm-10">
+            <!-- th:field="*{category}" -->
+            <select   id="garage" name="garage" class="custom-select"
+                      aria-describedby="garageAdd">
+                <option value="" selected>Garage</option>
+                <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Entity.Garage.java).values()}" value="">Garage</option>
+            </select>
+            <small th:errors="*{garage}" id="garageError" class="bg-danger text-light rounded">
+                error
+            </small>
+        </div>
     </div>
 
 
-  
-      <div class="form-group">
-          <input type="submit"
-                 class="btn"
-                 id="createNewGarage"
-                 value="Create Garage"/>
-      </div>
-  
-  </form>
 
-  <script th:src="@{/Js/AddNewitem.js}"></script>
+    <div class="form-group">
+        <input type="submit"
+               class="btn"
+               id="createNewGarage"
+               value="Create Garage"/>
+    </div>
+
+</form>
+
+<script th:src="@{/Js/AddNewitem.js}"></script>
 <div>
-  <footer></footer>
+    <footer></footer>
 </div>
 </body>
 </html>

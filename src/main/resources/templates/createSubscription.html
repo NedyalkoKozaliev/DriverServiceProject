@@ -16,11 +16,12 @@
 
 
 
-<!-- <input type="hidden" id="adminId" name="adminId" th:object="${admin}" th:value="*{admin.id}"> -->
+<input type="hidden" id="adminId" name="adminId" th:object="${admin}" th:value="*{admin.id}">
 
 <div  class="container-fluid">
     <form id=addForm method="post"
-          th:action="@{/api/subscriptions}"
+          th:action="@{/api/admins/{id}/createSubscribtion(id=*{id})}"
+          th:object="${subscriptionTypeBindingModel}"
           class="main-form mx-auto  justify-content-center">
 
         <div  class="form-group">
@@ -30,7 +31,7 @@
                    type="text"
                    class="form-control"
                    placeholder="description"/>
-            <small id="descriptionError" class="invalid-feedback">
+            <small  th:errors="*{description}" id="descriptionError" class="invalid-feedback">
                 Description should be at least 5 characters.
             </small>
         </div>
@@ -41,7 +42,7 @@
                    type="text"
                    class="form-control"
                    placeholder="priceRate"/>
-            <small id="priceRateError" class="invalid-feedback">
+            <small  th:errors="*{priceRate}" id="priceRateError" class="invalid-feedback">
                 Price rate should be positive number.
             </small>
         </div>
@@ -55,7 +56,7 @@
                     <option value="" selected>Subscription</option>
                     <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Sysbscription Type</option>
                 </select>
-                <small id="subscriptiontypeError" class="invalid-feedback">
+                <small  th:errors="*{subscriptiontype}" id="subscriptiontypeError" class="invalid-feedback">
                     Subscription type could not be blank.
                 </small>
             </div>

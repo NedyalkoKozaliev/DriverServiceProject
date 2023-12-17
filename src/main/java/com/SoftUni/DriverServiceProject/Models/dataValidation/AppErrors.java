@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppErorrs {
+public class AppErrors {
     private final HttpStatus status;
     private List<String> fieldWithErrors = new ArrayList<>();
 
-    public AppErorrs(HttpStatus status) {
+    public AppErrors(HttpStatus status) {
         this.status = status;
     }
 
@@ -25,7 +25,7 @@ public class AppErorrs {
         return fieldWithErrors;
     }
 
-    public AppErorrs setFieldWithErrors(List<String> fieldWithErrors) {
+    public AppErrors setFieldWithErrors(List<String> fieldWithErrors) {
         this.fieldWithErrors = fieldWithErrors;
         return this;
     }

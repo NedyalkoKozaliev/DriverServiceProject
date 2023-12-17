@@ -36,27 +36,16 @@ public class OrderServiceImpl implements OrderService {
     public OrderViewModel createOrder(OrderServiceModel orderServiceModel)  {
 
         Order order=modelMapper.map(orderServiceModel,Order.class);
-                //mapAsOr(orderServiceModel);
 
 
-        order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
 
-
-//            DistanceAndDurationDto distanceAndDurationDto=
-//                    distanceAndDurationService.Route(orderServiceModel.getAddressFrom(),orderServiceModel.getAddressTo());
-//       BigDecimal perkm= BigDecimal.valueOf(2.00);
-//        BigDecimal price=BigDecimal.valueOf(distanceAndDurationDto.getRows().getElemnts().getDistance().getValue()).multiply(perkm);
-//        order.setPrice(price);
         order.setApproved(false);
 
         order.setPrice((BigDecimal.valueOf(2.0)).multiply(BigDecimal.valueOf(orderServiceModel.getDistance())));
 
-
-
         orderRepository.save(order);
 
-        //return mapAsOrder(order);
-               return modelMapper.map(order,OrderViewModel.class);
+        return modelMapper.map(order,OrderViewModel.class);
     }
 
     @Override
@@ -100,29 +89,4 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
-    private OrderViewModel mapAsOrder(Order order) {
-       OrderViewModel orderViewModel = new OrderViewModel();
-
-      orderViewModel.setId(order.getId());
-       orderViewModel.setAddressTo(order.getAddressTo());
-       orderViewModel.setAddressFrom(order.getAddressFrom());
-       orderViewModel.setNumberOfPassengers(order.getNumberOfPassengers());
-
-
-
-        return orderViewModel;
-    }
-    private Order mapAsOr(OrderServiceModel orderServiceModel) {
-        Order order=new Order();
-
-       order.setAddressTo(orderServiceModel.getAddressTo());
-        order.setAddressFrom(orderServiceModel.getAddressFrom());
-        order.setNumberOfPassengers(orderServiceModel.getNumberOfPassengers());
-        order.setClient(clientService.findClientById(orderServiceModel.getClientId()));
-
-
-
-        return order;
-    }
 }

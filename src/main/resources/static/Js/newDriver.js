@@ -43,7 +43,7 @@ return orderHtml;
                                    displayOrders(OrderList)
                                    var tags = document.querySelectorAll(".button");
                                    for (var i = 0; i < tags.length; i++) {
-                                    tags.item(i).addEventListener('click', Action);
+                                    tags.item(i).addEventListener('click', Action)
                                    }
                                  })
 
@@ -53,9 +53,11 @@ return orderHtml;
 
      function Action(event){
      event.preventDefault();
+
                          let orderId =event.target.dataset.id;
 
                            AssignTask(orderId)
+
                         }
 
   async function AssignTask(orderId){
@@ -91,7 +93,9 @@ const response = await fetch(url, fetchOptions);
           return response.json;
 
       }
-       fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).
+
+
+     fetch(`http://localhost:8080/api/drivers/${driverId}/currentOrder`).
              then(
       response => response.json().
               then(order => {
@@ -165,3 +169,4 @@ async function FinishedOrders(){
 
 
        }
+

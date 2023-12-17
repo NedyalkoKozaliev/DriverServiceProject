@@ -4,7 +4,7 @@ import com.SoftUni.DriverServiceProject.Models.Entity.User;
 
 public class OrderServiceModel {
 
-//  private Long id;
+    private Long id;
     private String addressFrom;
 
     private String addressTo;
@@ -12,7 +12,7 @@ public class OrderServiceModel {
 
     private Integer numberOfPassengers;
 
-    private Long clientId;
+    private User client;
 
     private Float distance;
 
@@ -54,12 +54,12 @@ public class OrderServiceModel {
         return this;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public User getClient() {
+        return client;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClient(User client) {
+        this.client = client;
     }
 
     public Float getDistance() {

@@ -50,9 +50,7 @@ if(driverRepository.count()!=0) {
         System.out.println("empty userRepo");
     }
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentPrincipalName = authentication.getName();
-//        LOGGER.info("logged user:{}",currentPrincipalName);
+
 
     }
 }

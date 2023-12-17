@@ -3,7 +3,7 @@ package com.SoftUni.DriverServiceProject.Web;
 import com.SoftUni.DriverServiceProject.Models.DTO.SubscriptionTypeBindingModel;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.SubscriptionTypeServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionTypeViewModel;
-import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErorrs;
+import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErrors;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionTypeService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -50,12 +50,12 @@ public class SubscriptionRestController {
 
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<AppErorrs> onValidationFailure(MethodArgumentNotValidException exc) {
-        AppErorrs appErorrs = new AppErorrs(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<AppErrors> onValidationFailure(MethodArgumentNotValidException exc) {
+        AppErrors appErrors = new AppErrors(HttpStatus.BAD_REQUEST);
         exc.getFieldErrors().forEach(fe ->
-                appErorrs.addFieldWithError(fe.getField()));
+                appErrors.addFieldWithError(fe.getField()));
 
-        return ResponseEntity.badRequest().body(appErorrs);
+        return ResponseEntity.badRequest().body(appErrors);
     }
 
 }

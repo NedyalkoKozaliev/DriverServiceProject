@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name="subscriptionOrders")
 public class SubscriptionOrder extends BaseEntity{
@@ -20,6 +22,11 @@ public class SubscriptionOrder extends BaseEntity{
 
     @Column
     private boolean isAssigned;
+
+    @Column(nullable = false)
+    private Float distance;
+    @Column(columnDefinition = "Decimal(10,2) default'0.00'")
+    private BigDecimal price;
 
     public SubscriptionOrder() {
     }
@@ -64,5 +71,21 @@ public class SubscriptionOrder extends BaseEntity{
 
     public void setAssigned(boolean assigned) {
         isAssigned = assigned;
+    }
+
+    public Float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Float distance) {
+        this.distance = distance;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

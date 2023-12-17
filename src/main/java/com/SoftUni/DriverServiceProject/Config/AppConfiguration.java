@@ -18,7 +18,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 
 @Configuration
-//@EnableJpaRepositories(basePackages = {"com.SoftUni.DriverServiceProject.Repository"})
 public class AppConfiguration {
 
 

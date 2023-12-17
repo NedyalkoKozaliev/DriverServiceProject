@@ -17,10 +17,6 @@ public interface OrderService {
 
     Float takeDistance();
 
-   // https://teamtreehouse.com/community/how-to-use-the-google-map-matrix-api-for-calculating-the-distance-between-two-points-in-java-a-big-treat-is-promise
-
-    //https://www.youtube.com/watch?v=dFhKVJcmADo
-
 
     Float takeDuration();
 

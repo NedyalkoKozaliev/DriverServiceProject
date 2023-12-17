@@ -1,6 +1,8 @@
 package com.SoftUni.DriverServiceProject.Service;
 
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
+import com.SoftUni.DriverServiceProject.Models.ServiceModels.DriverServiceModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.DriverViewModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 
 import java.util.List;
@@ -25,5 +27,7 @@ public interface DriverService {
     void assignSubscription(Long id, Long subscriptionId);
 
     Driver findByEmail(String email);
+
+    DriverViewModel createDriver(DriverServiceModel driverServiceModel);
 
 }

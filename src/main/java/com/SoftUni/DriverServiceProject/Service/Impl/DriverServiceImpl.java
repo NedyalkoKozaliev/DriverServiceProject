@@ -3,8 +3,12 @@ package com.SoftUni.DriverServiceProject.Service.Impl;
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.SubscriptionOrder;
+import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
+import com.SoftUni.DriverServiceProject.Models.ServiceModels.DriverServiceModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.DriverViewModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
+import com.SoftUni.DriverServiceProject.Repository.DriverRoleRepository;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
@@ -25,16 +29,18 @@ public class DriverServiceImpl implements DriverService {
 
     private final SubscriptionOrderService subscriptionOrderService;
     private final OrderRepository orderRepository;
+    private final DriverRoleRepository driverRoleRepository;
 
     @Autowired
     public DriverServiceImpl(DriverRepository driverRepository, OrderService orderService, ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService,
-                             OrderRepository orderRepository) {
+                             OrderRepository orderRepository, DriverRoleRepository driverRoleRepository) {
         this.driverRepository = driverRepository;
         this.orderService = orderService;
         this.modelMapper = modelMapper;
 
         this.subscriptionOrderService = subscriptionOrderService;
         this.orderRepository = orderRepository;
+        this.driverRoleRepository = driverRoleRepository;
     }
 
 
@@ -94,6 +100,18 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Driver findByEmail(String email) {
         return driverRepository.findDriverByEmail(email).orElseThrow(null);
+    }
+
+    @Override
+    public DriverViewModel createDriver(DriverServiceModel driverServiceModel) {
+
+       Driver driver=modelMapper.map(driverServiceModel,Driver.class);
+       driver.setAvailable(true);
+       driver.getRoles().add(driverRoleRepository.
+               findDriverRoleByRole(UserRoleEnum.Driver).orElseThrow(null));
+
+        driverRepository.save(driver);
+        return modelMapper.map(driver,DriverViewModel.class);
     }
 
 

@@ -1,12 +1,11 @@
-package com.SoftUni.DriverServiceProject.Models.Entity;
+package com.SoftUni.DriverServiceProject.Models.ViewModel;
 
+import com.SoftUni.DriverServiceProject.Models.Entity.Garage;
 import com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name="cars")
-public class Car extends BaseEntity{
+public class CarViewModel {
 
+    private Long id;
     private CarTypeEnum type;
     private Integer kms;
 
@@ -18,12 +17,9 @@ public class Car extends BaseEntity{
 
     private String registration;
 
+    public CarViewModel() {
+    }
 
-
-
-
-    @Enumerated(EnumType.STRING)
-    @Column
     public CarTypeEnum getType() {
         return type;
     }
@@ -31,7 +27,7 @@ public class Car extends BaseEntity{
     public void setType(CarTypeEnum type) {
         this.type = type;
     }
-    @Column
+
     public Integer getKms() {
         return kms;
     }
@@ -39,7 +35,7 @@ public class Car extends BaseEntity{
     public void setKms(Integer kms) {
         this.kms = kms;
     }
-    @Column
+
     public String getBrand() {
         return brand;
     }
@@ -47,7 +43,7 @@ public class Car extends BaseEntity{
     public void setBrand(String brand) {
         this.brand = brand;
     }
-    @Column
+
     public String getModel() {
         return model;
     }
@@ -56,7 +52,6 @@ public class Car extends BaseEntity{
         this.model = model;
     }
 
-    @ManyToOne
     public Garage getGarage() {
         return garage;
     }
@@ -64,7 +59,7 @@ public class Car extends BaseEntity{
     public void setGarage(Garage garage) {
         this.garage = garage;
     }
-    @Column(nullable = false,unique = true)
+
     public String getRegistration() {
         return registration;
     }
@@ -72,6 +67,12 @@ public class Car extends BaseEntity{
     public void setRegistration(String registration) {
         this.registration = registration;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
-
-

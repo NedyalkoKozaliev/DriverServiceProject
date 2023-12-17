@@ -1,7 +1,6 @@
 package com.SoftUni.DriverServiceProject.Models.DTO;
 
 
-import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -20,7 +19,7 @@ public class OrderBindingModel {
     @Positive
     private Integer numberOfPassengers;
 
-    private Long clientId;
+    private Long client;
 
     public OrderBindingModel() {
     }
@@ -52,12 +51,12 @@ public class OrderBindingModel {
         return this;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Long getClient() {
+        return client;
     }
 
-    public OrderBindingModel setClientId(Long clientId) {
-        this.clientId = clientId;
+    public OrderBindingModel setClient(Long client) {
+        this.client = client;
         return this;
     }
 }

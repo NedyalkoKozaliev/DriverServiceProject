@@ -7,72 +7,108 @@
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}">
-  Navbar
+    Navbar
 </div>
 
 <div class="container">
-  <h2 class="text-center text-white"> = Create driver = A page for drivers</h2>
+    <h2 class="text-center text-white"> = Create driver = A page for drivers</h2>
 </div>
+<input type="hidden" id="id" name="id" th:object="${admin}" th:value="${admin.id}">
 
-<div class="card" style="width: auto">
-  <!--            <img src="..." class="card-img-top" alt="...">-->
-              <div class="card-body">
-                  <form id=addForm method="post"
-                        th:action="@{/api/drivers}"
-                        class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
-  <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
-                      <div  class="form-group">
-                          <label for="addressFrom" class="text-white font-weight-bold">Address from</label>
-                          <input id="addressFrom"
-                                 name="addressFrom"
-                                 type="text"
-                                 class="form-control"
-                                 placeholder="addressFrom"/>
-                      </div>
-                      <div  class="form-group">
-                          <label for="addressTo" class="text-white font-weight-bold">Address To</label>
-                          <input id="addressTo"
-                                 name="addressTo"
-                                 type="text"
-                                 class="form-control"
-                                 placeholder="addressTo"/>
-                      </div>
-                      <div  class="form-group">
-                          <label for="numberOfPassengers" class="text-white font-weight-bold">Number Of Passengers</label>
-                          <input id="numberOfPassengers"
-                                 name="numberOfPassengers"
-                                 type="number"
-                                 class="form-control"
-                                 placeholder="numberOfPassengers"/>
-                      </div>
-                      <div class="form-group">
-                          <input type="hidden" id="clientId" name="clientId" th:object="${client}" th:value="${client.id}">
-                      </div>
-                      <div class="form-group">
-                          <input type="submit"
-                                 class="btn"
-                                 id="postOrder"
-                                 value="Post Order"/>
-                      </div>
-  <!--                    th:href="@{/clients/{id}(id = *{id})}"-->
-  
-  <!--                    <a  type="submit" class="btn btn-primary">Order</a>-->
-                  </form>
-              </div>
-  
-  
-  
-  
-  
-          </div>
-      
+<div class="container">
+    <h2 class="text-center text-white">Create Driver</h2>
+    <form
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center"
+            method="POST" th:action="@{/api/admins/{id}/createDriver(id=*{id})}" th:object="${driverAddBindingModel}" >
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="firstName" class="text-white font-weight-bold">First Name</label>
+                <input
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        class="form-control"
+                        placeholder="First name"/>
+                <small th:errors="*{firstName}" id="firstNameError" class="invalid-feedback form-text bg-danger rounded">error</small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label  for="lastName" class="text-white font-weight-bold">Last Name</label>
+                <input
+                        id="lastName"
+                        name="lastName"
+                        type="text" min="2" max="20" class="form-control"
+                        placeholder="Last name"/>
+                <small th:errors="*{lastName}" id="lastNameError" class="invalid-feedback form-text bg-danger rounded">error</small>
+            </div>
+            <!-- THIS MIN=2 MAX=20 TO CHECK IT AS OPTION -->
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="email" class="text-white font-weight-bold">Email</label>
+                <input
+                        id="email"
+                        name="email"
+                        type="text" min="2" max="20" class="form-control"
+                        placeholder="Email"/>
+                <small th:errors="*{email}" id="emailError" class="invalid-feedback form-text bg-danger rounded">error</small>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <select   id="registration" name="registration" class="custom-select"
+                          aria-describedby="registration">
+                    <option value="" selected>Registration No.</option>
+                    <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Entity.Car.).values()}" value="">Car No.</option>
+                </select>
+                <small th:errors="*{registration}" id="registrationError" class="invalid-feedback bg-danger text-light rounded">
+                    error
+                </small>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <label for="password" class="text-white font-weight-bold">Password</label>
+                <input id="password"
+                       name="password"
+                       type="password" min="2" max="20" class="form-control"
+                       placeholder="Password"/>
+                <small th:errors="*{password}" id="passwordError" class="invalid-feedback form-text bg-danger rounded">error</small>
+            </div>
+            <!-- from JS send class to be is-invalid so it will show the small so it needs to show text question is how it pass // it could just validate in DTO and message to be here as fixed text-->
+
+
+            <div class="form-group col-md-6 mb-3">
+                <label for="confirmPassword" class="text-white font-weight-bold">Confirm Password</label>
+                <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password" min="2" max="20" class="form-control"
+                        placeholder="Confirm your password"/>
+                <small th:errors="*{confirmPassword}" id="confirmPasswordError" class="invalid-feedback form-text bg-danger rounded">error</small>
+                <!-- <p class="invalid-feedback errors alert alert-danger">
+                  Confirmation password is required.
+                </p> -->
+            </div>
+            <!-- /// neeed to add car!!!! -->
+
+            <div class="row">
+                <div class="col col-md-4">
+                    <!--        <div class="button-holder d-flex">-->
+                    <!--          <input type="submit" class="btn btn-info btn-lg" value="Create account"/>-->
+                    <!--        </div>-->
+                    <div class="button-holder d-flex justify-content-center">
+                        <button type="submit" class="btn btn-warning  mb-3" value="Create account">Create account</button>
+                    </div>
+
+                </div>
+            </div>
+    </form>
 
 
 
-          <script th:src="@{/Js/AddNewitem.js}"></script>
-
+    <script th:src="@{/Js/AddNewitem.js}"></script>
+</div>
 <div>
-  <footer></footer>
+    <footer></footer>
 </div>
 </body>
 </html>

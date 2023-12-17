@@ -6,4 +6,6 @@ public interface ClientService {
 
 
     User findClientById(Long id);
+
+    User findClientByEmail(String email);
 }

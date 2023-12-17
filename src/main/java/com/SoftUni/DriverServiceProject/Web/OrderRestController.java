@@ -2,33 +2,24 @@ package com.SoftUni.DriverServiceProject.Web;
 
 import com.SoftUni.DriverServiceProject.Models.DTO.DistanceDurationResponse;
 import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
-import com.SoftUni.DriverServiceProject.Models.Entity.Order;
-import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
-import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErorrs;
+import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErrors;
+import com.SoftUni.DriverServiceProject.Service.ClientService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import jakarta.validation.Valid;
-import jdk.jfr.ContentType;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -36,13 +27,16 @@ public class OrderRestController {
 
     private final ModelMapper modelMapper;
     private final OrderService orderService;
+    private final ClientService clientService;
     private static final Object API_KEY="";
 
 
    // @Autowired
-    public OrderRestController(ModelMapper modelMapper, OrderService orderService) {
+    public OrderRestController(ModelMapper modelMapper, OrderService orderService, ClientService clientService) {
         this.modelMapper = modelMapper;
         this.orderService = orderService;
+
+        this.clientService = clientService;
     }
 
     @RequestMapping(value = "/api/orders",
@@ -52,17 +46,9 @@ public class OrderRestController {
             @RequestBody @Valid OrderBindingModel orderBindingModel
     ) {
 
-        String addressFrom=orderBindingModel.getAddressFrom();
         String addressTo=orderBindingModel.getAddressTo();
+        String addressFrom=orderBindingModel.getAddressFrom();
 
-//        UriComponents uri = UriComponentsBuilder.newInstance()
-//                .scheme("https")
-//                .host("maps.googleapis.com")
-//                .path("/maps/api/distancematrix")
-//                .queryParam("key", API_KEY)
-//                .queryParam("origins", addressFrom)
-//                .queryParam("destinations", addressTo)
-//                .build();
        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=en&key="+API_KEY, DistanceDurationResponse.class);
 
 //DistanceDurationResponse response1=new RestTemplate().getForObject("http://localhost:8080/api/DistanceAndDuration",DistanceDurationResponse.class,addressFrom,addressTo);
@@ -71,6 +57,7 @@ public class OrderRestController {
 
         OrderServiceModel orderServiceModel =
                modelMapper.map(orderBindingModel, OrderServiceModel.class);
+        orderServiceModel.setClient(clientService.findClientByEmail(principal.getUsername()));
 
         orderServiceModel.setDistance(distance/1000);
 
@@ -111,11 +98,11 @@ public class OrderRestController {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<AppErorrs> onValidationFailure(MethodArgumentNotValidException exc) {
-        AppErorrs appErorrs = new AppErorrs(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<AppErrors> onValidationFailure(MethodArgumentNotValidException exc) {
+        AppErrors appErrors = new AppErrors(HttpStatus.BAD_REQUEST);
         exc.getFieldErrors().forEach(fe ->
-                appErorrs.addFieldWithError(fe.getField()));
+                appErrors.addFieldWithError(fe.getField()));
 
-        return ResponseEntity.badRequest().body(appErorrs);
+        return ResponseEntity.badRequest().body(appErrors);
     }
 }

@@ -1,11 +1,9 @@
-package com.SoftUni.DriverServiceProject.Models.Entity;
+package com.SoftUni.DriverServiceProject.Models.ServiceModels;
 
+import com.SoftUni.DriverServiceProject.Models.Entity.Garage;
 import com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name="cars")
-public class Car extends BaseEntity{
+public class CarServiceModel {
 
     private CarTypeEnum type;
     private Integer kms;
@@ -18,12 +16,9 @@ public class Car extends BaseEntity{
 
     private String registration;
 
+    public CarServiceModel() {
+    }
 
-
-
-
-    @Enumerated(EnumType.STRING)
-    @Column
     public CarTypeEnum getType() {
         return type;
     }
@@ -31,7 +26,7 @@ public class Car extends BaseEntity{
     public void setType(CarTypeEnum type) {
         this.type = type;
     }
-    @Column
+
     public Integer getKms() {
         return kms;
     }
@@ -39,7 +34,7 @@ public class Car extends BaseEntity{
     public void setKms(Integer kms) {
         this.kms = kms;
     }
-    @Column
+
     public String getBrand() {
         return brand;
     }
@@ -47,7 +42,7 @@ public class Car extends BaseEntity{
     public void setBrand(String brand) {
         this.brand = brand;
     }
-    @Column
+
     public String getModel() {
         return model;
     }
@@ -56,7 +51,6 @@ public class Car extends BaseEntity{
         this.model = model;
     }
 
-    @ManyToOne
     public Garage getGarage() {
         return garage;
     }
@@ -64,7 +58,7 @@ public class Car extends BaseEntity{
     public void setGarage(Garage garage) {
         this.garage = garage;
     }
-    @Column(nullable = false,unique = true)
+
     public String getRegistration() {
         return registration;
     }
@@ -73,5 +67,3 @@ public class Car extends BaseEntity{
         this.registration = registration;
     }
 }
-
-

@@ -32,7 +32,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
 
     @Override
     public Subscription getSubscriptionByName(SubscriptionEnumName subscription) {
-        Subscription subscription1=subscriptionRepository.findSubscriptionByName(subscription);
+        Subscription subscription1=subscriptionRepository.findByName(subscription).orElse(null);
         return subscription1;
     }
 }
