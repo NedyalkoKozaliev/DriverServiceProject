@@ -15,17 +15,17 @@
 </div>
 
 <form id=addForm method="post"
-      th:action="@{/api/admins/{id}/createCar(id=*{id})}"
-      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center"  th:object="${carAddBindingModel}">
+      th:action="@{/api/admins/{id}/createCar(id=${admin.id})}"
+      class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center" >
 
     <div  class="form-group">
-        <label for="registration" class="text-white font-weight-bold">Brand</label>
+        <label for="registration" class="text-white font-weight-bold">Registration</label>
         <input id="registration"
                name="registration"
                type="text"
                class="registration"
                placeholder="registration"/>
-        <small th:errors="*{registration}" id="registrationError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
+        <small  id="registrationError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
             characters</small>
         <!-- to check different options for the error if this not works-->
     </div>
@@ -37,7 +37,7 @@
                type="text"
                class="form-control"
                placeholder="brand"/>
-        <small th:errors="*{brand}" id="brandError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
+        <small  id="brandError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
             characters</small>
         <!-- to check different options for the error if this not works-->
     </div>
@@ -49,7 +49,7 @@
                type="text"
                class="form-control"
                placeholder="model"/>
-        <small th:errors="*{model}" id="modelError" class="invalid-feedback form-text bg-danger rounded">error</small>
+        <small  id="modelError" class="invalid-feedback form-text bg-danger rounded">error</small>
     </div>
 
     <div class="form-group row">
@@ -59,9 +59,9 @@
             <select  id="type" name="type" class="custom-select"
                      aria-describedby="type">
                 <option value="" selected>Type</option>
-                <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum.java).values()}" value="">Type</option>
+                <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum).values()}" th:value="${s}" th:text="${s}">Type</option>
             </select>
-            <small th:errors="*{type}" id="typeError" class="invalid-feedback form-text bg-danger rounded">error</small>
+            <small  id="typeError" class="invalid-feedback form-text bg-danger rounded">error</small>
         </div>
     </div>
 
@@ -72,19 +72,19 @@
                type="text"
                class="form-control"
                placeholder="kms"/>
-        <small th:errors="*{kms}" id="kmsError" class="invalid-feedback form-text bg-danger rounded">error</small>
+        <small  id="kmsError" class="invalid-feedback form-text bg-danger rounded">error</small>
     </div>
 
     <div class="form-group row">
-        <label for="garage" class="col-sm-2 col-form-label">Garage</label>
+        <label for="address" class="col-sm-2 col-form-label">Garage</label>
         <div class="col-sm-10">
             <!-- th:field="*{category}" -->
-            <select   id="garage" name="garage" class="custom-select"
-                      aria-describedby="garageAdd">
-                <option value="" selected>Garage</option>
-                <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Entity.Garage.java).values()}" value="">Garage</option>
+            <select   id="address" name="address" class="custom-select"
+                      aria-describedby="GarageId">
+                <option value="" >Garage</option>
+                <option th:each="g : ${garages}" th:object="${g}" th:value="*{address}" th:text="*{address}">Garage</option>
             </select>
-            <small th:errors="*{garage}" id="garageError" class="bg-danger text-light rounded">
+            <small id="addressError" class="invalid-feedback bg-danger text-light rounded">
                 error
             </small>
         </div>
@@ -95,13 +95,13 @@
     <div class="form-group">
         <input type="submit"
                class="btn"
-               id="createNewGarage"
-               value="Create Garage"/>
+               id="createNewCar"
+               value="Create Car"/>
     </div>
 
 </form>
 
-<script th:src="@{/Js/AddNewitem.js}"></script>
+<script th:src="@{/Js/addNewItem.js}"></script>
 <div>
     <footer></footer>
 </div>

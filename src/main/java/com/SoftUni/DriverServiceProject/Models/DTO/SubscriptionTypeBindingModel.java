@@ -11,10 +11,10 @@ public class SubscriptionTypeBindingModel {
     @Size(min=5)
     private String description;
 
-    @Positive
+
     private Float priceRate;
 
-    @NotBlank
+    @NotNull
     private SubscriptionEnumName name;
 
     public SubscriptionTypeBindingModel() {

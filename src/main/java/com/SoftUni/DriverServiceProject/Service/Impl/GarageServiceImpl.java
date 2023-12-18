@@ -5,6 +5,7 @@ import com.SoftUni.DriverServiceProject.Models.ServiceModels.GarageServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.GarageViewModel;
 import com.SoftUni.DriverServiceProject.Repository.GarageRepository;
 import com.SoftUni.DriverServiceProject.Service.GarageService;
+import com.SoftUni.DriverServiceProject.Service.exeptionHandling.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,13 @@ public class GarageServiceImpl implements GarageService {
     }
 
     @Override
-    public Garage findGarage(String garage) {
-
-        return repository.findByAddress(garage).orElse(null);
+    public Garage findGarage(String address) {
+        return repository.findByAddress(address).orElseThrow(null);
     }
+
+//    @Override
+//    public Garage findGarage(Long id) {
+//
+//        return repository.findById(id).orElse(null);
+//    }
 }

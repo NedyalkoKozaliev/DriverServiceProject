@@ -15,12 +15,12 @@
 </div>
 
 <div class="card" style="width: auto">
-    <!--            <img src="..." class="card-img-top" alt="...">-->
-    <input type="hidden" id="id" name="id" th:object="${admin}" th:value="${admin.id}">
+<!--    &lt;!&ndash;            <img src="..." class="card-img-top" alt="...">&ndash;&gt;-->
+<!--    <input type="hidden" id="id" name="id" th:object="${admin}" th:value="${admin.id}">-->
     <div class="card-body">
         <form id=addForm method="post"
-              th:action="@{/api/admins//{id}/createGarage(id=*{id})}"
-              th:object="${garageAddBindingModel}"
+              th:action="@{/api/admins/{id}/createGarage(id=${admin.id})}"
+
               class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <!--                    <input type="hidden" id="id" name="id" th:object="${client}" th:value="${client.id}">-->
             <div  class="form-group">
@@ -30,7 +30,7 @@
                        type="text"
                        class="form-control"
                        placeholder="address"/>
-                <small th:errors="*{address}" id="addressError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
+                <small id="addressError" class="invalid-feedback form-text bg-danger rounded">Name must be between 3 and 20
                     characters</small>
             </div>
 
@@ -38,8 +38,8 @@
             <div class="form-group">
                 <input type="submit"
                        class="btn"
-                       id="postOrder"
-                       value="Post Order"/>
+                       id="addGarage"
+                       value="Add Garage"/>
             </div>
 
         </form>
@@ -54,7 +54,7 @@
 
 
 
-<script th:src="@{/Js/AddNewitem.js}"></script>
+<script th:src="@{/Js/addNewItem.js}"></script>
 
 <div>
     <footer></footer>

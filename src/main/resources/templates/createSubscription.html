@@ -16,12 +16,11 @@
 
 
 
-<input type="hidden" id="adminId" name="adminId" th:object="${admin}" th:value="*{admin.id}">
+<!--<input type="hidden" id="adminId" name="adminId" th:object="${admin}" th:value="*{admin.id}">-->
 
-<div  class="container-fluid">
+<div class="container-fluid">
     <form id=addForm method="post"
-          th:action="@{/api/admins/{id}/createSubscribtion(id=*{id})}"
-          th:object="${subscriptionTypeBindingModel}"
+          th:action="@{/api/admins/{id}/createSubscription(id=${admin.id})}"
           class="main-form mx-auto  justify-content-center">
 
         <div  class="form-group">
@@ -31,7 +30,7 @@
                    type="text"
                    class="form-control"
                    placeholder="description"/>
-            <small  th:errors="*{description}" id="descriptionError" class="invalid-feedback">
+            <small  id="descriptionError" class="invalid-feedback">
                 Description should be at least 5 characters.
             </small>
         </div>
@@ -39,24 +38,23 @@
             <label for="priceRate" class="text-white font-weight-bold">Price Rate</label>
             <input id="priceRate"
                    name="priceRate"
-                   type="text"
+                   type="number"
                    class="form-control"
                    placeholder="priceRate"/>
-            <small  th:errors="*{priceRate}" id="priceRateError" class="invalid-feedback">
+            <small  id="priceRateError" class="invalid-feedback">
                 Price rate should be positive number.
             </small>
         </div>
 
         <div class="form-group row">
-            <label for="subscriptiontype" class="col-sm-2 col-form-label">Subscription Type</label>
+            <label for="name" class="col-sm-2 col-form-label">Subscription Type</label>
             <div class="col-sm-10">
                 <!-- th:field="*{category}" -->
-                <select  id="subscriptiontype" name="name" class="custom-select"
-                         aria-describedby="subscriptionTypeAdd">
-                    <option value="" selected>Subscription</option>
-                    <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Sysbscription Type</option>
+                <select  id="name" name="name" class="custom-select">
+                    <option value="">Subscription</option>
+                    <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Subscription Type</option>
                 </select>
-                <small  th:errors="*{subscriptiontype}" id="subscriptiontypeError" class="invalid-feedback">
+                <small  id="nameError" class="invalid-feedback">
                     Subscription type could not be blank.
                 </small>
             </div>
@@ -74,7 +72,7 @@
 </div>
 
 
-<script th:src="@{/Js/AddNewItem.js}"></script>
+<script th:src="@{/Js/addNewItem.js}"></script>
 
 <div>
     <footer></footer>

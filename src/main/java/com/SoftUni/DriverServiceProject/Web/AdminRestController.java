@@ -87,14 +87,14 @@ public class AdminRestController {
             CarServiceModel carServiceModel =
                     modelMapper.map(carAddBindingModel, CarServiceModel.class);
 
-                carServiceModel.setGarage(garageService.findGarage(carAddBindingModel.getGarage()));
+                carServiceModel.setGarage(garageService.findGarage(carAddBindingModel.getAddress()));
 
             CarViewModel CarView =
                     carService.createCar(carServiceModel);
 
 
             URI locationOfNewViewCar =
-                    URI.create(String.format("/api/cars/%s", CarView.getId()));
+                    URI.create(String.format("/api/admins/cars/%s", CarView.getId()));
 
             return ResponseEntity.
                     created(locationOfNewViewCar).
@@ -104,7 +104,7 @@ public class AdminRestController {
         }
 
 
-        @RequestMapping(value = "/api/admins//{id}/createGarage",
+        @RequestMapping(value = "/api/admins/{id}/createGarage",
                 produces = "application/json", method = {RequestMethod.POST})
         public ResponseEntity<GarageViewModel> NewGarage(
                 @PathVariable Long id,
@@ -122,7 +122,7 @@ public class AdminRestController {
 
 
             URI locationOfNewViewGarage =
-                    URI.create(String.format("/api/garages/%s", GarageView.getId()));
+                    URI.create(String.format("/api/admins/garages/%s", GarageView.getId()));
 
             return ResponseEntity.
                     created(locationOfNewViewGarage).
@@ -132,7 +132,7 @@ public class AdminRestController {
 
 
         }
-
+//consumes = MediaType.APPLICATION_JSON_VALUE   /api/admins/{id}/createSubscription
         @RequestMapping(value = "/api/admins/{id}/createSubscription",
                 produces = "application/json", method = {RequestMethod.POST})
         public ResponseEntity<SubscriptionTypeViewModel> NewSubscription(
@@ -147,11 +147,11 @@ public class AdminRestController {
             SubscriptionTypeViewModel subscriptionTypeViewModel=
                     subscriptionTypeService.createNewType(subscriptionTypeServiceModel);
 
-            URI locationOfNewViewCar =
-                    URI.create(String.format("/api/cars/%s", subscriptionTypeViewModel.getId()));
+            URI locationOfNewViewSubscription =
+                    URI.create(String.format("/api/admins/subscriptions/%s", subscriptionTypeViewModel.getId()));
 
             return ResponseEntity.
-                    created(locationOfNewViewCar).
+                    created(locationOfNewViewSubscription).
                     body(subscriptionTypeViewModel);
 
 

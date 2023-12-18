@@ -15,6 +15,7 @@ import com.SoftUni.DriverServiceProject.Service.OrderService;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionOrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,10 +31,11 @@ public class DriverServiceImpl implements DriverService {
     private final SubscriptionOrderService subscriptionOrderService;
     private final OrderRepository orderRepository;
     private final DriverRoleRepository driverRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public DriverServiceImpl(DriverRepository driverRepository, OrderService orderService, ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService,
-                             OrderRepository orderRepository, DriverRoleRepository driverRoleRepository) {
+                             OrderRepository orderRepository, DriverRoleRepository driverRoleRepository, PasswordEncoder passwordEncoder) {
         this.driverRepository = driverRepository;
         this.orderService = orderService;
         this.modelMapper = modelMapper;
@@ -41,6 +43,7 @@ public class DriverServiceImpl implements DriverService {
         this.subscriptionOrderService = subscriptionOrderService;
         this.orderRepository = orderRepository;
         this.driverRoleRepository = driverRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -107,8 +110,11 @@ public class DriverServiceImpl implements DriverService {
 
        Driver driver=modelMapper.map(driverServiceModel,Driver.class);
        driver.setAvailable(true);
-       driver.getRoles().add(driverRoleRepository.
-               findDriverRoleByRole(UserRoleEnum.Driver).orElseThrow(null));
+       driver.setPassword(passwordEncoder.encode(driverServiceModel.getPassword()));
+
+        driver.setRoles(List.of(driverRoleRepository.findDriverRoleByRole(UserRoleEnum.Driver).orElse(null)));
+//        driver.getRoles().add(driverRoleRepository.
+//               findDriverRoleByRole(UserRoleEnum.Driver).orElseThrow(null));
 
         driverRepository.save(driver);
         return modelMapper.map(driver,DriverViewModel.class);

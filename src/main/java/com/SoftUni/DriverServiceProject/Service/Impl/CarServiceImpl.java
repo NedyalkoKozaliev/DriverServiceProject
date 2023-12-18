@@ -8,6 +8,8 @@ import com.SoftUni.DriverServiceProject.Service.CarService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarServiceImpl implements CarService {
 
@@ -32,5 +34,10 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car findCar(String registration) {
         return carRepository.findByRegistration(registration).orElse(null);
+    }
+
+    @Override
+    public List<Car> findAllCars() {
+        return carRepository.findAll();
     }
 }

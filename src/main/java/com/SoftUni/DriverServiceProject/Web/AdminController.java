@@ -3,7 +3,10 @@ package com.SoftUni.DriverServiceProject.Web;
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Models.Entity.SubscriptionOrder;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.AdminViewModel;
+import com.SoftUni.DriverServiceProject.Repository.CarRepository;
+import com.SoftUni.DriverServiceProject.Repository.GarageRepository;
 import com.SoftUni.DriverServiceProject.Service.AdminService;
+import com.SoftUni.DriverServiceProject.Service.CarService;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionOrderService;
 import org.modelmapper.ModelMapper;
@@ -23,12 +26,16 @@ public class AdminController {
     private final AdminService adminService;
     private final DriverService driverService;
     private final SubscriptionOrderService subscriptionOrderService;
+    private final GarageRepository garageRepository;
+    private final CarService carService;
 
-    public AdminController(ModelMapper modelMapper, AdminService adminService, DriverService driverService, SubscriptionOrderService subscriptionOrderService) {
+    public AdminController(ModelMapper modelMapper, AdminService adminService, DriverService driverService, SubscriptionOrderService subscriptionOrderService, GarageRepository garageRepository, CarService carService) {
         this.modelMapper = modelMapper;
         this.adminService = adminService;
         this.driverService = driverService;
         this.subscriptionOrderService = subscriptionOrderService;
+        this.garageRepository = garageRepository;
+        this.carService = carService;
     }
 
     @GetMapping("/{id}/adminDash")
@@ -53,6 +60,7 @@ public class AdminController {
         model
                 .addAttribute("admin", modelMapper
                         .map(adminService.findAdminById(id), AdminViewModel.class));
+        model.addAttribute("cars",carService.findAllCars());
 
         return "createDriver";
     }
@@ -73,7 +81,7 @@ public class AdminController {
 //        return "assignDriverToSubscription";
 //    }
 //
-    @GetMapping("/{id}/createSubscription") /// ------------------------>отделно с линк в даша
+    @GetMapping("/{id}/createSubscription")
 
     public String newSubscription(@PathVariable Long id, Model model) {
 
@@ -91,6 +99,7 @@ public class AdminController {
         model
                 .addAttribute("admin", modelMapper
                         .map(adminService.findAdminById(id), AdminViewModel.class));
+        model.addAttribute("garages",garageRepository.findAll());
 
         return "createCar";
     }

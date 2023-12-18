@@ -18,7 +18,7 @@ try{
     const responseData= await postFormDataAsJson({url, formData});
 console.log('going to add item')
     form.reset();
-    }catch{
+    }catch(error){
     let errorObj = JSON.parse(error.message);
 
                 if (errorObj.fieldWithErrors) {
@@ -55,9 +55,9 @@ async function postFormDataAsJson({url, formData}) {
   }
 
   const response = await fetch(url, fetchOptions);
-  //} catch (error) {
+
   if (!response.ok) {
-      const errorMessage = await response.text("wrong response");
+      const errorMessage = await response.text();
       throw new Error(errorMessage);
     }
 

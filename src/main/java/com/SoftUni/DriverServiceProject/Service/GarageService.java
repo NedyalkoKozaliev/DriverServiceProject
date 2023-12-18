@@ -9,6 +9,6 @@ public interface GarageService {
 
     GarageViewModel createGarage(GarageServiceModel garageServiceModel);
 
-    Garage findGarage(String garage);
+    Garage findGarage(String address);
 
 }
