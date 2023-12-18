@@ -1,9 +1,7 @@
 package com.SoftUni.DriverServiceProject.Service.Impl;
 
 import com.SoftUni.DriverServiceProject.Models.DTO.ChangeUserNameModel;
-import com.SoftUni.DriverServiceProject.Models.DTO.UserRegistrationDTO;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
-import com.SoftUni.DriverServiceProject.Models.Entity.UserRole;
 import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.UserServiceModel;
 import com.SoftUni.DriverServiceProject.Repository.UserRepository;
@@ -44,11 +42,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUserName(ChangeUserNameModel changeUserName) {
+    public void changeUserName(ChangeUserNameModel changeUserName, Consumer<Authentication> successfulLoginProcessor) {
         User user=userRepository.findById(changeUserName.getUserId()).orElseThrow(()->new ObjectNotFoundException("User with id " + changeUserName.getUserId() + " was not found!"));
 
         user.setEmail(changeUserName.getNewEmail());
         userRepository.save(user);
+
+
+        UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(changeUserName.getNewEmail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
+        successfulLoginProcessor.accept(authentication);
 
     }
 

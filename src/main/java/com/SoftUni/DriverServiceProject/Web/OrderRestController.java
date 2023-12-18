@@ -28,7 +28,7 @@ public class OrderRestController {
     private final ModelMapper modelMapper;
     private final OrderService orderService;
     private final ClientService clientService;
-    private static final Object API_KEY="";
+    private static final Object API_KEY="AIzaSyBWwHYSB5F8eJXlS6wfypKDvt84lhO9ipg";
 
 
    // @Autowired
@@ -51,7 +51,7 @@ public class OrderRestController {
 
        ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+addressFrom+"&destinations="+addressTo+"&mode=car&language=en&key="+API_KEY, DistanceDurationResponse.class);
 
-//DistanceDurationResponse response1=new RestTemplate().getForObject("http://localhost:8080/api/DistanceAndDuration",DistanceDurationResponse.class,addressFrom,addressTo);
+
         Float distance= Arrays.stream(Arrays.stream(response.getBody().getRows()).findFirst().get().getElements()).findFirst().get().getDistance().getValue();
 
 

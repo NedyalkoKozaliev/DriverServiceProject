@@ -14,7 +14,7 @@ const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
     const url = form.action;
     const formData = new FormData(form);
 try{
-    const responseData= await putDataAsJson({url, formData});
+    const responseData= await putFormDataAsJson({url, formData});
 
     form.reset();
     }catch(error){
@@ -48,9 +48,12 @@ try{
               body: formDataAsJSONString
                 }
       const response = await fetch(url, fetchOptions);
+ if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
 
 
 
-      form.reset();
         return response.json();
             }

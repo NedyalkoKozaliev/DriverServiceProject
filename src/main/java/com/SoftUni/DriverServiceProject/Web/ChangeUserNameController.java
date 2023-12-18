@@ -28,7 +28,7 @@ public class ChangeUserNameController {
                 .addAttribute("user", modelMapper
                         .map(userService.findUserById(id), UserViewModel.class));
 
-        return "Change-UserName"; // ---to add it to navbar
+        return "Change-UserName";
 
     }
 

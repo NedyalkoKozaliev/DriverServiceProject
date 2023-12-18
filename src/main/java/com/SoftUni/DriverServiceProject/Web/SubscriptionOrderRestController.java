@@ -7,6 +7,7 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionOrderViewMo
 import com.SoftUni.DriverServiceProject.Models.dataValidation.AppErrors;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionOrderService;
+import com.SoftUni.DriverServiceProject.Service.SubscriptionTypeService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,16 @@ public class SubscriptionOrderRestController {
 
     private final ModelMapper modelMapper;
     private final SubscriptionOrderService subscriptionOrderService;
+    private final SubscriptionTypeService subscriptionTypeService;
 
     private final ClientService clientService;
 
-    private static final Object API_KEY="";
+    private static final Object API_KEY="AIzaSyBWwHYSB5F8eJXlS6wfypKDvt84lhO9ipg";
 
-    public SubscriptionOrderRestController(ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService, ClientService clientService) {
+    public SubscriptionOrderRestController(ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService, SubscriptionTypeService subscriptionTypeService, ClientService clientService) {
         this.modelMapper = modelMapper;
         this.subscriptionOrderService = subscriptionOrderService;
+        this.subscriptionTypeService = subscriptionTypeService;
         this.clientService = clientService;
     }
 
@@ -42,12 +45,13 @@ public class SubscriptionOrderRestController {
             produces = "application/json", method = {RequestMethod.POST})
     public ResponseEntity<SubscriptionOrderViewModel> MakeSubscriptionOrder(
             @AuthenticationPrincipal UserDetails principal,
-            @Valid SubscriptionOrderBindingModel subscriptionOrderBindingModel
+            @RequestBody @Valid SubscriptionOrderBindingModel subscriptionOrderBindingModel
     ) {
 
         SubscriptionOrderServiceModel subscriptionOrderServiceModel=modelMapper.map(subscriptionOrderBindingModel,
                 SubscriptionOrderServiceModel.class);
         subscriptionOrderServiceModel.setClient(clientService.findClientByEmail(principal.getUsername()));
+        subscriptionOrderServiceModel.setSubscription(subscriptionTypeService.getSubscriptionByName(subscriptionOrderBindingModel.getSubscription()));
 
 
         String addressTo=subscriptionOrderBindingModel.getAddressTo();
@@ -72,10 +76,10 @@ public class SubscriptionOrderRestController {
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<AppErrors> onValidationFailure(MethodArgumentNotValidException exc) {
-        AppErrors appErrors = new AppErrors(HttpStatus.BAD_REQUEST);
+        AppErrors apiError = new AppErrors(HttpStatus.BAD_REQUEST);
         exc.getFieldErrors().forEach(fe ->
-                appErrors.addFieldWithError(fe.getField()));
+                apiError.addFieldWithError(fe.getField()));
 
-        return ResponseEntity.badRequest().body(appErrors);
+        return ResponseEntity.badRequest().body(apiError);
     }
 }

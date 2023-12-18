@@ -1,5 +1,6 @@
 package com.SoftUni.DriverServiceProject.Models.ServiceModels;
 
+import com.SoftUni.DriverServiceProject.Models.Entity.Subscription;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName;
 
@@ -8,7 +9,7 @@ public class SubscriptionOrderServiceModel {
 
     private String addressTo;
 
-    private SubscriptionEnumName subscription;
+    private Subscription subscription;
 
     private User client;
 
@@ -33,11 +34,11 @@ public class SubscriptionOrderServiceModel {
         this.addressTo = addressTo;
     }
 
-    public SubscriptionEnumName getSubscription() {
+    public Subscription getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(SubscriptionEnumName subscription) {
+    public void setSubscription(Subscription subscription) {
         this.subscription = subscription;
     }
 

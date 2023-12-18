@@ -35,7 +35,7 @@ public class SubscriptionOrderServiceImpl implements SubscriptionOrderService {
 
         SubscriptionOrder subscriptionOrder=modelMapper.map(subscriptionOrderServiceModel,SubscriptionOrder.class);
         subscriptionOrder.setAssigned(false);
-        subscriptionOrder.setSubscription(subscriptionTypeService.getSubscriptionByName(subscriptionOrderServiceModel.getSubscription()));
+        //subscriptionOrder.setSubscription(subscriptionTypeService.getSubscriptionByName(subscriptionOrderServiceModel.getSubscription()));
         subscriptionOrder.setPrice(BigDecimal.valueOf(subscriptionOrderServiceModel.getDistance()).multiply(BigDecimal.valueOf(subscriptionOrder.getSubscription().getPriceRate())));
 
         subscriptionOrderRepository.save(subscriptionOrder);

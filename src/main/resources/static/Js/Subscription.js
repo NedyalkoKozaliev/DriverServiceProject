@@ -4,7 +4,7 @@ const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
 
 
     const subscriptionForm = document.getElementById('subscriptionForm')
-    orderForm.addEventListener("submit",createSubscription)
+    subscriptionForm.addEventListener("submit",createSubscription)
 
     async function createSubscription(event){
     event.preventDefault();
@@ -14,9 +14,9 @@ const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
     const formData = new FormData(form);
 try{
     const responseData= await postFormDataAsJson({url, formData});
-
+    console.log('successful add of subscriptionOrder')
     form.reset();
-    }catch{
+    }catch(error){
      let errorObj = JSON.parse(error.message);
 
             if (errorObj.fieldWithErrors) {
@@ -54,7 +54,7 @@ async function postFormDataAsJson({url, formData}) {
   const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
-      const errorMessage = await response.text("wrong response");
+      const errorMessage = await response.text();
       throw new Error(errorMessage);
     }
 
@@ -62,6 +62,6 @@ async function postFormDataAsJson({url, formData}) {
   return response.json();
 
 
-
+}
 
 

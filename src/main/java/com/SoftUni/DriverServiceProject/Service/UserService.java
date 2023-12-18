@@ -9,9 +9,11 @@ import org.springframework.security.core.Authentication;
 import java.util.function.Consumer;
 
 public interface UserService {
-    void changeUserName(ChangeUserNameModel changeUserName);
 
-    void registerUser(UserServiceModel userServiceModel,Consumer<Authentication> successfulLoginProcessor);
+
+    void changeUserName(ChangeUserNameModel changeUserName, Consumer<Authentication> successfulLoginProcessor);
+
+    void registerUser(UserServiceModel userServiceModel, Consumer<Authentication> successfulLoginProcessor);
 
     User findUserById(Long id);
 }
