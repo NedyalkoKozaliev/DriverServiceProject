@@ -132,7 +132,7 @@ public class AdminRestController {
 
 
         }
-//consumes = MediaType.APPLICATION_JSON_VALUE   /api/admins/{id}/createSubscription
+
         @RequestMapping(value = "/api/admins/{id}/createSubscription",
                 produces = "application/json", method = {RequestMethod.POST})
         public ResponseEntity<SubscriptionTypeViewModel> NewSubscription(
@@ -158,10 +158,6 @@ public class AdminRestController {
         }
 
 
-
-
-
-        // check if needed something to correct --> need to create model of this ApiError which is returned errors from validation of fields
 
         @ExceptionHandler(MethodArgumentNotValidException.class)
         public ResponseEntity<AppErrors> onValidationFailure(MethodArgumentNotValidException exc) {

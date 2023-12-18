@@ -20,31 +20,6 @@ public class ClientsController {
         this.modelMapper = modelMapper;
     }
 
-//    @PostMapping("/{id}")
-//    public ResponseEntity<OrderViewModel> OrderIn(
-//            @AuthenticationPrincipal UserDetails principal,
-//            @PathVariable Long clientId,
-//            @RequestBody @Valid OrderBindingModel OrderBindingModel, ModelMapper modelMapper, OrderService
-//            orderService) {
-//
-//        //!!find order by received info and show data as response binding model should be different
-//
-//        OrderServiceModel orderServiceModel =
-//                modelMapper.map(OrderBindingModel, OrderServiceModel.class);
-//        orderServiceModel.setClient((User) principal);
-//
-//
-//        OrderViewModel OrderView =
-//                orderService.createOrder(orderServiceModel);
-//
-//        URI locationOfNewOrder =
-//                URI.create(String.format("/api/orders/%s",OrderView.getId()));
-//
-//        return ResponseEntity.
-//                created(locationOfNewOrder).
-//                body(OrderView);
-//    }
-
 
     @GetMapping("/{id}")
     public String ClientDash(@PathVariable Long id, Model model){
