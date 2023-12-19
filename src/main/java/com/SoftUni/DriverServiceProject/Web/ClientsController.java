@@ -1,11 +1,16 @@
 package com.SoftUni.DriverServiceProject.Web;
 
+import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.ClientViewModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionOrderViewModel;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 
 @Controller
@@ -24,6 +29,12 @@ public class ClientsController {
     @GetMapping("/{id}")
     public String ClientDash(@PathVariable Long id, Model model){
 
+        List<Order> myOrders=clientService.findMyOrders(id);
+        List<SubscriptionOrderViewModel> mySubscriptions=clientService.findMySubscriptions(id);
+        Order myLastOrder=clientService.findLastOrder(id);
+        BigDecimal billOrders= myOrders.stream().map(Order::getPrice).reduce(BigDecimal.ZERO,BigDecimal::add);
+
+        BigDecimal totalBill=null;
         model
                 .addAttribute("client", modelMapper
                         .map(clientService.findClientById(id), ClientViewModel.class));

@@ -2,6 +2,8 @@ package com.SoftUni.DriverServiceProject.Web;
 
 import com.SoftUni.DriverServiceProject.Models.LogedIn.LoggedInDriver;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.DriverViewModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
+import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionOrderViewModel;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,6 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/drivers")
@@ -23,39 +29,19 @@ public class DriverController {
         this.driverService = driverService;
     }
 
-//    @PutMapping("/api/drivers/{id}")
-//    public ResponseEntity<OrderViewModel> AssignOrder(
-//            @AuthenticationPrincipal UserDetails principal,
-//            @PathVariable Long id,
-//            @RequestBody @Valid OrderBindingModel orderBindingModel,
-//            DriverRepository driverRepository, ModelMapper modelMapper, OrderService orderService){
-//
-//        OrderServiceModel orderServiceModel=modelMapper.map(orderBindingModel, OrderServiceModel.class);
-//
-//        OrderViewModel OrderView =
-//                orderService.createOrder(orderServiceModel);
-//        URI locationOfNewOrder =
-//                URI.create(String.format("/api/drivers/%s/currentOrder",id));
-//
-//        Optional<Driver> driver=driverRepository.findById(id);
-//
-//        driver.ifPresent(driver1 ->{ driver1.setCurrentTask(orderService.getOrder(orderServiceModel.getId()));});
-//           return ResponseEntity
-//                   .created(locationOfNewOrder)
-//                   .body(OrderView);}
-//
-//    @PutMapping("/api/drivers/{id}/currentOrder")
-//    public ResponseEntity<OrderViewModel> FinishOrder(
-//            @AuthenticationPrincipal UserDetails principal,
-//            @PathVariable Long id,
-//            @RequestBody @Valid OrderBindingModel orderBindingModel){
-//        return null;
-//
-//    }
+
 
     @GetMapping("/{id}")
     public String driverDash(@PathVariable Long id, Model model,@AuthenticationPrincipal UserDetails principal  ){
 
+//         <!-- info about orders done - total mileage/total cost/amount|| info about subscribnion if any ==so two cards bellow -->
+        List<OrderViewModel>myOrders=driverService.findDriverById(id).getOrderTasks().stream().
+                map(order -> modelMapper.map(order,OrderViewModel.class)).collect(Collectors.toList());
+        List<SubscriptionOrderViewModel>mySubscriptions=driverService.findDriverById(id).getSubscriptionTasks().stream().
+                map(subscriptionOrder -> modelMapper.map(subscriptionOrder,SubscriptionOrderViewModel.class)).collect(Collectors.toList());
+        Float totalMileageOrders=myOrders.stream().map(OrderViewModel::getDistance).reduce((a,b)->a+b).orElse(null);
+        BigDecimal TotalCost=myOrders.stream().map(OrderViewModel::getPrice).reduce(BigDecimal.ZERO,BigDecimal::add);
+        Integer AmountOfOrders=myOrders.size();
 
         model
                 .addAttribute("driver", modelMapper

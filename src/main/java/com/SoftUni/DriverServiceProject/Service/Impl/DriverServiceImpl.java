@@ -54,13 +54,13 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver findDriverById(Long id) {
-        return  driverRepository.findDriverById(id);
+        return  driverRepository.findDriverById(id).orElse(null);
     }
 
     @Override
     public void finishOrder(Long id) {
-        Order order=driverRepository.findDriverById(id).getCurrentTask();
-        Driver driver= driverRepository.findDriverById(id);
+        Order order=driverRepository.findDriverById(id).orElse(null).getCurrentTask();
+        Driver driver= driverRepository.findDriverById(id).orElse(null);
        driver.setCurrentTask(null);
        driver.setAvailable(true);
         driver.getOrderTasks().add(order);
