@@ -7,6 +7,7 @@ import com.SoftUni.DriverServiceProject.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,9 +28,12 @@ public class UserRestController {
     private final UserService userService;
     private final SecurityContextRepository securityContextRepository;
 
-    public UserRestController(UserService userService, SecurityContextRepository securityContextRepository) {
+    private final ModelMapper modelMapper;
+
+    public UserRestController(UserService userService, SecurityContextRepository securityContextRepository, ModelMapper modelMapper) {
         this.userService = userService;
         this.securityContextRepository = securityContextRepository;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -42,7 +46,7 @@ public class UserRestController {
             @RequestBody @Valid ChangeUserNameModel changeUserNameModel, HttpServletRequest request,
             HttpServletResponse response){
 
-
+            UserViewModel userViewModel=modelMapper.map(userService.findUserById(changeUserNameModel.getUserId()),UserViewModel.class);
 
         userService.changeUserName((changeUserNameModel), successfulAuth->{
             SecurityContextHolderStrategy strategy= SecurityContextHolder.getContextHolderStrategy();
@@ -51,10 +55,10 @@ public class UserRestController {
             strategy.setContext(context);
             securityContextRepository.saveContext(context,request,response);});
 
-
+    URI locationOfChanged=URI.create(String.format("/api/users/email/%s",changeUserNameModel.getUserId()));
         return ResponseEntity.
-                noContent().
-                build();
+                created(locationOfChanged).body(userViewModel);
+
 
     }
 

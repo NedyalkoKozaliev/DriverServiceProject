@@ -38,7 +38,7 @@ public class SubscriptionRestController {
         SubscriptionTypeServiceModel subscriptionTypeServiceModel=modelMapper.map(subscriptionTypeBindingModel,
                SubscriptionTypeServiceModel.class );
 
-        SubscriptionTypeViewModel subscriptionTypeViewModel=subscriptionTypeService.createNewType(subscriptionTypeServiceModel);
+        SubscriptionTypeViewModel subscriptionTypeViewModel=subscriptionTypeService.changeType(subscriptionTypeServiceModel);
 
         URI locationOfNewSubscription =
                URI.create(String.format("/api/subscriptions/%s", subscriptionTypeViewModel.getId()));

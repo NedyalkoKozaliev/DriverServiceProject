@@ -3,6 +3,7 @@ package com.SoftUni.DriverServiceProject.Service.Impl;
 import com.SoftUni.DriverServiceProject.Models.Entity.SubscriptionOrder;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.SubscriptionOrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionOrderViewModel;
+import com.SoftUni.DriverServiceProject.Repository.PriceListRepository;
 import com.SoftUni.DriverServiceProject.Repository.SubscriptionOrderRepository;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionOrderService;
@@ -21,13 +22,15 @@ public class SubscriptionOrderServiceImpl implements SubscriptionOrderService {
     private final SubscriptionOrderRepository subscriptionOrderRepository;
     private final ClientService clientService;
     private final SubscriptionTypeService subscriptionTypeService;
+    private final PriceListRepository priceListRepository;
 
     @Autowired
-    public SubscriptionOrderServiceImpl(ModelMapper modelMapper, SubscriptionOrderRepository subscriptionOrderRepository, ClientService clientService, SubscriptionTypeService subscriptionTypeService) {
+    public SubscriptionOrderServiceImpl(ModelMapper modelMapper, SubscriptionOrderRepository subscriptionOrderRepository, ClientService clientService, SubscriptionTypeService subscriptionTypeService, PriceListRepository priceListRepository) {
         this.modelMapper = modelMapper;
         this.subscriptionOrderRepository = subscriptionOrderRepository;
         this.clientService = clientService;
         this.subscriptionTypeService = subscriptionTypeService;
+        this.priceListRepository = priceListRepository;
     }
 
     @Override
@@ -35,8 +38,9 @@ public class SubscriptionOrderServiceImpl implements SubscriptionOrderService {
 
         SubscriptionOrder subscriptionOrder=modelMapper.map(subscriptionOrderServiceModel,SubscriptionOrder.class);
         subscriptionOrder.setAssigned(false);
-        //subscriptionOrder.setSubscription(subscriptionTypeService.getSubscriptionByName(subscriptionOrderServiceModel.getSubscription()));
-        subscriptionOrder.setPrice(BigDecimal.valueOf(subscriptionOrderServiceModel.getDistance()).multiply(BigDecimal.valueOf(subscriptionOrder.getSubscription().getPriceRate())));
+        BigDecimal price=priceListRepository.findByName("BGNperKm").get().getPrice();
+
+        subscriptionOrder.setPrice(BigDecimal.valueOf(subscriptionOrderServiceModel.getDistance()).multiply(BigDecimal.valueOf(subscriptionOrder.getSubscription().getPriceRate()).multiply(price)));
 
         subscriptionOrderRepository.save(subscriptionOrder);
 

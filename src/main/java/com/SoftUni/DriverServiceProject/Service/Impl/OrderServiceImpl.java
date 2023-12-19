@@ -4,6 +4,7 @@ import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.ServiceModels.OrderServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
+import com.SoftUni.DriverServiceProject.Repository.PriceListRepository;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
 import com.SoftUni.DriverServiceProject.Service.DistanceAndDurationService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
@@ -22,12 +23,15 @@ public class OrderServiceImpl implements OrderService {
     private final ModelMapper modelMapper;
     private final ClientService clientService;
 
+    private final PriceListRepository priceListRepository;
+
     private final DistanceAndDurationService distanceAndDurationService;
 @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService, DistanceAndDurationService distanceAndDurationService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService, PriceListRepository priceListRepository, DistanceAndDurationService distanceAndDurationService) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
     this.clientService = clientService;
+    this.priceListRepository = priceListRepository;
     this.distanceAndDurationService = distanceAndDurationService;
 }
 
@@ -37,11 +41,11 @@ public class OrderServiceImpl implements OrderService {
 
         Order order=modelMapper.map(orderServiceModel,Order.class);
 
-
+            BigDecimal price=priceListRepository.findByName("BGNperKm").get().getPrice();
 
         order.setApproved(false);
 
-        order.setPrice((BigDecimal.valueOf(2.0)).multiply(BigDecimal.valueOf(orderServiceModel.getDistance())));
+        order.setPrice((price.multiply(BigDecimal.valueOf(orderServiceModel.getDistance()))));
 
         orderRepository.save(order);
 

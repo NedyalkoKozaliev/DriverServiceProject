@@ -8,7 +8,7 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionTypeViewMod
 public interface SubscriptionTypeService {
 
 
-    SubscriptionTypeViewModel createNewType(SubscriptionTypeServiceModel subscriptionTypeServiceModel);
+    SubscriptionTypeViewModel changeType(SubscriptionTypeServiceModel subscriptionTypeServiceModel);
 
     Subscription getSubscriptionByName(SubscriptionEnumName subscription);
 

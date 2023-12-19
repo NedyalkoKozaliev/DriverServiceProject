@@ -66,22 +66,8 @@ public class AdminController {
     }
 
 
-//    @GetMapping("/{id}/assignDriverToSubscription") //----------------> в дашборда +++
-//
-//    public String assignDriverToSub(@PathVariable Long id, Model model) {
-//
-//        model
-//                .addAttribute("admin", modelMapper
-//                        .map(adminService.findAdminById(id), AdminViewModel.class));
-//
-//        List<Driver> drivers=driverService.getAllDrivers();
-//
-//        model.addAttribute("drivers",drivers);
-//
-//        return "assignDriverToSubscription";
-//    }
-//
-    @GetMapping("/{id}/createSubscription")
+
+    @GetMapping("/{id}/changeSubscription")
 
     public String newSubscription(@PathVariable Long id, Model model) {
 
@@ -89,7 +75,7 @@ public class AdminController {
                 .addAttribute("admin", modelMapper
                         .map(adminService.findAdminById(id), AdminViewModel.class));
 
-        return "createSubscription";
+        return "changeSubscription";
     }
 
     @GetMapping("/{id}/createCar")

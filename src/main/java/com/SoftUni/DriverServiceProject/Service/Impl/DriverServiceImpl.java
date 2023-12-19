@@ -10,6 +10,7 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
 import com.SoftUni.DriverServiceProject.Repository.DriverRoleRepository;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
+import com.SoftUni.DriverServiceProject.Repository.SubscriptionOrderRepository;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import com.SoftUni.DriverServiceProject.Service.SubscriptionOrderService;
@@ -32,10 +33,11 @@ public class DriverServiceImpl implements DriverService {
     private final OrderRepository orderRepository;
     private final DriverRoleRepository driverRoleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SubscriptionOrderRepository subscriptionOrderRepository;
 
     @Autowired
     public DriverServiceImpl(DriverRepository driverRepository, OrderService orderService, ModelMapper modelMapper, SubscriptionOrderService subscriptionOrderService,
-                             OrderRepository orderRepository, DriverRoleRepository driverRoleRepository, PasswordEncoder passwordEncoder) {
+                             OrderRepository orderRepository, DriverRoleRepository driverRoleRepository, PasswordEncoder passwordEncoder, SubscriptionOrderRepository subscriptionOrderRepository) {
         this.driverRepository = driverRepository;
         this.orderService = orderService;
         this.modelMapper = modelMapper;
@@ -44,6 +46,7 @@ public class DriverServiceImpl implements DriverService {
         this.orderRepository = orderRepository;
         this.driverRoleRepository = driverRoleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.subscriptionOrderRepository = subscriptionOrderRepository;
     }
 
 
@@ -97,6 +100,8 @@ public class DriverServiceImpl implements DriverService {
         Driver driver=findDriverById(id);
        SubscriptionOrder subscriptionOrder=subscriptionOrderService.findSubscriptionOrderById(subscriptionId);
         driver.getSubscriptionTasks().add(subscriptionOrder);
+        subscriptionOrder.setAssigned(true);
+        subscriptionOrderRepository.save(subscriptionOrder);
         driverRepository.save(driver);
     }
 

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public class ChangeUserNameModel {
 
     private Long userId;
-    private String currentEmail;
+    private String confirmationEmail;
     private String newEmail;
 
     public ChangeUserNameModel() {
@@ -23,12 +23,12 @@ public class ChangeUserNameModel {
 
     @Email
     @NotNull
-    public String getCurrentEmail() {
-        return currentEmail;
+    public String getConfirmationEmail() {
+        return confirmationEmail;
     }
 
-    public ChangeUserNameModel setCurrentEmail(String currentEmail) {
-        this.currentEmail = currentEmail;
+    public ChangeUserNameModel setConfirmationEmail(String confirmationEmail) {
+        this.confirmationEmail = confirmationEmail;
         return this;
     }
 

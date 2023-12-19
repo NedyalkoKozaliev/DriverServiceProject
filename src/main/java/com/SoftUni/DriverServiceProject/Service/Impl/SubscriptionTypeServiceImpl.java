@@ -23,8 +23,10 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
 
     @Override
-    public SubscriptionTypeViewModel createNewType(SubscriptionTypeServiceModel subscriptionTypeServiceModel) {
-        Subscription subscription=modelMapper.map(subscriptionTypeServiceModel,Subscription.class);
+    public SubscriptionTypeViewModel changeType(SubscriptionTypeServiceModel subscriptionTypeServiceModel) {
+        Subscription subscription=subscriptionRepository.findByName(subscriptionTypeServiceModel.getName()).orElse(null);
+        subscription.setDescription(subscriptionTypeServiceModel.getDescription());
+        subscription.setPriceRate(subscriptionTypeServiceModel.getPriceRate());
         subscriptionRepository.save(subscription);
         return modelMapper.map(subscription,SubscriptionTypeViewModel.class);
 

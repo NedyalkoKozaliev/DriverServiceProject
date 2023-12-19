@@ -133,19 +133,20 @@ public class AdminRestController {
 
         }
 
-        @RequestMapping(value = "/api/admins/{id}/createSubscription",
-                produces = "application/json", method = {RequestMethod.POST})
-        public ResponseEntity<SubscriptionTypeViewModel> NewSubscription(
+        @RequestMapping(value = "/api/admins/{id}/changeSubscription",
+                produces = "application/json", method = {RequestMethod.PUT})
+        public ResponseEntity<SubscriptionTypeViewModel> ChangeSubscription(
                 @PathVariable Long id,
                 @AuthenticationPrincipal UserDetails principal,
                 @RequestBody @Valid SubscriptionTypeBindingModel subscriptionTypeBindingModel
         ) {
 
+
             SubscriptionTypeServiceModel subscriptionTypeServiceModel =
                     modelMapper.map(subscriptionTypeBindingModel, SubscriptionTypeServiceModel.class);
 
             SubscriptionTypeViewModel subscriptionTypeViewModel=
-                    subscriptionTypeService.createNewType(subscriptionTypeServiceModel);
+                    subscriptionTypeService.changeType(subscriptionTypeServiceModel);
 
             URI locationOfNewViewSubscription =
                     URI.create(String.format("/api/admins/subscriptions/%s", subscriptionTypeViewModel.getId()));
