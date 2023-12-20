@@ -1,15 +1,15 @@
 package com.SoftUni.DriverServiceProject.Web;
 
+import com.SoftUni.DriverServiceProject.Models.DTO.AssignSubscriptionBindingModel;
 import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.Subscription;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
+import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.SubscriptionOrderViewModel;
-import com.SoftUni.DriverServiceProject.Repository.DriverRepository;
-import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
-import com.SoftUni.DriverServiceProject.Repository.UserRepository;
+import com.SoftUni.DriverServiceProject.Repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.text.MatchesPattern;
 import org.junit.jupiter.api.AfterEach;
@@ -21,6 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 import static com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName.toWork;
 import static org.hamcrest.Matchers.hasSize;
@@ -49,6 +52,10 @@ public class DriverRestControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+    @Autowired
+    private DriverRoleRepository driverRoleRepository;
 
     private Driver testDriver;
 
@@ -57,16 +64,16 @@ public class DriverRestControllerTest {
     @BeforeEach
     void setUp() {
         testDriver = new Driver();
-        testDriver.setId(6);
+        testDriver.setId(6L);
         testDriver.setEmail("nek@test.com");
         testDriver.setFirstName("Nedyalko");
         testDriver.setLastName("Kozaliev");
         testDriver.setPassword("password");
-        testUser.setRoles(List.of(driverRoleRepository.findDriverRoleByRole(UserRoleEnum.Driver).orElse(null)));
+        testDriver.setRoles(List.of(driverRoleRepository.findDriverRoleByRole(UserRoleEnum.Driver).orElse(null)));
         testDriver=driverRepository.save(testDriver);
 
         testUser = new User();
-        testUser.setId(7);
+        testUser.setId(7L);
         testUser.setEmail("ivan@test.com");
         testUser.setFirstName("Ivan");
         testUser.setLastName("Kozaliev");
@@ -89,6 +96,18 @@ public class DriverRestControllerTest {
         orderView.setNumberOfPassengers(3);
         orderView.setPrice(BigDecimal.valueOf(20.5));
         orderView.setDistance(555f);
+
+        Order order1=new Order();
+        order1.setAddressFrom("Plovdiv");
+        order1.setAddressTo("Sofia");
+        order1.setNumberOfPassengers(3);
+        order1.setClient(testUser);
+        order1.setPrice(BigDecimal.valueOf(20.5));
+        //order1.setApproved(true);
+        order1.setDistance(555f);
+        orderRepository.save(order1);
+
+        testDriver.setCurrentTask(order1);
 
         mockMvc.perform(
                         put("/api/drivers/6/currentOrder")
@@ -116,6 +135,17 @@ public class DriverRestControllerTest {
         orderView.setPrice(BigDecimal.valueOf(20.5));
         orderView.setDistance(555f);
 
+        Order order1=new Order();
+        order1.setAddressFrom("plovdiv");
+        order1.setAddressTo("sofia");
+        order1.setNumberOfPassengers(4);
+        order1.setClient(testUser);
+        order1.setPrice(BigDecimal.valueOf(33));
+        order1.setApproved(true);
+        order1.setDistance(789123f);
+        orderRepository.save(order1);
+        testDriver.setCurrentTask(order1);
+
         mockMvc.perform(
                         put("/api/drivers/6/ordersList")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -138,19 +168,11 @@ public class DriverRestControllerTest {
 
     @Test
     void testassignTask() throws Exception {
-        // Subscription testSub= new Subscription();
-        // testSub.setDescription("some description");
-        // testSub.setPriceRate(1.0f);
-        // testSub.setName(toWork);
 
-        // SubscriptionOrderViewModel subscription=new SubscriptionOrderViewModel();
-        // subscription.setId(1L);
-        // subscription.setAddressFrom("Plovdiv");
-        // subscription.setAddressTo("Sofia");
-        // subscription.setSubscription(testSub);
+
          AssignSubscriptionBindingModel testBindingModel= new AssignSubscriptionBindingModel();
-        testBindingModel.setSubscriptionId(1);
-        testBindingModel.setDriverId(6);
+        testBindingModel.setSubscriptionId(1L);
+        testBindingModel.setDriverId(6L);
 
         mockMvc.perform(
                         put("/api/drivers/6/SubscriptionTasks")
@@ -162,7 +184,7 @@ public class DriverRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/6/SubscriptionTasks")))
-                .andExpect(status().isOk()).
+                .andExpect(status().isOk())
                  .andExpect(jsonPath("$.subscription.id").value(is(1)));
 
 
@@ -175,7 +197,7 @@ public class DriverRestControllerTest {
         order1.setAddressTo("sofia");
         order1.setNumberOfPassengers(4);
         order1.setClient(testUser);
-        order1.setPrice(BigDecimal.valueof(33));
+        order1.setPrice(BigDecimal.valueOf(33));
         order1.setApproved(true);
         order1.setDistance(789123f);
         orderRepository.save(order1);
@@ -184,7 +206,7 @@ public class DriverRestControllerTest {
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$.addressFrom", is("plovdiv"))).
                 andExpect(jsonPath("$.addressTo", is("sofia"))).
-                andExpect(jsonPath("$.numberOfPasengers", is(2)))
+                andExpect(jsonPath("$.numberOfPasengers", is(2))).
                  andExpect(jsonPath("$.client", is(testUser))).
                   andExpect(jsonPath("$.approved", is(true))).
                    andExpect(jsonPath("$.distance", is(789123)));

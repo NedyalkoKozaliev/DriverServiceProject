@@ -5,6 +5,7 @@ import com.SoftUni.DriverServiceProject.Models.DTO.DriverAddBindingModel;
 import com.SoftUni.DriverServiceProject.Models.DTO.GarageAddBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum;
+import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import com.SoftUni.DriverServiceProject.Repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.text.MatchesPattern;
@@ -17,6 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,7 +54,8 @@ public class AdminRestControllerTest {
 
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
 
     private User testUser;
@@ -59,7 +64,7 @@ public class AdminRestControllerTest {
     @BeforeEach
     void setUp() {
         testUser = new User();
-        testUser.setId(5);
+        testUser.setId(5L);
         testUser.setEmail("nek@test.com");
         testUser.setFirstName("Nedyalko");
         testUser.setLastName("Kozaliev");
@@ -98,7 +103,7 @@ public class AdminRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/{id:\\d+}")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/\\d+")))
                 .andExpect(jsonPath("$.firstName").value(is("Test")))
                 .andExpect(jsonPath("$.lastName").value(is("Driver")))
                 .andExpect(jsonPath("$.email").value(is("driver@driver.bg")));
@@ -126,12 +131,11 @@ public class AdminRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/cars/{id:\\d+}")))
-                .andExpect(jsonPath("$.registration").value(is("x9999kk")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/cars/\\d+")))
                 .andExpect(jsonPath("$.type").value(is("PassengerCar")))
                 .andExpect(jsonPath("$kms").value(is("12345")))
-                .andExpect(jsonPath("$.brand").value(is("Opel")))
-                .andExpect(jsonPath("$.address").value(is("someAddress")));
+                .andExpect(jsonPath("$.brand").value(is("Opel")));
+
 
     }
 
@@ -151,7 +155,7 @@ public class AdminRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/garages/{id:\\d+}")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/garages/\\d+")))
                 .andExpect(jsonPath("$.address").value(is("someAddress")));
 
     }

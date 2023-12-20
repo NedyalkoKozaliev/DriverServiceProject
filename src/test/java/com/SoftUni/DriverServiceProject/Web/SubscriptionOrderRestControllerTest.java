@@ -3,9 +3,11 @@ package com.SoftUni.DriverServiceProject.Web;
 import com.SoftUni.DriverServiceProject.Models.DTO.SubscriptionOrderBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName;
+import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import com.SoftUni.DriverServiceProject.Repository.SubscriptionOrderRepository;
 import com.SoftUni.DriverServiceProject.Repository.SubscriptionRepository;
 import com.SoftUni.DriverServiceProject.Repository.UserRepository;
+import com.SoftUni.DriverServiceProject.Repository.UserRoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.text.MatchesPattern;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +19,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -41,7 +46,8 @@ public class SubscriptionOrderRestControllerTest {
 
     @Autowired
     private UserRepository userRepository;;
-
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
 
     private User testUser;
@@ -50,7 +56,7 @@ public class SubscriptionOrderRestControllerTest {
     @BeforeEach
     void setUp() {
         testUser = new User();
-        testUser.setId(1)
+        testUser.setId(1L);
         testUser.setEmail("nek@test.com");
         testUser.setFirstName("Nedyalko");
         testUser.setLastName("Kozaliev");
@@ -74,7 +80,7 @@ public class SubscriptionOrderRestControllerTest {
         testSubscriptionOrderBindingModel.setAddressFrom("test1");
         testSubscriptionOrderBindingModel.setAddressTo("test2");
         testSubscriptionOrderBindingModel.setSubscription(SubscriptionEnumName.valueOf("ChildToSchool"));
-        testSubscriptionOrderBindingModel.setClientid(1);
+        testSubscriptionOrderBindingModel.setClientId(1L);
 
         mockMvc.perform(
                         post("/api/subscriptionOrders")
@@ -85,7 +91,7 @@ public class SubscriptionOrderRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/subscriptionOrders/{id:\\d+}")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/subscriptionOrders/\\d+")))
                 .andExpect(jsonPath("$.addressFrom").value(is("test1")))
                 .andExpect(jsonPath("$.addressTo").value(is("test2")))
                 .andExpect(jsonPath("$.subscription").value(is("ChildToSchool")));

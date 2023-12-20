@@ -5,8 +5,10 @@ import static org.hamcrest.Matchers.is;
 import com.SoftUni.DriverServiceProject.Models.DTO.OrderBindingModel;
 import com.SoftUni.DriverServiceProject.Models.Entity.Order;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
+import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Repository.UserRepository;
+import com.SoftUni.DriverServiceProject.Repository.UserRoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.text.MatchesPattern;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +46,8 @@ public class OrderRestControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     private User testUser;
 
@@ -69,7 +76,7 @@ public class OrderRestControllerTest {
         testOrder.setAddressFrom("test1");
         testOrder.setAddressTo("test2");
         testOrder.setNumberOfPassengers(3);
-         testOrder.setClient(5);
+         testOrder.setClient(5L);
 
         mockMvc.perform(
                         post("/api/orders")
@@ -80,7 +87,7 @@ public class OrderRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/orders/{id:\\d+}")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/orders/\\d+")))
                 .andExpect(jsonPath("$.addressFrom").value(is("test1")))
             .andExpect(jsonPath("$.addressTo").value(is("test2")))
             .andExpect(jsonPath("$.numberOfPasengers").value(is(3)));
@@ -93,7 +100,7 @@ public class OrderRestControllerTest {
         //Order order1=initOrder("plovdiv","sofia",2);
         //Order order2=initOrder("Sofia","plovdiv",2);
         Order order1=new Order();
-        order1.setId(1);
+        order1.setId(1L);
         order1.setAddressFrom("test1");
         order1.setAddressTo("test2");
         order1.setNumberOfPassengers(3);
@@ -123,7 +130,7 @@ public class OrderRestControllerTest {
     @Test
     void testgetOrder() throws Exception {
          Order order1=new Order();
-          order1.setId(1);
+          order1.setId(1L);
         order1.setAddressFrom("test1");
         order1.setAddressTo("test2");
         order1.setNumberOfPassengers(3);
@@ -138,7 +145,7 @@ public class OrderRestControllerTest {
                 andExpect(jsonPath("$.addressFrom", is("test1"))).
                 andExpect(jsonPath("$.addressTo", is("test2"))).
                 andExpect(jsonPath("$.numberOfPasengers", is(2))).
-                 andExpect(jsonPath("$.price", is(BigDecimal.valueof(456)))).
+                 andExpect(jsonPath("$.price", is(BigDecimal.valueOf(456)))).
                   andExpect(jsonPath("$.distance", is(3456f)));
 
 

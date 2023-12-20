@@ -5,9 +5,10 @@ import com.SoftUni.DriverServiceProject.Models.ServiceModels.GarageServiceModel;
 import com.SoftUni.DriverServiceProject.Models.ViewModel.GarageViewModel;
 import com.SoftUni.DriverServiceProject.Repository.GarageRepository;
 import com.SoftUni.DriverServiceProject.Service.GarageService;
-import com.SoftUni.DriverServiceProject.Service.exeptionHandling.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GarageServiceImpl implements GarageService {
