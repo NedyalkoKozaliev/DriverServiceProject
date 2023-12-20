@@ -45,29 +45,22 @@ public class SubscriptionOrderRestControllerTest {
 
 
     private User testUser;
-    private User testUser1;
-
+    
 
     @BeforeEach
     void setUp() {
         testUser = new User();
-
+        testUser.setId(1)
         testUser.setEmail("nek@test.com");
         testUser.setFirstName("Nedyalko");
         testUser.setLastName("Kozaliev");
         testUser.setPassword("password");
-        // testUser.setRoles(List.of(clientRole)); to rework it
+        testUser.setRoles(List.of(userRoleRepository.findUserRoleByRole(UserRoleEnum.Client)));
         testUser=userRepository.save(testUser);
 
-        testUser1 = new User();
-
-        testUser1.setEmail("Pep@test.com");
-        testUser1.setFirstName("Petur");
-        testUser1.setLastName("Petrov");
-        testUser1.setPassword("password123");
-        // testUser.setRoles(List.of(clientRole)); to rework it
-        testUser1=userRepository.save(testUser1);
+       
     }
+
     @AfterEach
     void tearDown() {
         subscriptionOrderRepository.deleteAll();
@@ -78,10 +71,10 @@ public class SubscriptionOrderRestControllerTest {
     @Test
     void testMakeSubscriptionOrder() throws Exception {
         SubscriptionOrderBindingModel testSubscriptionOrderBindingModel=new SubscriptionOrderBindingModel();
-        testSubscriptionOrderBindingModel.setAddressFrom("Plovdiv");
-        testSubscriptionOrderBindingModel.setAddressTo("Sofia");
+        testSubscriptionOrderBindingModel.setAddressFrom("test1");
+        testSubscriptionOrderBindingModel.setAddressTo("test2");
         testSubscriptionOrderBindingModel.setSubscription(SubscriptionEnumName.valueOf("ChildToSchool"));
-
+        testSubscriptionOrderBindingModel.setClientid(1);
 
         mockMvc.perform(
                         post("/api/subscriptionOrders")
@@ -92,11 +85,11 @@ public class SubscriptionOrderRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/subscriptionOrders/")))
-                .andExpect(jsonPath("$.addressFrom").value(is("Plovdiv")))
-                .andExpect(jsonPath("$.addressTo").value(is("Sofia")))
-                .andExpect(jsonPath("$.subscription").value(is("ChildToSchool")))
-                .andExpect(jsonPath("$.ClientId").value(is(testUser1.getId())));
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/subscriptionOrders/{id:\\d+}")))
+                .andExpect(jsonPath("$.addressFrom").value(is("test1")))
+                .andExpect(jsonPath("$.addressTo").value(is("test2")))
+                .andExpect(jsonPath("$.subscription").value(is("ChildToSchool")));
+                
     }
 
 }

@@ -59,12 +59,12 @@ public class AdminRestControllerTest {
     @BeforeEach
     void setUp() {
         testUser = new User();
-
+        testUser.setId(5);
         testUser.setEmail("nek@test.com");
         testUser.setFirstName("Nedyalko");
         testUser.setLastName("Kozaliev");
         testUser.setPassword("password");
-        // testUser.setRoles(List.of(clientRole)); to rework it admin
+        testUser.setRoles(List.of(userRoleRepository.findUserRoleByRole(UserRoleEnum.Admin)));
         testUser=userRepository.save(testUser);
 
 
@@ -90,7 +90,7 @@ public class AdminRestControllerTest {
         testDriverAddBindingModel.setRegistration("x1234tt");
 
         mockMvc.perform(
-                post("/api/admins/1/createDriver")
+                post("/api/admins/5/createDriver")
                                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testDriverAddBindingModel))
                 .accept(MediaType.APPLICATION_JSON)
@@ -98,11 +98,11 @@ public class AdminRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/{id:\\d+}")))
                 .andExpect(jsonPath("$.firstName").value(is("Test")))
                 .andExpect(jsonPath("$.lastName").value(is("Driver")))
-                .andExpect(jsonPath("$.email").value(is("driver@driver.bg")))
-                .andExpect(jsonPath("$.password").value(is("12345")));
+                .andExpect(jsonPath("$.email").value(is("driver@driver.bg")));
+              
 
 
     }
@@ -115,10 +115,10 @@ public class AdminRestControllerTest {
         testCarAddBindingModel.setKms(12345);
         testCarAddBindingModel.setBrand("Opel");
         testCarAddBindingModel.setModel("astra");
-        testCarAddBindingModel.setAddress("some");
+        testCarAddBindingModel.setAddress("someAddress");
 
         mockMvc.perform(
-                post("/api/admins/1/createCar")
+                post("/api/admins/5/createCar")
                                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testCarAddBindingModel))
                 .accept(MediaType.APPLICATION_JSON)
@@ -126,11 +126,12 @@ public class AdminRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/cars/")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/cars/{id:\\d+}")))
                 .andExpect(jsonPath("$.registration").value(is("x9999kk")))
                 .andExpect(jsonPath("$.type").value(is("PassengerCar")))
                 .andExpect(jsonPath("$kms").value(is("12345")))
-                .andExpect(jsonPath("$.brand").value(is("Opel")));
+                .andExpect(jsonPath("$.brand").value(is("Opel")))
+                .andExpect(jsonPath("$.address").value(is("someAddress")));
 
     }
 
@@ -138,11 +139,11 @@ public class AdminRestControllerTest {
     @Test
     void NewGarage() throws Exception {
         GarageAddBindingModel testGarageAddBindingModel=new GarageAddBindingModel();
-        testGarageAddBindingModel.setAddress("some");
+        testGarageAddBindingModel.setAddress("someAddress");
 
 
         mockMvc.perform(
-                post("/api/admins/1/createGarage")
+                post("/api/admins/5/createGarage")
                                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(testGarageAddBindingModel))
                 .accept(MediaType.APPLICATION_JSON)
@@ -150,8 +151,8 @@ public class AdminRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/garages/")))
-                .andExpect(jsonPath("$.address").value(is("some")));
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/garages/{id:\\d+}")))
+                .andExpect(jsonPath("$.address").value(is("someAddress")));
 
     }
 

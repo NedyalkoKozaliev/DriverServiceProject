@@ -53,7 +53,7 @@ public class OrderRestControllerTest {
         testUser.setFirstName("Nedyalko");
         testUser.setLastName("Kozaliev");
         testUser.setPassword("password");
-        // testUser.setRoles(List.of(clientRole));
+        testUser.setRoles(List.of(userRoleRepository.findUserRoleByRole(UserRoleEnum.Client)));
         testUser=userRepository.save(testUser);
     }
     @AfterEach
@@ -66,9 +66,10 @@ public class OrderRestControllerTest {
     @Test
     void testOrderIn() throws Exception {
         OrderBindingModel testOrder=new OrderBindingModel();
-        testOrder.setAddressFrom("Plovdiv");
-        testOrder.setAddressTo("Sofia");
+        testOrder.setAddressFrom("test1");
+        testOrder.setAddressTo("test2");
         testOrder.setNumberOfPassengers(3);
+         testOrder.setClient(5);
 
         mockMvc.perform(
                         post("/api/orders")
@@ -79,9 +80,9 @@ public class OrderRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/orders/")))
-                .andExpect(jsonPath("$.addressFrom").value(is("Plovdiv")))
-            .andExpect(jsonPath("$.addressTo").value(is("Sofia")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/orders/{id:\\d+}")))
+                .andExpect(jsonPath("$.addressFrom").value(is("test1")))
+            .andExpect(jsonPath("$.addressTo").value(is("test2")))
             .andExpect(jsonPath("$.numberOfPasengers").value(is(3)));
 
 
@@ -89,40 +90,60 @@ public class OrderRestControllerTest {
 
     @Test
     void testgetOrders() throws Exception {
-        Order order1=initOrder("plovdiv","sofia",2);
-        Order order2=initOrder("Sofia","plovdiv",2);
+        //Order order1=initOrder("plovdiv","sofia",2);
+        //Order order2=initOrder("Sofia","plovdiv",2);
+        Order order1=new Order();
+        order1.setId(1);
+        order1.setAddressFrom("test1");
+        order1.setAddressTo("test2");
+        order1.setNumberOfPassengers(3);
+        order1.setPrice(BigDecimal.valueOf(456));
+        order1.setClient(testUser);
+        order1.setApproved(false);
+        order1.setDistance(3456f);
+
+        Order order2=new Order();
+        order1.setAddressFrom("test3");
+        order1.setAddressTo("test4");
+        order1.setNumberOfPassengers(5);
+        order1.setPrice(BigDecimal.valueOf(789));
+        order1.setClient(testUser);
+        order1.setApproved(true);
+        order1.setDistance(3456f);
 
         mockMvc.perform(get("/api/orders")).
                 andExpect(status().isOk()).
-                andExpect(jsonPath("$", hasSize(2))).
-                andExpect(jsonPath("$.[0].addressFrom", is("plovdiv"))).
-                andExpect(jsonPath("$.[1].addressFrom", is("sofia")));
+                andExpect(jsonPath("$", hasSize(1))).
+                andExpect(jsonPath("$.[0].addressFrom", is("test3")));
+               
     }
 
 
 
     @Test
     void testgetOrder() throws Exception {
-        Order order1=initOrder("plovdiv","sofia",2);
+         Order order1=new Order();
+          order1.setId(1);
+        order1.setAddressFrom("test1");
+        order1.setAddressTo("test2");
+        order1.setNumberOfPassengers(3);
+        order1.setPrice(BigDecimal.valueOf(456));
+        order1.setClient(testUser);
+        order1.setApproved(false);
+        order1.setDistance(3456f);
+
+
         mockMvc.perform(get("/api/orders/1")).
                 andExpect(status().isOk()).
-                andExpect(jsonPath("$.addressFrom", is("plovdiv"))).
-                andExpect(jsonPath("$.addressTo", is("sofia"))).
-                andExpect(jsonPath("$.numberOfPasengers", is(2)));
+                andExpect(jsonPath("$.addressFrom", is("test1"))).
+                andExpect(jsonPath("$.addressTo", is("test2"))).
+                andExpect(jsonPath("$.numberOfPasengers", is(2))).
+                 andExpect(jsonPath("$.price", is(BigDecimal.valueof(456)))).
+                  andExpect(jsonPath("$.distance", is(3456f)));
 
 
     }
 
-    private Order initOrder(String from,String to,Integer num){
-        Order order1=new Order();
-        order1.setAddressFrom(from);
-        order1.setAddressTo(to);
-        order1.setNumberOfPassengers(num);
-        order1.setClient(testUser);
-
-        orderRepository.save(order1);
-
-        return order1;
-    }
+   
 
 }

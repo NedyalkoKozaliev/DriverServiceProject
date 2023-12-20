@@ -57,20 +57,21 @@ public class DriverRestControllerTest {
     @BeforeEach
     void setUp() {
         testDriver = new Driver();
-
+        testDriver.setId(6);
         testDriver.setEmail("nek@test.com");
         testDriver.setFirstName("Nedyalko");
         testDriver.setLastName("Kozaliev");
         testDriver.setPassword("password");
-        // testUser.setRoles(List.of(clientRole));
+        testUser.setRoles(List.of(driverRoleRepository.findDriverRoleByRole(UserRoleEnum.Driver).orElse(null)));
         testDriver=driverRepository.save(testDriver);
-        testUser = new User();
 
+        testUser = new User();
+        testUser.setId(7);
         testUser.setEmail("ivan@test.com");
         testUser.setFirstName("Ivan");
         testUser.setLastName("Kozaliev");
         testUser.setPassword("password");
-        // testUser.setRoles(List.of(clientRole));
+        testUser.setRoles(List.of(userRoleRepository.findUserRoleByRole(UserRoleEnum.Admin)));
         testUser=userRepository.save(testUser);
 
     }
@@ -86,9 +87,11 @@ public class DriverRestControllerTest {
         orderView.setAddressFrom("Plovdiv");
         orderView.setAddressTo("Sofia");
         orderView.setNumberOfPassengers(3);
+        orderView.setPrice(BigDecimal.valueOf(20.5));
+        orderView.setDistance(555f);
 
         mockMvc.perform(
-                        put("/api/drivers/1/currentOrder")
+                        put("/api/drivers/6/currentOrder")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(orderView))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -96,10 +99,12 @@ public class DriverRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/1/currentOrder")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/6/currentOrder")))
                 .andExpect(jsonPath("$.addressFrom").value(is("Plovdiv")))
                 .andExpect(jsonPath("$.addressTo").value(is("Sofia")))
-                .andExpect(jsonPath("$.numberOfPassengers").value(is(3)));
+                .andExpect(jsonPath("$.numberOfPassengers").value(is(3)))
+                .andExpect(jsonPath("$.price").value(is(BigDecimal.valueOf(20.5))))
+                .andExpect(jsonPath("$.distance").value(is(555f)));
     }
 
     @Test
@@ -108,9 +113,11 @@ public class DriverRestControllerTest {
         orderView.setAddressFrom("Plovdiv");
         orderView.setAddressTo("Sofia");
         orderView.setNumberOfPassengers(3);
+        orderView.setPrice(BigDecimal.valueOf(20.5));
+        orderView.setDistance(555f);
 
         mockMvc.perform(
-                        put("/api/drivers/1/ordersList")
+                        put("/api/drivers/6/ordersList")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(orderView))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -118,70 +125,71 @@ public class DriverRestControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/1/ordersList")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/6/ordersList")))
                 .andExpect(status().isOk()).
                 andExpect(jsonPath("$", hasSize(1))).
                 andExpect(jsonPath("$.[0].addressFrom").value(is("Plovdiv")))
                 .andExpect(jsonPath("$.[0].addressTo").value(is("Sofia")))
-                .andExpect(jsonPath("$.[0].numberOfPassengers").value(is(3)));
+                .andExpect(jsonPath("$.[0].numberOfPassengers").value(is(3)))
+                 .andExpect(jsonPath("$.[0]price").value(is(BigDecimal.valueOf(20.5))))
+                .andExpect(jsonPath("$.[0]distance").value(is(555f)));
 
     }
 
     @Test
     void testassignTask() throws Exception {
-        Subscription testSub= new Subscription();
-        testSub.setDescription("some description");
-        testSub.setPriceRate(1.0f);
-        testSub.setName(toWork);
+        // Subscription testSub= new Subscription();
+        // testSub.setDescription("some description");
+        // testSub.setPriceRate(1.0f);
+        // testSub.setName(toWork);
 
-        SubscriptionOrderViewModel subscription=new SubscriptionOrderViewModel();
-        subscription.setId(1L);
-        subscription.setAddressFrom("Plovdiv");
-        subscription.setAddressTo("Sofia");
-        subscription.setSubscription(testSub);
+        // SubscriptionOrderViewModel subscription=new SubscriptionOrderViewModel();
+        // subscription.setId(1L);
+        // subscription.setAddressFrom("Plovdiv");
+        // subscription.setAddressTo("Sofia");
+        // subscription.setSubscription(testSub);
+         AssignSubscriptionBindingModel testBindingModel= new AssignSubscriptionBindingModel();
+        testBindingModel.setSubscriptionId(1);
+        testBindingModel.setDriverId(6);
 
         mockMvc.perform(
-                        put("/api/drivers/1/SubscriptionTasks")
+                        put("/api/drivers/6/SubscriptionTasks")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(subscription))
+                                .content(objectMapper.writeValueAsString(testBindingModel))
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf())
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/1/SubscriptionTasks")))
+                .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/drivers/6/SubscriptionTasks")))
                 .andExpect(status().isOk()).
-                andExpect(jsonPath("$", hasSize(1))).
-                andExpect(jsonPath("$.[0].addressFrom").value(is("Plovdiv")))
-                .andExpect(jsonPath("$.[0].addressTo").value(is("Sofia")))
-                .andExpect(jsonPath("$.[0].subscription.name.name()").value(is("toWork")));
+                 .andExpect(jsonPath("$.subscription.id").value(is(1)));
 
 
     }
 
     @Test
     void testgetCurrentTask() throws Exception {
-        Order order1=initOrder("plovdiv","sofia",2);
-        testDriver.setCurrentTask(order1);
+       Order order1=new Order();
+        order1.setAddressFrom("plovdiv");
+        order1.setAddressTo("sofia");
+        order1.setNumberOfPassengers(4);
+        order1.setClient(testUser);
+        order1.setPrice(BigDecimal.valueof(33));
+        order1.setApproved(true);
+        order1.setDistance(789123f);
+        orderRepository.save(order1);
 
         mockMvc.perform(get("/api/drivers/1/currentOrder")).
                 andExpect(status().isOk()).
                 andExpect(jsonPath("$.addressFrom", is("plovdiv"))).
                 andExpect(jsonPath("$.addressTo", is("sofia"))).
-                andExpect(jsonPath("$.numberOfPasengers", is(2)));
+                andExpect(jsonPath("$.numberOfPasengers", is(2)))
+                 andExpect(jsonPath("$.client", is(testUser))).
+                  andExpect(jsonPath("$.approved", is(true))).
+                   andExpect(jsonPath("$.distance", is(789123)));
     }
 
-    private Order initOrder(String from,String to,Integer num){
-        Order order1=new Order();
-        order1.setAddressFrom(from);
-        order1.setAddressTo(to);
-        order1.setNumberOfPassengers(num);
-        order1.setClient(testUser);
-
-        orderRepository.save(order1);
-
-        return order1;
-    }
 
 
 }
