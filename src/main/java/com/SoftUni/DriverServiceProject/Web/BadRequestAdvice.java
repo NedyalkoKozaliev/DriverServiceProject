@@ -14,7 +14,7 @@ public class BadRequestAdvice {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
     public ModelAndView onBadRequest(BadRequestException bre) {
-        ModelAndView modelAndView = new ModelAndView("BadReqiest");
+        ModelAndView modelAndView = new ModelAndView("BadRequest");
 
         modelAndView.addObject("message", bre.getMessage());
 

@@ -19,10 +19,10 @@ public class TakeOrderInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         Driver driver=driverService.findByEmail(request.getUserPrincipal().getName());
-        //Driver driver = (Driver) request.getUserPrincipal();
+         if ( request.getMethod().equals("PUT") && !driver.isAvailable()){
 
         System.out.println("in the interceptor");
-        if (!driver.isAvailable()) {
+       
             response.sendRedirect("/youAreBusy");
 
         }

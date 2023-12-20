@@ -26,16 +26,18 @@ public class AdminController {
     private final AdminService adminService;
     private final DriverService driverService;
     private final SubscriptionOrderService subscriptionOrderService;
-    private final GarageRepository garageRepository;
+   
     private final CarService carService;
+    private final GarageService garageService;
 
-    public AdminController(ModelMapper modelMapper, AdminService adminService, DriverService driverService, SubscriptionOrderService subscriptionOrderService, GarageRepository garageRepository, CarService carService) {
+    public AdminController(ModelMapper modelMapper, AdminService adminService, DriverService driverService, SubscriptionOrderService subscriptionOrderService, CarService carService, GarageService garageService) {
         this.modelMapper = modelMapper;
         this.adminService = adminService;
         this.driverService = driverService;
         this.subscriptionOrderService = subscriptionOrderService;
-        this.garageRepository = garageRepository;
+        
         this.carService = carService;
+        this.garageService = garageService;
     }
 
     @GetMapping("/{id}/adminDash")
@@ -85,7 +87,7 @@ public class AdminController {
         model
                 .addAttribute("admin", modelMapper
                         .map(adminService.findAdminById(id), AdminViewModel.class));
-        model.addAttribute("garages",garageRepository.findAll());
+        model.addAttribute("garages",garageService.findAll());
 
         return "createCar";
     }

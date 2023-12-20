@@ -19,8 +19,8 @@ public class InterceptorConfigurator implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TakeOrderInterceptor(driverService))
-               .addPathPatterns("/api/orders/${orderId}");
-             //   "/api/drivers/{id}/currentOrder");
+               .addPathPatterns("/api/drivers/{id:\\d+}/currentOrder");
+           
         registry.addInterceptor(new TimeCheckInterceptor())
                 .addPathPatterns("/api/drivers/*");
     }

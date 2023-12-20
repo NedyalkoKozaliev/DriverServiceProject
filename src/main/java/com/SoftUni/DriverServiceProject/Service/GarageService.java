@@ -11,4 +11,6 @@ public interface GarageService {
 
     Garage findGarage(String address);
 
+    List<Garage> findAll();
+
 }

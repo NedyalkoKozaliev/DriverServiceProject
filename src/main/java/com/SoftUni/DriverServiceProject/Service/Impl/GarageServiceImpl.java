@@ -33,9 +33,9 @@ public class GarageServiceImpl implements GarageService {
         return repository.findByAddress(address).orElseThrow(null);
     }
 
-//    @Override
-//    public Garage findGarage(Long id) {
-//
-//        return repository.findById(id).orElse(null);
-//    }
+ @Override
+    public List<Garage> findAll(){
+        return repository.findAll();
+    }
+
 }

@@ -14,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class DistanceRestController {
 
     private static final Object API_KEY="";
-//produces = "application/json",
+
     @RequestMapping(value = "/api/getDistanceAndDuration",
     method = {RequestMethod.GET})
     public ResponseEntity<DistanceDurationResponse> getDistanceAndDuration(@RequestParam String addressFrom,
@@ -29,10 +29,8 @@ public class DistanceRestController {
                 .queryParam("destinations", addressTo)
                 .queryParam("key", API_KEY)
                 .build();
-     //   ResponseEntity<DistanceDurationResponse> response= new RestTemplate().getForEntity("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+"Plovdiv"+"&destinations="+"Sofia"+"&mode=car&language=fr-FR&key="+API_KEY, DistanceDurationResponse.class);
+
 
         return new RestTemplate().getForEntity(uri.toString(), DistanceDurationResponse.class);
     }
 }
-// return new ResponseEntity<String>("{\"test\": \"Hello with ResponseEntity\"}", httpHeaders, HttpStatus.OK);
-//        }
