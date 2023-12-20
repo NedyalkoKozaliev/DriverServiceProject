@@ -9,7 +9,7 @@
 <div th:replace="~{fragments/navbar :: navbar}">
     Navbar
 </div>
-
+<section class="orderCreation-fluid">
 <div class="container">
     <h2 class="text-center text-white"> = Create garage = A page for drivers</h2>
 </div>
@@ -30,7 +30,7 @@
                        type="text"
                        class="form-control"
                        placeholder="address"/>
-                <small id="addressError" class="invalid-feedback form-text bg-danger rounded">Address must be between 5 and 50
+                <small id="addressError" class="invalid-feedback">Address must be between 5 and 50
                     characters.</small>
             </div>
 
@@ -53,7 +53,7 @@
 
 
 
-
+</section>
 <script th:src="@{/Js/addNewItem.js}"></script>
 
 <div>

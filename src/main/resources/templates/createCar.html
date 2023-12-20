@@ -9,11 +9,14 @@
 <div th:replace="fragments/navbar :: navbar">
     Navbar
 </div>
-
+<section class="orderCreation-fluid">
 <div class="container">
     <h2 class="text-center text-white">Add New Car</h2>
 </div>
 
+<div class="card-fluid" >
+    <!--            <img src="..." class="card-img-top" alt="...">-->
+    <div class="card-body">
 <form id=addForm method="post"
       th:action="@{/api/admins/{id}/createCar(id=${admin.id})}"
       class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center" >
@@ -25,7 +28,7 @@
                type="text"
                class="registration"
                placeholder="registration"/>
-        <small  id="registrationError" class="invalid-feedback form-text bg-danger rounded">Registration number should be between 4 and 8 characters.</small>
+        <small id="registrationError" class="invalid-feedback">Registration number should be between 4 and 8 characters.</small>
         <!-- to check different options for the error if this not works-->
     </div>
 
@@ -36,7 +39,7 @@
                type="text"
                class="form-control"
                placeholder="brand"/>
-        <small  id="brandError" class="invalid-feedback form-text bg-danger rounded">Brand must be between 3 and 20
+        <small  id="brandError" class="invalid-feedback">Brand must be between 3 and 20
             characters.</small>
         <!-- to check different options for the error if this not works-->
     </div>
@@ -48,7 +51,7 @@
                type="text"
                class="form-control"
                placeholder="model"/>
-        <small  id="modelError" class="invalid-feedback form-text bg-danger rounded">Model must be between 3 and 20
+        <small  id="modelError" class="invalid-feedback ">Model must be between 3 and 20
             characters.</small>
     </div>
 
@@ -61,7 +64,7 @@
 
                 <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum).values()}" th:value="${s}" th:text="${s}">Type</option>
             </select>
-            <small  id="typeError" class="invalid-feedback form-text bg-danger rounded">Please select car type.</small>
+            <small  id="typeError" class="invalid-feedback">Please select car type.</small>
             </div>
     </div>
 
@@ -72,7 +75,7 @@
                type="text"
                class="form-control"
                placeholder="kms"/>
-        <small  id="kmsError" class="invalid-feedback form-text bg-danger rounded">Please provide information about mileage of the car.</small>
+        <small  id="kmsError" class="invalid-feedback ">Please provide information about mileage of the car.</small>
     </div>
 
     <div class="form-group row">
@@ -84,7 +87,7 @@
                 <option value="" >Garage</option>
                 <option th:each="g : ${garages}" th:object="${g}" th:value="*{address}" th:text="*{address}">Garage</option>
             </select>
-            <small id="addressError" class="invalid-feedback bg-danger text-light rounded">
+            <small id="addressError" class="invalid-feedback ">
                 Car should have maintenance garage.
             </small>
         </div>
@@ -100,7 +103,9 @@
     </div>
 
 </form>
-
+    </div>
+</div>
+</section>
 <script th:src="@{/Js/addNewItem.js}"></script>
 <div>
     <footer></footer>

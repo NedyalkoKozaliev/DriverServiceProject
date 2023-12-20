@@ -16,19 +16,14 @@
     <h1 class="display-5"><strong class="bg-blur rounded"></strong></h1>
   </div>
 
-<!--  &lt;!&ndash; taking my orders -&#45;&#45; from order repo orders where the client is this client-->
-<!--      same with subscriptions-->
-<!--      show the current order info-->
-<!--      total bill orders and bill subscriptions-->
-<!--    add prpperty current order to user which could be null when there is no such so show here the order info or null, and put it as current when taken and remove it from there by setting null by-->
-<!--  finishing of it &ndash;&gt;-->
+
 
   <div class="row">
     <div class="col-md-3">
       <div class="card mb-4 box-shadow">
         <div class="card-body">
           <div class="text-center">
-            <p class="card-text border-bottom " th:object="${myLastOrder}" th:text="|My last order: from *{addressFrom} to *{addressTo} cost *{price} BGN|">Bill orders: BGN</p>
+            <p class="card-text border-bottom " th:object="${myLastOrder}" th:if="${myLastOrder !=null}" th:text="|My last order: from *{addressFrom} to *{addressTo} cost *{price} BGN|">Bill orders: BGN</p>
             <p class="card-text border-bottom " th:text="|Bill orders: ${billOrders}BGN|">Bill orders: BGN</p>
             <p class="card-text border-bottom " th:text="|Bill subscriptions: ${billSubscriptions}BGN|">Bill subscriptions: BGN</p>
             <p class="card-text border-bottom " th:text="|Total Bill: ${total}BGN|">Total Bill: BGN</p>
@@ -38,11 +33,11 @@
     </div>
   </div>
 
-  <div class="container bg-blur rounded mt-1 mb-4">
+  <div class="container  rounded mt-1 mb-4">
     <div class="row mt-1 mb-2">
       <div class="col-6 mt-1 mb-1">
         <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Orders</h3>
-        <div class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">
+        <div class=" rounded m-auto" style="height: 68.5vh; overflow: auto">
           <table class="table table-striped table-dark">
             <tr  th:each="t:${myorders}" th:object="${t}">
               <td class="bg-info" scope="row" style="width: 5%">
@@ -51,127 +46,28 @@
               <td style="width: 5%" class="bg-info" th:text="|From address: *{addressFrom}|">{mood}</td>
               <td class="bg-primary" style="width: 15%" th:text="|To address: *{addressTo}|">{numberOfLikes) likes</td>
               <td class="bg-primary" style="width: 15%" th:text="|Price: *{price} BGN|" >{numberOfLikes) likes</td>
-              <td >{content}</td>
+              <td ></td>
             </tr>
           </table>
         </div>
       </div>
 
-      <div class="col-6 mt-1 mb-1">
-        <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Subscriptions</h3>
-        <div th:each="s:${mySubscriptions}" th:object="${s}" class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">
-          <th:block>
-            <br>
-            <ul class="list-group list-group-horizontal text-dark">
-              <li class="list-group-item">
-                <table>
-                  <tr>
-                    <td style="width: 15%" th:text="|*{subscription.name.name()}|"><a> {username}: </a></td>
-                    <td>
-                      <a th:text="|*{subscription.description}|">{content}</a>
-                    </td>
-                  </tr>
-                </table>
-              </li>
-              <li class="list-group-item bg-gray">
-                <table>
-                  <tr>
-                    <td style="width: 10%" th:text="|Address From: *{addressFrom}|">Mood: {mood}</td>
-                    <td class="text-primary" th:text="|Address To: *{addressTo}|">{numberOfLikes} likes</td>
-                    <td class="text-primary" th:text="|Price: *{price} BGN|">{numberOfLikes} likes</td>
-                  </tr>
-                </table>
-              </li>
-            </ul>
-          </th:block>
-        </div>
-      </div>
-    </div>
-  </div>
 
-
-
-
-  <!--  &lt;!&ndash; this one is in row so to repeat it enoght times about all needed az info there inside the class row  ==== current order/bill orders/bill subscriptions  &ndash;&gt;-->
-
-<!--  <div class="row">-->
-<!--    <div class="col-md-3">-->
-<!--      <div class="card mb-4 box-shadow">-->
-<!--        <img src="/image/metallica.jpg" class="card-img-top" alt="Thumbnail [100%x225]"-->
-<!--             data-holder-rendered="true"-->
-<!--             style="height: 225px; width: 100%; display: block;">-->
-<!--        <div class="card-body">-->
-<!--          <div class="text-center">-->
-<!--            <p class="card-text border-bottom ">Name: Name of album</p>-->
-<!--            <p class="card-text border-bottom ">Artist: Metallica</p>-->
-<!--            <p class="card-text border-bottom ">Genre: Metal</p>-->
-<!--            <p class="card-text border-bottom ">Price: 19.99</p>-->
-<!--            <p class="card-text border-bottom">Release Date: </p>-->
-<!--          </div>-->
-<!--          <div class="d-flex justify-content-between align-items-center">-->
-<!--            <div class="btn-group">-->
-<!--              <a type="button" class="btn btn-sm btn-outline-secondary">Delete</a>-->
-<!--            </div>-->
-<!--            <small class="text-muted">1000 copies</small>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <div class="container bg-blur rounded mt-1 mb-4">-->
-<!--    <div class="row mt-1 mb-2">-->
-<!--      <div class="col-6 mt-1 mb-1">-->
-<!--        <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Orders</h3>-->
-<!--        <h6 class="mySticky bg-gray text-dark  mb-0 mt-0">Username: {username}</h6>-->
-<!--        <div class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">-->
-<!--          <table class="table table-striped table-dark">-->
-<!--            <tr>-->
-<!--              <td class="bg-info" scope="row" style="width: 5%">-->
-<!--                <img class="mr-2 " src="/img/post-bubble.png" alt="PostBubble" width="30px" height="30px">-->
-<!--              </td>-->
-<!--              <td style="width: 5%" class="bg-info">{mood}</td>-->
-<!--              <td class="bg-primary" style="width: 15%">{numberOfLikes) likes</td>-->
-<!--              <td >{content}</td>-->
-<!--              <td style="width: 15%"><a class="btn-danger btn" href="/">Remove</a></td>-->
-<!--            </tr>-->
-<!--          </table>-->
-<!--        </div>-->
-<!--      </div>-->
-
-
-<!--      <div class="col-6 mt-1 mb-1">-->
-<!--        <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Subscriptions</h3>-->
-<!--        <h6 class="mySticky bg-gray text-dark  mb-0 mt-0">{otherUsersPostsTotalCount} total posts</h6>-->
-<!--        <div class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">-->
-<!--          <th:block>-->
-<!--            <br>-->
-<!--            <ul class="list-group list-group-horizontal text-dark">-->
-<!--              <li class="list-group-item">-->
-<!--                <table>-->
-<!--                  <tr>-->
-<!--                    <td style="width: 15%"><a> {username}: </a></td>-->
-<!--                    <td>-->
-<!--                      <a>{content}</a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                </table>-->
-<!--              </li>-->
-<!--              <li class="list-group-item bg-gray">-->
-<!--                <table>-->
-<!--                  <tr>-->
-<!--                    <td style="width: 10%">Mood: {mood}</td>-->
-<!--                    <td class="text-primary">{numberOfLikes} likes</td>-->
-<!--                    <td><a class="ml-3 text-danger" href="/"><img src="/img/like.png" width="43px" height="40px"></a></td>-->
-<!--                  </tr>-->
-<!--                </table>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </th:block>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
+        <div class="col-6 mt-1 mb-1">
+          <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Orders</h3>
+          <div class=" rounded m-auto" style="height: 68.5vh; overflow: auto">
+            <table class="table table-striped table-dark">
+              <tr  th:each="s:${mySubscriptions}" th:object="${s}" >
+                <td class="bg-info" scope="row" style="width: 5%">
+                 <a style="width: 15%" th:text="|*{subscription.name.name()}|"></a>
+                </td>
+                <td style="width: 5%" class="bg-info" th:text="|Address From: *{addressFrom}|">{mood}</td>
+                <td class="bg-primary" style="width: 15%" th:text="|Address To: *{addressTo}|">{numberOfLikes) likes</td>
+                <td class="bg-primary" style="width: 15%" th:text="|Price: *{price} BGN|" >{numberOfLikes) likes</td>
+                <td th:text="|*{subscription.description}|">>{content}</td>
+              </tr>
+            </table>
+          </div>
 
 
 

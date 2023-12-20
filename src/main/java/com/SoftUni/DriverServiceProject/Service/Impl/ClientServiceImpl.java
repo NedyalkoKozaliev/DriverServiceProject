@@ -55,6 +55,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Order findLastOrder(Long id) {
-        return orderRepository.findByClient(userRepository.findUserById(id).orElse(null)).stream().sorted(Comparator.comparing(Order::getId)).findFirst().get();
+        return orderRepository.findByClient(userRepository.findUserById(id).orElse(null)).stream().sorted(Comparator.comparing(Order::getId)).findFirst().orElse(null);
     }
 }
