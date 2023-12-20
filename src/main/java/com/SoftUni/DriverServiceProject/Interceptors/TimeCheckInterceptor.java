@@ -1,4 +1,4 @@
-package com.SoftUni.DriverServiceProject.Web;
+package com.SoftUni.DriverServiceProject.Interceptors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

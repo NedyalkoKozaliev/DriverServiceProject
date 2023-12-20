@@ -1,4 +1,4 @@
-package com.SoftUni.DriverServiceProject.Web;
+package com.SoftUni.DriverServiceProject.Interceptors;
 
 import com.SoftUni.DriverServiceProject.Models.Entity.Driver;
 import com.SoftUni.DriverServiceProject.Service.DriverService;
