@@ -31,7 +31,7 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public Garage findGarage(String address) {
-        return repository.findByAddress(address).orElseThrow(null);
+        return repository.findByAddress(address).orElse(null);
     }
 
  @Override

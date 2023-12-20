@@ -3,6 +3,7 @@ package com.SoftUni.DriverServiceProject.Web;
 import com.SoftUni.DriverServiceProject.Models.DTO.CarAddBindingModel;
 import com.SoftUni.DriverServiceProject.Models.DTO.DriverAddBindingModel;
 import com.SoftUni.DriverServiceProject.Models.DTO.GarageAddBindingModel;
+import com.SoftUni.DriverServiceProject.Models.Entity.Garage;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum;
 import com.SoftUni.DriverServiceProject.Models.Enums.UserRoleEnum;
@@ -114,6 +115,9 @@ public class AdminRestControllerTest {
 
     @Test
     void NewCar() throws Exception {
+        Garage garage= new Garage();
+        garage.setAddress("someAddress");
+
         CarAddBindingModel testCarAddBindingModel=new CarAddBindingModel();
         testCarAddBindingModel.setRegistration("x9999kk");
         testCarAddBindingModel.setType(CarTypeEnum.valueOf("PassengerCar"));
@@ -121,6 +125,8 @@ public class AdminRestControllerTest {
         testCarAddBindingModel.setBrand("Opel");
         testCarAddBindingModel.setModel("astra");
         testCarAddBindingModel.setAddress("someAddress");
+
+
 
         mockMvc.perform(
                 post("/api/admins/5/createCar")
@@ -133,8 +139,9 @@ public class AdminRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string("Location", MatchesPattern.matchesPattern("/api/admins/cars/\\d+")))
                 .andExpect(jsonPath("$.type").value(is("PassengerCar")))
-                .andExpect(jsonPath("$kms").value(is("12345")))
-                .andExpect(jsonPath("$.brand").value(is("Opel")));
+                .andExpect(jsonPath("$.kms").value(is(12345)))
+                .andExpect(jsonPath("$.brand").value(is("Opel")))
+                .andExpect(jsonPath("$.model").value(is("astra")));
 
 
     }
