@@ -10,6 +10,7 @@ import com.SoftUni.DriverServiceProject.Service.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,17 +43,18 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Order> findMyOrders(Long id) {
-        return orderRepository.findByClient(userRepository.findUserById(id).orElse(null));
+        return orderRepository.findByClient(userRepository.findUserById(id).orElse(null)).stream()
+                .filter(o->o.isApproved()).collect(Collectors.toList());
     }
 
     @Override
     public List<SubscriptionOrderViewModel> findMySubscriptions(Long id) {
-        return subscriptionOrderRepository.findAllByClient(userRepository.findUserById(id).orElse(null)).stream().
+        return subscriptionOrderRepository.findAllByClient(userRepository.findUserById(id).orElse(null)).stream().filter(s-> s.isAssigned()).
                 map(subscriptionOrder -> modelMapper.map(subscriptionOrder,SubscriptionOrderViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
     public Order findLastOrder(Long id) {
-        return orderRepository.findByClient(userRepository.findUserById(id).orElse(null)).stream().sorted().findFirst().get();
+        return orderRepository.findByClient(userRepository.findUserById(id).orElse(null)).stream().sorted(Comparator.comparing(Order::getId)).findFirst().get();
     }
 }

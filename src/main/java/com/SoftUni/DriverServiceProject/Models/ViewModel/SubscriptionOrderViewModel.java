@@ -4,6 +4,8 @@ import com.SoftUni.DriverServiceProject.Models.Entity.Subscription;
 import com.SoftUni.DriverServiceProject.Models.Entity.User;
 import jakarta.persistence.Column;
 
+import java.math.BigDecimal;
+
 public class SubscriptionOrderViewModel {
 
     private Long id;
@@ -12,6 +14,8 @@ public class SubscriptionOrderViewModel {
     private String addressTo;
 
    private Subscription subscription;
+
+   private BigDecimal price;
 
 
 
@@ -50,7 +54,11 @@ public class SubscriptionOrderViewModel {
         this.subscription = subscription;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-
-
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }

@@ -1,32 +1,33 @@
 package com.SoftUni.DriverServiceProject.Models.DTO;
 
 import com.SoftUni.DriverServiceProject.Models.Enums.CarTypeEnum;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CarAddBindingModel {
 
-        @NotEmpty(message = "Field could not be empty!")
-        @Size(min=3, max=20, message = "Registration length must be between 6 and 11 characters.")
+        @NotEmpty
+        @Size(min=3, max=20)
         private String registration;
 
-        @NotNull(message="Field could not be empty!")
+        @NotNull
         private CarTypeEnum type;
 
-        @NotNull(message="Field could not be empty!")
+        @NotNull
         private Integer kms;
 
-        @NotEmpty(message = "Brand should be provided!")
-        @Size(min=3, max=20, message = "Brand length must be between 2 and 20 characters.")
+        @NotEmpty
+        @Size(min=3, max=20)
         private String brand;
 
-        @NotEmpty(message = "Model should be provided!")
-        @Size(min=3, max=20, message = "Model length must be between 2 and 20 characters.")
+        @NotEmpty
+        @Size(min=3, max=20)
         private String model;
 
         @NotNull
-        private String address; // name of the garage or id -->find it in repo and set it with the service
+        private String address;
 
         public CarAddBindingModel() {
         }

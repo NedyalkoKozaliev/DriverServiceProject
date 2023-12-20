@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class GarageAddBindingModel {
-    @NotBlank(message="Could not be blank!")
-    @Size(message="Address length must be between 5 and 50 characters.")
+    @NotBlank
+    @Size(min=5,max = 50)
     private String address;
 
     public GarageAddBindingModel() {

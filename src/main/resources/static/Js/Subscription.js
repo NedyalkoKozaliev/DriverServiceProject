@@ -14,7 +14,7 @@ const csrfHeaderValue = document.head.querySelector('[name="_csrf"]').content;
     const formData = new FormData(form);
 try{
     const responseData= await postFormDataAsJson({url, formData});
-    console.log('successful add of subscriptionOrder')
+ console.log('successful add of subscriptionOrder')
     form.reset();
     }catch(error){
      let errorObj = JSON.parse(error.message);

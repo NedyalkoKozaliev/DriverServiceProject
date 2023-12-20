@@ -1,14 +1,29 @@
 package com.SoftUni.DriverServiceProject.Models.DTO;
 
+import com.SoftUni.DriverServiceProject.ValidationAnotations.annotation.FieldMatcher;
+import com.SoftUni.DriverServiceProject.ValidationAnotations.annotation.UniqueEmail;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
+@FieldMatcher(
+        first = "password",
+        second ="confirmPassword",
+        message = "Passwords should match."
+
+)
 public class UserRegistrationDTO {
     @NotEmpty(message = "Field could not be empty!")
+    @Size(min=3, max=20, message = "First name length must be between 3 and 20 characters.")
     private String firstName;
+    @Size(min=3, max=20, message = "Last name length must be between 3 and 20 characters.")
     @NotEmpty(message = "Field could not be empty")
     private String lastName;
+    @UniqueEmail
     @NotEmpty(message = "Field could not be empty")
+    @Email(message = "Please provide valid email address.")
     private String email;
+    @Size(min=3, max=20, message = "Password length must be between 3 and 20 characters.")
     @NotEmpty(message = "Field could not be empty")
     private String password;
     @NotEmpty(message = "Field could not be empty")

@@ -33,11 +33,17 @@ public class ClientsController {
         List<SubscriptionOrderViewModel> mySubscriptions=clientService.findMySubscriptions(id);
         Order myLastOrder=clientService.findLastOrder(id);
         BigDecimal billOrders= myOrders.stream().map(Order::getPrice).reduce(BigDecimal.ZERO,BigDecimal::add);
-
-        BigDecimal totalBill=null;
+        BigDecimal billSubscriptions=mySubscriptions.stream().map(SubscriptionOrderViewModel::getPrice).reduce(BigDecimal.ZERO,BigDecimal::add);
+        BigDecimal totalBill=billOrders.add(billSubscriptions);
         model
                 .addAttribute("client", modelMapper
                         .map(clientService.findClientById(id), ClientViewModel.class));
+        model.addAttribute("myorders", myOrders);
+        model.addAttribute("mySubscriptions", mySubscriptions);
+        model.addAttribute("myLastOrder", myLastOrder);
+        model.addAttribute("billOrders", billOrders);
+        model.addAttribute("billSubscriptions", billSubscriptions);
+        model.addAttribute("total", totalBill);
 
         return "clientDash";
 

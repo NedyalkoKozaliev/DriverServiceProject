@@ -15,27 +15,27 @@ import jakarta.validation.constraints.Size;
 )
 public class DriverAddBindingModel {
 
-        @NotEmpty(message = "Field could not be empty!")
-        @Size(min=3, max=20, message = "First name length must be between 3 and 20 characters.")
+        @NotEmpty
+        @Size(min=3, max=20)
         private String firstName;
 
-        @NotEmpty(message = "Field could not be empty")
-        @Size(min=3, max=20, message = "Last name length must be between 3 and 20 characters.")
+        @NotEmpty
+        @Size(min=3, max=20)
         private String lastName;
 
         @UniqueEmail
-        @NotEmpty(message = "Field could not be empty")
-        @Email(message = "Please provide valid email address.")
+        @NotEmpty
+        @Email
         private String email;
 
-        @NotEmpty(message = "Field could not be empty")
-        @Size(min=3, max=20, message = "Password length must be between 3 and 20 characters.")
+        @NotEmpty
+        @Size(min=3, max=20)
         private String password;
 
-        @NotEmpty(message = "Field could not be empty")
+        @NotEmpty
         private String confirmPassword;
 
-        @NotBlank(message="Registration must be provided.")
+        @NotBlank
         private String registration;
 
     public DriverAddBindingModel() {

@@ -49,9 +49,8 @@
         <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label">Subscription Type</label>
             <div class="col-sm-10">
-                <!-- th:field="*{category}" -->
+
                 <select  id="name" name="name" class="custom-select">
-                    <option value="">Subscription</option>
                     <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Subscription Type</option>
                 </select>
                 <small  id="nameError" class="invalid-feedback">

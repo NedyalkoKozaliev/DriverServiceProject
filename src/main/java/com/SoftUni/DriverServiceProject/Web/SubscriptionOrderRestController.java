@@ -76,10 +76,10 @@ public class SubscriptionOrderRestController {
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<AppErrors> onValidationFailure(MethodArgumentNotValidException exc) {
-        AppErrors apiError = new AppErrors(HttpStatus.BAD_REQUEST);
+        AppErrors appErrors = new AppErrors(HttpStatus.BAD_REQUEST);
         exc.getFieldErrors().forEach(fe ->
-                apiError.addFieldWithError(fe.getField()));
+                appErrors.addFieldWithError(fe.getField()));
 
-        return ResponseEntity.badRequest().body(apiError);
+        return ResponseEntity.badRequest().body(appErrors);
     }
 }

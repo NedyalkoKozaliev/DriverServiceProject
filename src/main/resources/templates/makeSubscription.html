@@ -20,7 +20,7 @@
     <h1 class="display-5"><strong class="bg-blur rounded text-primary">Make Subscription</strong></h1>
     <h1 class="display-5"><strong class="bg-blur rounded"></strong></h1>
   </div>
-  <div class="card" >
+  <div class="card-fluid" >
     <!--            <img src="..." class="card-img-top" alt="...">-->
     <div class="card-body">
       <form id=subscriptionForm method="post"
@@ -34,7 +34,7 @@
                  type="text"
                  class="form-control"
                  placeholder="addressFrom"/>
-          <small id="addressFromError" class="invalid-feedback">
+          <small id="addressFromError" class="invalid-feedback form-text bg-danger rounded">
             Address should be at least 2 characters.
           </small>
         </div>
@@ -56,7 +56,7 @@
             <!-- th:field="*{category}" -->
             <select   id="subscription" name="subscription" class="custom-select"
                       aria-describedby="subscriptionAdd">
-              <option value="" selected>Subscription</option>
+
               <option th:each="s : ${T(com.SoftUni.DriverServiceProject.Models.Enums.SubscriptionEnumName).values()}" th:value="${s}" th:text="${s}">Subscription Type</option>
             </select>
             <small id="subscriptionError" class="invalid-feedback">

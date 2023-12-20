@@ -15,7 +15,7 @@ public class SubscriptionOrderBindingModel {
     @NotEmpty
     @Size(min=2)
     private String addressTo;
-
+    @NotNull
     private SubscriptionEnumName subscription;
 
     private Long clientId;
