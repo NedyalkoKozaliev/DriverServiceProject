@@ -33,9 +33,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         com.SoftUni.DriverServiceProject.Models.Entity.User user=userRepository.findUserByEmail(username).orElseThrow(null);
-//                      if(user==null) {
-//                          throw new UsernameNotFoundException("User with name " + username + " not found!");
-//                      }
+
                       return new CurrentUser(user);
     }
 
