@@ -91,7 +91,7 @@ public class OrderRestController {
 
         OrderViewModel orderViewModel = orderService.getOrderById(id);
         return ResponseEntity.ok(orderViewModel);
-       // return orderViewModel.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+      
     }
 
 

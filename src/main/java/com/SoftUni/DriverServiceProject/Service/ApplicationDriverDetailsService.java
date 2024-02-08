@@ -29,9 +29,7 @@ public class ApplicationDriverDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Driver driver=driverRepository.findDriverByEmail(username).orElseThrow(null);
-//        if(driver==null){
-//            throw new UsernameNotFoundException("User with name " + username + " not found!");
-//        }
+
         return new LoggedInDriver(driver);
 
     }

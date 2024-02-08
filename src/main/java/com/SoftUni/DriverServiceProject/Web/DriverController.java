@@ -34,7 +34,7 @@ public class DriverController {
     @GetMapping("/{id}")
     public String driverDash(@PathVariable Long id, Model model,@AuthenticationPrincipal UserDetails principal  ){
 
-//         <!-- info about orders done - total mileage/total cost/amount|| info about subscribnion if any ==so two cards bellow -->
+
         List<OrderViewModel>myOrders=driverService.findDriverById(id).getOrderTasks().stream().
                 map(order -> modelMapper.map(order,OrderViewModel.class)).collect(Collectors.toList());
         List<SubscriptionOrderViewModel>mySubscriptions=driverService.findDriverById(id).getSubscriptionTasks().stream().

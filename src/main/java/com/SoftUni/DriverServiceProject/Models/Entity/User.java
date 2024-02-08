@@ -24,7 +24,7 @@ public class User extends BaseEntity{
 
 
     private List<UserRole> roles;
-//    private Set<Order> orders;
+
 
     public User() {
     }
@@ -75,13 +75,5 @@ public class User extends BaseEntity{
         this.roles.add(role);
         return this;
     }
-//    @OneToMany
-//    public Set<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public User setOrders(Set<Order> orders) {
-//        this.orders = orders;
-//        return this;
-//    }
+
 }

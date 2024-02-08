@@ -118,8 +118,7 @@ public class DriverServiceImpl implements DriverService {
        driver.setPassword(passwordEncoder.encode(driverServiceModel.getPassword()));
 
         driver.setRoles(List.of(driverRoleRepository.findDriverRoleByRole(UserRoleEnum.Driver).orElse(null)));
-//        driver.getRoles().add(driverRoleRepository.
-//               findDriverRoleByRole(UserRoleEnum.Driver).orElseThrow(null));
+
 
         driverRepository.save(driver);
         return modelMapper.map(driver,DriverViewModel.class);

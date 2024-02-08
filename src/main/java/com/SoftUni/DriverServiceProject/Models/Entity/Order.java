@@ -17,7 +17,7 @@ public class Order extends BaseEntity{
     @Column(nullable = false)
     private Integer numberOfPassengers;
 
-//    private Discount discount;
+
     private BigDecimal price;
 
     private User client;
@@ -53,14 +53,7 @@ public class Order extends BaseEntity{
         this.numberOfPassengers = numberOfPassengers;
     }
 
-//    @ManyToOne
-//    public Discount getDiscount() {
-//        return discount;
-//    }
-//
-//    public void setDiscount(Discount discount) {
-//        this.discount = discount;
-//    }
+
 
     @ManyToOne
     public User getClient() {
