@@ -6,7 +6,6 @@ import com.SoftUni.DriverServiceProject.Models.ViewModel.OrderViewModel;
 import com.SoftUni.DriverServiceProject.Repository.OrderRepository;
 import com.SoftUni.DriverServiceProject.Repository.PriceListRepository;
 import com.SoftUni.DriverServiceProject.Service.ClientService;
-import com.SoftUni.DriverServiceProject.Service.DistanceAndDurationService;
 import com.SoftUni.DriverServiceProject.Service.OrderService;
 import com.SoftUni.DriverServiceProject.Service.exeptionHandling.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -25,14 +24,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final PriceListRepository priceListRepository;
 
-    private final DistanceAndDurationService distanceAndDurationService;
+
 @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService, PriceListRepository priceListRepository, DistanceAndDurationService distanceAndDurationService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ClientService clientService, PriceListRepository priceListRepository) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
     this.clientService = clientService;
     this.priceListRepository = priceListRepository;
-    this.distanceAndDurationService = distanceAndDurationService;
+
 }
 
 
